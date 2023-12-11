@@ -3,7 +3,9 @@ project(PROJECT_II)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(.)
+
+include_directories(src)
+
 
 # Doxygen Build
 find_package(Doxygen)
@@ -32,4 +34,8 @@ add_executable(PROJECT_II
         src/Airline.h
         src/Airport.h
         src/Airport.cpp
-        src/Script.cpp)
+        src/Script.cpp
+        src/main.cpp
+)
+
+add_subdirectory(Tests)

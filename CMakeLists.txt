@@ -28,5 +28,5 @@ else(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 add_executable(PROJECT_II
-        Airline.cpp
-        Airline.h)
+        src/Airline.cpp
+        src/Airline.h)

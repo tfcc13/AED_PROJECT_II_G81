@@ -4,6 +4,11 @@
 # Ignore the 'build' directory
 /build/
 
+#Ignore tests and benchmark results
+lib/googletest/googletest/
+lib/benchmark/
+
+#ignore outputs
 /docs/output
 /output/
 
@@ -11,6 +16,7 @@
 .idea/
 .cmake/
 cmake-build-*/
+
 
 # Exclude executables and object files
 *.out

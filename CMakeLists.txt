@@ -29,4 +29,6 @@ endif(DOXYGEN_FOUND)
 
 add_executable(PROJECT_II
         src/Airline.cpp
-        src/Airline.h)
+        src/Airline.h
+        src/Airport.h
+        src/Airport.cpp)

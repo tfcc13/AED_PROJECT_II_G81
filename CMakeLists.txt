@@ -31,4 +31,5 @@ add_executable(PROJECT_II
         src/Airline.cpp
         src/Airline.h
         src/Airport.h
-        src/Airport.cpp)
+        src/Airport.cpp
+        src/Script.cpp)

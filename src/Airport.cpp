@@ -41,3 +41,7 @@ void Airport::printAirportPosition() const {
     cout << endl;
 
 }
+
+bool Airport::operator<(const Airport &other const {
+    return this->airport_country_<other.airport_name_;
+}

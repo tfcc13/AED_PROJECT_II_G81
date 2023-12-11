@@ -75,6 +75,11 @@ public:
     ///Function that prints the coordinates of the airport position
 
     void printAirportPosition() const;
+
+    ///Operator < overload
+    /// \param other Airport used for comparation
+    /// return *true* if the current Airport country name is lower alphabetically
+    bool operator<(const Airport& other) const;
 };
 
 

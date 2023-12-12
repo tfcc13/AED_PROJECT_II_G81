@@ -16,6 +16,7 @@ using namespace std;
 
 class Script {
 private:
+    string script_;
     set<Airport> all_airports_;
     set<Airline> all_airlines_;
 
@@ -37,6 +38,11 @@ public:
 
     ///Populates all_airlines_
     void loadAirlines(const string& airlines);
+
+
+    ///Getter function of all_airports_
+    /// \return all_airports_
+    set<Airport> getAirportsSet() const;
 
 
 

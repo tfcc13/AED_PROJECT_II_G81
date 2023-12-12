@@ -7,6 +7,7 @@
 
 Script::Script(const string &script) {
 
+    script_ = script;
 }
 
 void Script::loadDataset(const string &airports, const string &airlines) {
@@ -71,4 +72,8 @@ void Script::loadAirports(const string &airports) {
 
 void Script::loadAirlines(const string &airlines) {
 
+}
+
+set<Airport> Script::getAirportsSet() const {
+    return all_airports_;
 }

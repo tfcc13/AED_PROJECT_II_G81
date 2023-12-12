@@ -131,6 +131,26 @@ static void BM_loadAirlines(benchmark::State& state) {
 
 
 //=============================================================================
+// Flights Loading
+//=============================================================================
+
+static void BM_loadFlights(benchmark::State& state) {
+
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        Script new_script = Script("script_test");
+        std::string flightsCSV = "../../dataset/flights.csv";
+
+        state.ResumeTiming();
+
+        // Starts timing
+        new_script.loadFlights(flightsCSV);
+    }
+    state.SetComplexityN(state.range(0));
+}
+
+//=============================================================================
 // Register the functions as a benchmark
 //=============================================================================
 
@@ -144,6 +164,13 @@ BENCHMARK(BM_loadAirports)
 
 /*
 BENCHMARK(BM_loadAirlines)
+        ->Unit(benchmark::kNanosecond)
+        ->RangeMultiplier(2)->Range(1<<10, 1<<18)
+        ->Complexity();
+*/
+
+/*
+BENCHMARK(BM_loadFlights)
         ->Unit(benchmark::kNanosecond)
         ->RangeMultiplier(2)->Range(1<<10, 1<<18)
         ->Complexity();

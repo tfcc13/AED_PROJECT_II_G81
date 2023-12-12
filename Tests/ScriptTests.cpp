@@ -55,3 +55,72 @@ TEST(test_2, loadAirlines) {
     EXPECT_EQ(444, airlinesSize);
 
 }
+
+
+//=============================================================================
+// Google Benchmark
+//=============================================================================
+
+
+//=============================================================================
+// Airports Loading
+//=============================================================================
+
+static void BM_loadAirports(benchmark::State& state) {
+
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        Script new_script = Script("script_test");
+        std::string airportsCSV = "../../dataset/airports.csv";
+
+        state.ResumeTiming();
+
+        // Starts timing
+        new_script.loadAirports(airportsCSV);
+    }
+    state.SetComplexityN(state.range(0));
+}
+
+
+
+//=============================================================================
+// Airlines Loading
+//=============================================================================
+
+static void BM_loadAirlines(benchmark::State& state) {
+
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        Script new_script = Script("script_test");
+        std::string airlinesCSV = "../../dataset/airlines.csv";
+
+        state.ResumeTiming();
+
+        // Starts timing
+        new_script.loadAirlines(airlinesCSV);
+    }
+    state.SetComplexityN(state.range(0));
+}
+
+
+
+//=============================================================================
+// Register the functions as a benchmark
+//=============================================================================
+
+/*
+BENCHMARK(BM_loadAirports)
+        ->Unit(benchmark::kNanosecond)
+        ->RangeMultiplier(2)->Range(1<<10, 1<<18)
+        ->Complexity();
+*/
+
+
+/*
+BENCHMARK(BM_loadAirlines)
+        ->Unit(benchmark::kNanosecond)
+        ->RangeMultiplier(2)->Range(1<<10, 1<<18)
+        ->Complexity();
+*/

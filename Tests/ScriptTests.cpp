@@ -21,7 +21,7 @@ TEST(test_1, loadAirports) {
 
     Script new_script = Script("script_test");
 
-    string airportsCSV  = "/home/tiago/Desktop/FEUP/2Ano/1Semestre/AED/PROJECT_II/dataset/airports.csv";
+    string airportsCSV  = "../../dataset/airports.csv";
 
     new_script.loadAirports(airportsCSV);
 
@@ -44,7 +44,7 @@ TEST(test_2, loadAirlines) {
 
     Script new_script = Script("script_test");
 
-    string airlinesCSV  = "/home/tiago/Desktop/FEUP/2Ano/1Semestre/AED/PROJECT_II/dataset/airlines.csv";
+    string airlinesCSV  = "../../dataset/airlines.csv";
 
     new_script.loadAirlines(airlinesCSV);
 

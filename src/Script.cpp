@@ -72,6 +72,46 @@ void Script::loadAirports(const string &airports) {
 
 void Script::loadAirlines(const string &airlines) {
 
+    ///Tries to open input file
+    std::ifstream dataAirlines(airlines);
+
+    /// If the system fails to open the file, user gets a warning, and the function terminates
+    if(dataAirlines.fail()) {
+        cerr << "Error Warning: Unable to open the file " << airlines << endl;
+        cerr << "Error details: " << strerror(errno) << endl;
+        cout << endl;
+        return;
+    }
+
+    ///Opening input file is successful
+
+    string header;
+    getline(dataAirlines, header);
+    string line;
+    string airline_code;
+    string airline_name;
+    string callsign;
+    string country;
+
+    char sep = ',';
+
+    while( getline(dataAirlines,line)) {
+
+        istringstream iss(line);
+
+        getline(iss,airline_code, sep);
+        getline(iss,airline_name, sep);
+        getline(iss,callsign, sep);
+        getline(iss,country, '\r');
+
+        Airline tempAirline = Airline(airline_code, airline_name, callsign, country);
+
+        all_airports_.insert(tempAirline);
+    }
+
+
+    dataAirlines.close();
+
 }
 
 set<Airport> Script::getAirportsSet() const {

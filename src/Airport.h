@@ -78,7 +78,7 @@ public:
 
     ///Operator < overload
     /// \param other Airport used for comparation
-    /// return *true* if the current Airport country name is lower alphabetically
+    /// return *true* if the current Airport code is lower alphabetically
     bool operator<(const Airport& other) const;
 };
 

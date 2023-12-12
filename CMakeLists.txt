@@ -5,7 +5,16 @@ set(CMAKE_CXX_STANDARD 14)
 
 
 include_directories(src)
+add_subdirectory(Tests)
 
+set(SOURCE_FILES
+        src/Airline.cpp
+        src/Airline.h
+        src/Airport.h
+        src/Airport.cpp
+        src/Script.cpp
+        src/main.cpp
+)
 
 # Doxygen Build
 find_package(Doxygen)
@@ -29,13 +38,6 @@ else(DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
 endif(DOXYGEN_FOUND)
 
-add_executable(PROJECT_II
-        src/Airline.cpp
-        src/Airline.h
-        src/Airport.h
-        src/Airport.cpp
-        src/Script.cpp
-        src/main.cpp
-)
+add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
+add_executable(${CMAKE_PROJECT_NAME}_run ${SOURCE_FILES})
 
-add_subdirectory(Tests)

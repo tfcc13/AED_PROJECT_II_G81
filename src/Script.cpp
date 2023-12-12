@@ -45,8 +45,8 @@ void Script::loadAirports(const string &airports) {
 
     char sep = ',';
 
-    while(!dataAirports.eof()) {
-        getline(dataAirports,line);
+    while( getline(dataAirports,line)) {
+
         istringstream iss(line);
 
         getline(iss,airport_code, sep);
@@ -67,7 +67,7 @@ void Script::loadAirports(const string &airports) {
     }
 
 
-
+ dataAirports.close();
 }
 
 void Script::loadAirlines(const string &airlines) {

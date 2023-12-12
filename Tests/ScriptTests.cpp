@@ -21,7 +21,7 @@ TEST(test_1, loadAirports) {
 
     Script new_script = Script("script_test");
 
-    string airportsCSV  = "dataset/airports.csv";
+    string airportsCSV  = "/home/tiago/Desktop/FEUP/2Ano/1Semestre/AED/PROJECT_II/dataset/airports.csv";
 
     new_script.loadAirports(airportsCSV);
 

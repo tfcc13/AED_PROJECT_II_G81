@@ -1,8 +1,7 @@
-project(PROJECT_II_TESTS)
+project(Tests)
 
 
 include_directories(.)
-include_directories(src)
 add_subdirectory(lib/googletest)
 include_directories(lib/googletest/googletest/include)
 include_directories(lib/googletest/googlemock/include)
@@ -11,4 +10,4 @@ include_directories(lib/benchmark/include)
 
 add_executable(Tests_run ScriptTests.cpp)
 
-target_link_libraries(Tests_run src_lin gtest gtest_main benchmark benchmark_main)
+target_link_libraries(Tests_run gtest gtest_main benchmark benchmark_main ${CMAKE_PROJECT_NAME}_lib)

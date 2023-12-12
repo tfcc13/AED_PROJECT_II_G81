@@ -7,10 +7,23 @@
 Airport::Airport(const string &airport_code, const string &airport_name, const string &airport_city,
                  const string &airport_country, const position &airport_position) {
 
+    airport_code_ = airport_code;
+    airport_name_ = airport_name;
+    airport_city_ = airport_city;
+    airport_country_ = airport_country;
+    airport_position_ = airport_position;
+
 }
 
 Airport::Airport(const string &airport_code, const string &airport_name, const string &airport_city,
                  const string &airport_country, double &latitude, double &longitude) {
+
+    airport_code_ = airport_code;
+    airport_name_ = airport_name;
+    airport_city_ = airport_city;
+    airport_country_ = airport_country;
+    airport_position_.lattitude = latitude;
+    airport_position_.longitude = longitude;
 
 }
 

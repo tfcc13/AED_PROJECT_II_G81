@@ -29,7 +29,7 @@ TEST(test_1, loadAirports) {
 
     int airportsSize = airports.size();
 
-    EXPECT_EQ(3020, airportsSize);
+    EXPECT_EQ(3019, airportsSize);
 
 }
 

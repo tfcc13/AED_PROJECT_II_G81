@@ -130,6 +130,54 @@ void Script::loadAirlines(const string &airlines) {
 
 }
 
+void Script::loadFlights(const string &flights) {
+    ///Tries to open input file
+    std::ifstream dataFlights(flights);
+
+    /// If the system fails to open the file, user gets a warning, and the function terminates
+    if(dataFlights.fail()) {
+        cerr << "Error Warning: Unable to open the file " << flights << endl;
+        cerr << "Error details: " << strerror(errno) << endl;
+        cout << endl;
+        return;
+    }
+
+    ///Opening input file is successful
+
+    string header;
+    getline(dataFlights, header);
+
+    string line;
+    ///creates the temporary strings to extract the Flight source Airport, destination Airport, and Airline
+
+    string source_airport;
+    string dest_airport;
+    string airline;
+
+
+    char sep = ',';
+
+    while( getline(dataFlights,line)) {
+
+        istringstream iss(line);
+
+        getline(iss,source_airport, sep);
+        getline(iss,dest_airport, sep);
+        getline(iss,airline, '\r');
+
+        ///it's created an Flight object whith the extracted info
+        Flight tempFlight = Flight(source_airport,dest_airport,airline);
+
+        ///The Flight object is inserted in all_flights_ set
+        all_flights_.insert(tempFlight);
+    }
+
+
+    dataFlights.close();
+
+}
+
+
 set<Airport> Script::getAirportsSet() const {
     return all_airports_;
 }
@@ -137,3 +185,8 @@ set<Airport> Script::getAirportsSet() const {
 set<Airline> Script::getAirlinesSet() const {
     return all_airlines_;
 }
+
+unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
+    return all_flights_;
+}
+

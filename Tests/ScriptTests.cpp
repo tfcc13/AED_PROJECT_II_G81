@@ -35,7 +35,7 @@ TEST(test_1, loadAirports) {
 
 
 //=============================================================================
-// Airliness Loading
+// Airlines Loading
 //=============================================================================
 
 TEST(test_2, loadAirlines) {
@@ -55,6 +55,30 @@ TEST(test_2, loadAirlines) {
     EXPECT_EQ(444, airlinesSize);
 
 }
+
+
+//=============================================================================
+// Flights Loading
+//=============================================================================
+
+TEST(test_3, loadFlights) {
+
+    cout << endl << "Testing 'loadFlights'" << endl;
+
+    Script new_script = Script("script_test");
+
+    string flightsCSV  = "../../dataset/flights.csv";
+
+    new_script.loadFlights(flightsCSV);
+
+    auto flights = new_script.getFlightsSet();
+
+    int flightsSize = flights.size();
+
+    EXPECT_EQ(63832, flightsSize);
+
+}
+
 
 
 //=============================================================================

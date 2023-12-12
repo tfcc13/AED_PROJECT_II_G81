@@ -9,16 +9,32 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <unordered_set>
 #include "Airport.h"
 #include "Airline.h"
+#include "Flight.h"
 
 using namespace std;
+
+
+struct FlightHash {
+    size_t operator()(const Flight& flight) const {
+        return flight(flight);
+    }
+};
+
+struct FlightEqual {
+    bool operator()(const Flight& flight1, const Flight& flight2) const {
+        return flight1 == flight2;
+    }
+};
 
 class Script {
 private:
     string script_;
     set<Airport> all_airports_;
     set<Airline> all_airlines_;
+    unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
 
 public:
 
@@ -43,6 +59,11 @@ public:
     /// \param airlines file with the airlines data
     void loadAirlines(const string& airlines);
 
+    ///Populates all_flights_
+    ///**Time Complexity:** O(1)
+    /// \param flights file with the flights data
+    void loadFlights(const string& flights);
+
 
     ///Getter function of all_airports_
     /// \return all_airports_
@@ -52,6 +73,9 @@ public:
     /// \return all_airports_
     set<Airline> getAirlinesSet() const;
 
+    ///Getter function of all_flights_
+    /// \return all_flights_
+    unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
 
 
 };

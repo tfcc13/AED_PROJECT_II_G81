@@ -20,6 +20,8 @@ size_t Flight::operator()(const Flight& flight) const {
     hash_combine(hash, flight.dest_airport_);
     hash_combine(hash, flight.airline_);
 
+    return hash;
+
 }
 
 const string &Flight::getSourceAirport() const {

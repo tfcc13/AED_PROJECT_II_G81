@@ -11,9 +11,12 @@ set(SOURCE_FILES
         src/Airline.cpp
         src/Airline.h
         src/Airport.h
+        src/Flight.h
         src/Airport.cpp
+        src/Flight.cpp
         src/Script.cpp
         src/main.cpp
+
 )
 
 # Doxygen Build

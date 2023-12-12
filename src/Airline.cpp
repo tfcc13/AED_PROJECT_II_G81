@@ -31,3 +31,7 @@ const string &Airline::getAirlineCallsign() const {
 const string &Airline::getAirlineCountry() const {
     return country_;
 }
+
+bool Airline::operator<(const Airline &other) const {
+    return this->airline_code_ < other.airline_code_;
+}

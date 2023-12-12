@@ -44,6 +44,10 @@ public:
     /// \return all_airports_
     set<Airport> getAirportsSet() const;
 
+    ///Getter function of all_airlines_
+    /// \return all_airports_
+    set<Airline> getAirlinesSet() const;
+
 
 
 };

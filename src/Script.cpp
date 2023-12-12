@@ -106,7 +106,7 @@ void Script::loadAirlines(const string &airlines) {
 
         Airline tempAirline = Airline(airline_code, airline_name, callsign, country);
 
-        all_airports_.insert(tempAirline);
+        all_airlines_.insert(tempAirline);
     }
 
 
@@ -116,4 +116,8 @@ void Script::loadAirlines(const string &airlines) {
 
 set<Airport> Script::getAirportsSet() const {
     return all_airports_;
+}
+
+set<Airline> Script::getAirlinesSet() const {
+    return all_airlines_;
 }

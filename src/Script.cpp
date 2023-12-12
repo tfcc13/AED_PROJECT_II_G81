@@ -30,9 +30,15 @@ void Script::loadAirports(const string &airports) {
 
     ///Opening input file is successful
 
+    ///Ignores the header line
     string header;
     getline(dataAirports, header);
+
+    ///creates the temporary line string
     string line;
+
+
+    ///creates the temporary strings to extract the airport code, name, city, country, latitude and longitude
     string airport_code;
     string airport_name;
     string airport_city;
@@ -56,17 +62,22 @@ void Script::loadAirports(const string &airports) {
         getline(iss,tempLat, sep);
         getline(iss,tempLong, '\r');
 
-        latitude = stod(tempLat);
-        longitude = stod(tempLong);
+        cout << tempLat;
+
+        istringstream(tempLat) >> latitude;
+        istringstream(tempLong) >> longitude;
+
 
         airportPos = {latitude, longitude};
 
+        ///it's created an Airport object whith the extracted info
         Airport tempAirport = Airport(airport_code, airport_name, airport_city, airport_country, airportPos);
 
+        ///The Airport object is inserted in all_airports_ set
         all_airports_.insert(tempAirport);
     }
 
-
+/// File is closed after parsing all the data
  dataAirports.close();
 }
 
@@ -87,7 +98,10 @@ void Script::loadAirlines(const string &airlines) {
 
     string header;
     getline(dataAirlines, header);
+
     string line;
+    ///creates the temporary strings to extract the airlines code, name, callsign and country
+
     string airline_code;
     string airline_name;
     string callsign;
@@ -104,8 +118,10 @@ void Script::loadAirlines(const string &airlines) {
         getline(iss,callsign, sep);
         getline(iss,country, '\r');
 
+        ///it's created an Airline object whith the extracted info
         Airline tempAirline = Airline(airline_code, airline_name, callsign, country);
 
+        ///The Airline object is inserted in all_airlines_ set
         all_airlines_.insert(tempAirline);
     }
 

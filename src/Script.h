@@ -33,10 +33,14 @@ public:
     void loadDataset(const string& airports, const string& airlines);
 
     ///Populates all_airports_
+    ///**Time Complexity:** O(1)
+    /// \param airports file with the airports data
     void loadAirports(const string& airports);
 
 
     ///Populates all_airlines_
+    ///**Time Complexity:** O(1)
+    /// \param airlines file with the airlines data
     void loadAirlines(const string& airlines);
 
 

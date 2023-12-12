@@ -34,4 +34,24 @@ TEST(test_1, loadAirports) {
 }
 
 
-//
+//=============================================================================
+// Airliness Loading
+//=============================================================================
+
+TEST(test_2, loadAirlines) {
+
+    cout << endl << "Testing 'loadAirlines'" << endl;
+
+    Script new_script = Script("script_test");
+
+    string airlinesCSV  = "/home/tiago/Desktop/FEUP/2Ano/1Semestre/AED/PROJECT_II/dataset/airlines.csv";
+
+    new_script.loadAirlines(airlinesCSV);
+
+    auto airlines = new_script.getAirlinesSet();
+
+    int airlinesSize = airlines.size();
+
+    EXPECT_EQ(444, airlinesSize);
+
+}

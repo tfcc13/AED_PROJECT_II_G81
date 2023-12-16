@@ -75,6 +75,9 @@ void Script::loadAirports(const string &airports) {
 
         ///The Airport object is inserted in all_airports_ set
         all_airports_.insert(tempAirport);
+
+        airportGraph.addVertex(tempAirport);
+
     }
 
 /// File is closed after parsing all the data
@@ -188,5 +191,9 @@ set<Airline> Script::getAirlinesSet() const {
 
 unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
     return all_flights_;
+}
+
+void Script::createAirportNetwork() {
+
 }
 

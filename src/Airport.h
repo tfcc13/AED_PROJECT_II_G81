@@ -11,8 +11,12 @@
 using namespace std;
 
 struct position {
-    double lattitude;
+    double latitude;
     double longitude;
+
+    bool operator==(const position& other) const {
+        return latitude == other.latitude && longitude == other.longitude;
+    }
 };
 
 
@@ -80,6 +84,8 @@ public:
     /// \param other Airport used for comparation
     /// return *true* if the current Airport code is lower alphabetically
     bool operator<(const Airport& other) const;
+
+    bool operator==(const Airport& other) const;
 };
 
 

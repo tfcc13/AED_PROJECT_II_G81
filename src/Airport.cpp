@@ -22,7 +22,7 @@ Airport::Airport(const string &airport_code, const string &airport_name, const s
     airport_name_ = airport_name;
     airport_city_ = airport_city;
     airport_country_ = airport_country;
-    airport_position_.lattitude = latitude;
+    airport_position_.latitude = latitude;
     airport_position_.longitude = longitude;
 
 }
@@ -49,7 +49,7 @@ const position& Airport::getAirportPosition() const {
 }
 
 void Airport::printAirportPosition() const {
-    cout << "Latitude: " << airport_position_.lattitude << endl;
+    cout << "Latitude: " << airport_position_.latitude << endl;
     cout << "Longitude: " << airport_position_.longitude << endl;
     cout << endl;
 
@@ -57,4 +57,12 @@ void Airport::printAirportPosition() const {
 
 bool Airport::operator<(const Airport &other) const {
     return this->airport_code_<other.airport_code_;
+}
+
+bool Airport::operator==(const Airport &other) const {
+    return (this->airport_position_ == other.airport_position_ &&
+    this->airport_code_ == other.airport_code_ &&
+    this->airport_country_ == other.airport_country_ &&
+    this->airport_city_==other.airport_city_ &&
+    this->airport_name_==other.airport_name_);
 }

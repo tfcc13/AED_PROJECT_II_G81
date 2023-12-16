@@ -13,6 +13,7 @@
 #include "Airport.h"
 #include "Airline.h"
 #include "Flight.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -30,6 +31,10 @@ struct FlightEqual {
 };
 
 class Script {
+
+    Graph<Airport> airportGraph;
+
+
 private:
     string script_;
     set<Airport> all_airports_;
@@ -76,6 +81,11 @@ public:
     ///Getter function of all_flights_
     /// \return all_flights_
     unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
+
+
+    void createAirportNetwork();
+
+    friend class Graph;
 
 
 };

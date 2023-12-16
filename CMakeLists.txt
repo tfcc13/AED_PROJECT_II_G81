@@ -16,6 +16,7 @@ set(SOURCE_FILES
         src/Flight.cpp
         src/Script.cpp
         src/main.cpp
+        src/Graph.h
 
 )
 

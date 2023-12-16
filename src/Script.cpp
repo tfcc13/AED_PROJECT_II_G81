@@ -62,7 +62,7 @@ void Script::loadAirports(const string &airports) {
         getline(iss,tempLat, sep);
         getline(iss,tempLong, '\r');
 
-        cout << tempLat;
+
 
         istringstream(tempLat) >> latitude;
         istringstream(tempLong) >> longitude;

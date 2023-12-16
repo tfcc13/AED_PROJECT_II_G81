@@ -194,6 +194,10 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
 }
 
 void Script::createAirportNetwork() {
-
+    for(auto& v : airportGraph.getVertexSet()) {
+        for(const auto airport: all_airports_) {
+            if(airport->)
+        }
+    }
 }
 

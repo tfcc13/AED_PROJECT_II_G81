@@ -52,7 +52,7 @@ public:
 
     /// Loads the data from provided  csv files
     ///
-    void loadDataset(const string& airports, const string& airlines);
+    void loadDataset(const string& airports, const string& airlines, const string& flights);
 
     ///Populates all_airports_
     ///**Time Complexity:** O(1)

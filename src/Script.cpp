@@ -10,9 +10,10 @@ Script::Script(const string &script) {
     script_ = script;
 }
 
-void Script::loadDataset(const string &airports, const string &airlines) {
+void Script::loadDataset(const string &airports, const string &airlines, const string& flights) {
     loadAirports(airports);
     loadAirlines(airlines);
+    loadFlights(flights);
 }
 
 void Script::loadAirports(const string &airports) {
@@ -195,7 +196,7 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
 
 void Script::createAirportNetwork() {
 
-  for (auto flight : all_flights_) {
+  for (auto ) {
 
       string srcAirport = flight.getSourceAirport();
       string destAirport = flight.getDestinationAirport();

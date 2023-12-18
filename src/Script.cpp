@@ -194,10 +194,52 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
 }
 
 void Script::createAirportNetwork() {
-    for(auto& v : airportGraph.getVertexSet()) {
-        for(const auto airport: all_airports_) {
-            if(airport->)
+
+  for (auto flight : all_flights_) {
+
+      string srcAirport = flight.getSourceAirport();
+      string destAirport = flight.getDestinationAirport();
+      string airline = flight.getAirline();
+
+      Airport searchSrcAirport = Airport(srcAirport);
+      Airport searchDestAirport = Airport(destAirport);
+
+      auto tmpSrcAirport = getAirportsSet().find(searchSrcAirport);
+      auto tmpDestAirport = getAirportsSet().find(searchDestAirport);
+
+
+
+      if(tmpSrcAirport != getAirportsSet().end()  && tmpDestAirport!= getAirportsSet().end()) {
+
+          auto tmpSrcVert = airportGraph.findVertex(*tmpSrcAirport);
+          auto tmpDestVert = airportGraph.findVertex(*tmpDestAirport);
+
+          if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
+              airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
+              tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
+          }
+      }
+
+  }
+
+
+    /*for(auto& v : airportGraph.getVertexSet()) {
+        for(auto it = all_flights_.begin(); it != all_flights_.end(); it++) {
+            if(it->getSourceAirport()==v->getInfo().getAirportCode()) {
+                auto dest = it->getDestinationAirport();
+                auto destAirport = all_airports_.find(dest)
+                auto airline = it->getAirline();
+
+                airportGraph.addEdge(v->getInfo()-,dest,0,airline);
+            }
         }
+
     }
+*/
+}
+
+
+Graph<Airport> Script::getAirportGraph() const {
+    return airportGraph;
 }
 

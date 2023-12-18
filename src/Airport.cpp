@@ -4,6 +4,12 @@
 
 #include "Airport.h"
 
+
+Airport::Airport() {
+
+}
+
+
 Airport::Airport(const string &airport_code, const string &airport_name, const string &airport_city,
                  const string &airport_country, const position &airport_position) {
 
@@ -16,7 +22,7 @@ Airport::Airport(const string &airport_code, const string &airport_name, const s
 }
 
 Airport::Airport(const string &airport_code, const string &airport_name, const string &airport_city,
-                 const string &airport_country, double &latitude, double &longitude) {
+                 const string &airport_country, double latitude, double longitude) {
 
     airport_code_ = airport_code;
     airport_name_ = airport_name;
@@ -66,3 +72,4 @@ bool Airport::operator==(const Airport &other) const {
     this->airport_city_==other.airport_city_ &&
     this->airport_name_==other.airport_name_);
 }
+

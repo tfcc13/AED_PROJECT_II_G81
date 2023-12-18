@@ -32,7 +32,7 @@ struct FlightEqual {
 
 class Script {
 
-    Graph<Airport> airportGraph;
+
 
 
 private:
@@ -40,7 +40,7 @@ private:
     set<Airport> all_airports_;
     set<Airline> all_airlines_;
     unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
-
+    Graph<Airport> airportGraph;
 public:
 
 
@@ -82,6 +82,9 @@ public:
     /// \return all_flights_
     unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
 
+    ///Getter function of airportGraph
+    /// \return airportGraph;
+    Graph<Airport> getAirportGraph() const;
 
     void createAirportNetwork();
 

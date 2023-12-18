@@ -80,6 +80,52 @@ TEST(test_3, loadFlights) {
 }
 
 
+//=============================================================================
+// Creating Airport Network
+//=============================================================================
+
+TEST(test_4, createAirportNetwork) {
+
+    cout << endl << "Testing 'createAirportNetwork'" << endl;
+
+    Script new_script = Script("script_test");
+
+    string airportsCSV  = "../../dataset/airports.csv";
+
+    string airlinesCSV  = "../../dataset/airlines.csv";
+
+    string flightsCSV  = "../../dataset/flights.csv";
+
+
+
+    new_script.loadAirports(airportsCSV);
+
+    new_script.loadAirlines(airlinesCSV);
+
+    new_script.loadFlights(flightsCSV);
+
+    new_script.createAirportNetwork();
+
+    string ukaTmpAirport = "UKA";
+
+    auto ukaAirport = new_script.getAirportsSet().find(Airport(ukaTmpAirport));
+
+    auto ukaVert = new_script.getAirportGraph().findVertex(*ukaAirport);
+
+    int outdegree = ukaVert->getAdj().size();
+    int indegree = ukaVert->getIndegree();
+
+    EXPECT_EQ(1,outdegree);
+    EXPECT_EQ(1,indegree);
+
+
+
+
+
+
+}
+
+
 
 //=============================================================================
 // Google Benchmark

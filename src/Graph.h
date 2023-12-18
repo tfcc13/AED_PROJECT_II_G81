@@ -65,7 +65,7 @@ class Edge {
     double weight;         // edge weight
     string airline_;    // for airport connections
 public:
-    Edge(Vertex<T> *d, double w);
+    Edge(Vertex<T> *d, double w, const string& airline = "");
     Vertex<T> *getDest() const;
     void setDest(Vertex<T> *dest);
     double getWeight() const;
@@ -104,7 +104,7 @@ template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
+Edge<T>::Edge(Vertex<T> *d, double w, const string& airline): dest(d), weight(w), airline_(airline) {}
 
 
 template <class T>

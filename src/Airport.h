@@ -34,6 +34,7 @@ private:
 
 public:
 
+    Airport();
     ///Airport Constructor with position struct
     ///
     /// \param airport_code Airport unique code
@@ -42,7 +43,7 @@ public:
     /// \param airport_country Airport country location
     /// \param airport_position Airport position coordinates
 
-    Airport(const string& airport_code, const string& airport_name, const string& airport_city,const string& airport_country, const position& airport_position);
+    Airport(const string& airport_code, const string& airport_name="", const string& airport_city="",const string& airport_country="", const position& airport_position={0,0});
 
 
     ///Airport Constructor with latitude and longitude coordinates
@@ -53,7 +54,7 @@ public:
     /// \param airport_country Airport country location
     /// \param latitude Airport latitude coordinate
     /// \param longitude Airport longitude coordinate
-    Airport(const string& airport_code, const string& airport_name, const string& airport_city,const string& airport_country, double& latitude, double& longitude);
+    Airport(const string& airport_code, const string& airport_name, const string& airport_city,const string& airport_country, double latitude, double longitude);
 
 
     ///Getter function of airport_code_

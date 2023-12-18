@@ -2,11 +2,13 @@
 // Created by tiago on 18-12-2023.
 //
 
+#include <limits>
 #include "Menu.h"
 
 void waitEnter() {
     cout << endl << "Press enter to continue " << endl;
     string tmpString;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     getline(cin,tmpString);
 }
 
@@ -14,6 +16,7 @@ string getInput() {
     string input;
     cout << ">>";
     cin >> input;
+    cout << endl;
     return input;
 }
 
@@ -54,14 +57,14 @@ void FirstMenu::show() {
 
     cout << CLEAR;
 
-    cout << "\n"
+    cout << R"(
 
-            "    _    ___ ____ _____ _   _  ____    _\n"
-            "   / \  |_ _|  _ \_   _| | | |/ ___|  / \ \n"
-            "  / _ \  | || |_) || | | | | | |  _  / _ \ \n"
-            " / ___ \ | ||  _ < | | | |_| | |_| |/ ___ \ \n"
-            "/_/   \_\___|_| \_\|_|  \___/ \____/_/   \_\ \n"
-            "\n";
+                _    ___ ____ _____ _   _  ____    _
+               / \  |_ _|  _ \_   _| | | |/ ___|  / \
+              / _ \  | || |_) || | | | | | |  _  / _ \
+             / ___ \ | ||  _ < | | | |_| | |_| |/ ___ \
+            /_/   \_\___|_| \_\|_|  \___/ \____/_/   \_\
+            )"  <<  "\n\n";
 
     cout << "MENU: \n\n";
 
@@ -86,7 +89,8 @@ Menu *FirstMenu::getNextMenu() {
         case 1:
             return new GeneralInformationMenu(script_);
         case 2:
-            cout << "Sometething test";
+            cout << "Sometething test" << endl;
+            cout << endl;
             break;
     }
 
@@ -119,13 +123,15 @@ Menu *GeneralInformationMenu::getNextMenu() {
         case 0:
             return nullptr;
         case 1:
-            cout << "Has " << script_.getAirportsMap().size() << "Airports!";
+            cout << "Has " + to_string(script_.getAirportsMap().size()) + "Airports!" << endl;
             cout << endl;
-
+            break;
         case 2:
-            cout << "Sometething test";
+            cout << "Sometething test" << endl;
+            cout << endl;
             break;
     }
+
 
     waitEnter();
 

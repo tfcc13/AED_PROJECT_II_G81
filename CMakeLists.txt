@@ -15,10 +15,11 @@ set(SOURCE_FILES
         src/Airport.cpp
         src/Flight.cpp
         src/Script.cpp
-        src/main.cpp
+        main.cpp
         src/Graph.h
         src/Menu.cpp
         src/Menu.h
+        dataset
 
 )
 
@@ -44,8 +45,6 @@ else(DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
 endif(DOXYGEN_FOUND)
 
-add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES}
-        src/Menu.cpp
-        src/Menu.h)
+add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
 add_executable(${CMAKE_PROJECT_NAME}_run ${SOURCE_FILES})
 

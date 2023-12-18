@@ -18,11 +18,11 @@
 
 using namespace std;
 
-string airportsCSV  = "../dataset/airports.csv";
+static string airportsCSV  = "../dataset/airports.csv";
 
-string airlinesCSV  = "../dataset/airlines.csv";
+static string airlinesCSV  = "../dataset/airlines.csv";
 
-string flightsCSV  = "../dataset/flights.csv";
+static string flightsCSV  = "../dataset/flights.csv";
 
 
 struct FlightHash {

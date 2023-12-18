@@ -201,14 +201,14 @@ void Script::createAirportNetwork() {
       string destAirport = flight.getDestinationAirport();
       string airline = flight.getAirline();
 
+      std::unordered_map<std::string, Airport>::iterator airportSrcMapValue = all_airports_.find(srcAirport);
+      std::unordered_map<std::string, Airport>::iterator airportDestMapValue = all_airports_.find(destAirport);
 
-      auto tmpSrcAirport = getAirportsMap().find(destAirport);
-      auto tmpDestAirport = getAirportsMap().find(srcAirport);
 
-      if(tmpSrcAirport != getAirportsMap().end()  && tmpDestAirport!= getAirportsMap().end()) {
+      if(airportSrcMapValue != getAirportsMap().end()  && airportDestMapValue != getAirportsMap().end()) {
 
-          auto tmpSrcVert = airportGraph.findVertex(tmpSrcAirport->second);
-          auto tmpDestVert = airportGraph.findVertex(tmpDestAirport->second);
+          auto tmpSrcVert = airportGraph.findVertex(airportSrcMapValue->second);
+          auto tmpDestVert = airportGraph.findVertex(airportDestMapValue->second);
 
           if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
               airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
@@ -217,21 +217,6 @@ void Script::createAirportNetwork() {
       }
 
   }
-
-
-    /*for(auto& v : airportGraph.getVertexSet()) {
-        for(auto it = all_flights_.begin(); it != all_flights_.end(); it++) {
-            if(it->getSourceAirport()==v->getInfo().getAirportCode()) {
-                auto dest = it->getDestinationAirport();
-                auto destAirport = all_airports_.find(dest)
-                auto airline = it->getAirline();
-
-                airportGraph.addEdge(v->getInfo()-,dest,0,airline);
-            }
-        }
-
-    }
-*/
 }
 
 

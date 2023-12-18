@@ -106,17 +106,66 @@ TEST(test_4, createAirportNetwork) {
 
     new_script.createAirportNetwork();
 
-    string ukaTmpAirport = "UKA";
+    vector<string>   airport_codes =  {"UKA", "CIY", "NVI", "ACX"};
 
-    auto ukaAirport = new_script.getAirportsMap().find(ukaTmpAirport);
+    int i = 0;
+    int indegree = 0;
+    int outdegree = 0;
+    auto currAiport = new_script.getAirportsMap().find(airport_codes[i]);
 
-    auto ukaVert = new_script.getAirportGraph().findVertex(ukaAirport->second);
+    auto currVert = new_script.getAirportGraph().findVertex(currAiport->second);
 
-    int outdegree = ukaVert->getAdj().size();
-    int indegree = ukaVert->getIndegree();
+    outdegree = currVert->getAdj().size();
+    indegree = currVert->getIndegree();
 
     EXPECT_EQ(1,outdegree);
     EXPECT_EQ(1,indegree);
+
+
+    i++;
+
+    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+
+    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
+
+    outdegree = currVert->getAdj().size();
+    indegree = currVert->getIndegree();
+
+
+    EXPECT_EQ(8,outdegree);
+    EXPECT_EQ(8,indegree);
+
+
+    i++;
+
+    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+
+    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
+
+    outdegree = currVert->getAdj().size();
+    indegree = currVert->getIndegree();
+
+
+    EXPECT_EQ(6,outdegree);
+    EXPECT_EQ(6,indegree);
+
+
+
+
+
+
+    i++;
+
+    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+
+    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
+
+    outdegree = currVert->getAdj().size();
+    indegree = currVert->getIndegree();
+
+
+    EXPECT_EQ(3,outdegree);
+    EXPECT_EQ(3,indegree);
 
 
 

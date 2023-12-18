@@ -8,6 +8,8 @@
 Script::Script(const string &script) {
 
     script_ = script;
+    loadDataset(airportsCSV,airlinesCSV,flightsCSV);
+
 }
 
 void Script::loadDataset(const string &airports, const string &airlines, const string& flights) {
@@ -172,6 +174,22 @@ void Script::loadFlights(const string &flights) {
         ///it's created an Flight object whith the extracted info
         Flight tempFlight = Flight(source_airport,dest_airport,airline);
 
+
+        std::unordered_map<std::string, Airport>::iterator airportSrcMapValue = all_airports_.find(source_airport);
+        std::unordered_map<std::string, Airport>::iterator airportDestMapValue = all_airports_.find(dest_airport);
+
+
+        if(airportSrcMapValue != getAirportsMap().end()  && airportDestMapValue != getAirportsMap().end()) {
+
+            auto tmpSrcVert = airportGraph.findVertex(airportSrcMapValue->second);
+            auto tmpDestVert = airportGraph.findVertex(airportDestMapValue->second);
+
+            if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
+                airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
+                tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
+            }
+        }
+
         ///The Flight object is inserted in all_flights_ set
         all_flights_.insert(tempFlight);
     }
@@ -194,34 +212,10 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
     return all_flights_;
 }
 
-void Script::createAirportNetwork() {
-
-  for (auto ) {
-
-      string srcAirport = flight.getSourceAirport();
-      string destAirport = flight.getDestinationAirport();
-      string airline = flight.getAirline();
-
-      std::unordered_map<std::string, Airport>::iterator airportSrcMapValue = all_airports_.find(srcAirport);
-      std::unordered_map<std::string, Airport>::iterator airportDestMapValue = all_airports_.find(destAirport);
-
-
-      if(airportSrcMapValue != getAirportsMap().end()  && airportDestMapValue != getAirportsMap().end()) {
-
-          auto tmpSrcVert = airportGraph.findVertex(airportSrcMapValue->second);
-          auto tmpDestVert = airportGraph.findVertex(airportDestMapValue->second);
-
-          if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
-              airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
-              tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
-          }
-      }
-
-  }
-}
-
 
 Graph<Airport> Script::getAirportGraph() const {
     return airportGraph;
 }
+
+
 

@@ -17,6 +17,8 @@ set(SOURCE_FILES
         src/Script.cpp
         src/main.cpp
         src/Graph.h
+        src/Menu.cpp
+        src/Menu.h
 
 )
 
@@ -42,6 +44,8 @@ else(DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
 endif(DOXYGEN_FOUND)
 
-add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
+add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES}
+        src/Menu.cpp
+        src/Menu.h)
 add_executable(${CMAKE_PROJECT_NAME}_run ${SOURCE_FILES})
 

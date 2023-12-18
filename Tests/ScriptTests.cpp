@@ -81,10 +81,10 @@ TEST(test_3, loadFlights) {
 
 
 //=============================================================================
-// Creating Airport Network
+// Testing Airport Network
 //=============================================================================
 
-TEST(test_4, createAirportNetwork) {
+TEST(test_4, AirportNetwork) {
 
     cout << endl << "Testing 'createAirportNetwork'" << endl;
 
@@ -104,7 +104,6 @@ TEST(test_4, createAirportNetwork) {
 
     new_script.loadFlights(flightsCSV);
 
-    new_script.createAirportNetwork();
 
     vector<string>   airport_codes =  {"UKA", "CIY", "NVI", "ACX"};
 

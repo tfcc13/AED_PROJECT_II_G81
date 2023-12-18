@@ -18,6 +18,12 @@
 
 using namespace std;
 
+string airportsCSV  = "../dataset/airports.csv";
+
+string airlinesCSV  = "../dataset/airlines.csv";
+
+string flightsCSV  = "../dataset/flights.csv";
+
 
 struct FlightHash {
     size_t operator()(const Flight& flight) const {
@@ -86,9 +92,6 @@ public:
     ///Getter function of airportGraph
     /// \return airportGraph;
     Graph<Airport> getAirportGraph() const;
-
-    void createAirportNetwork();
-
 
 
 };

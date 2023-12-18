@@ -25,7 +25,7 @@ TEST(test_1, loadAirports) {
 
     new_script.loadAirports(airportsCSV);
 
-    auto airports = new_script.getAirportsSet();
+    auto airports = new_script.getAirportsMap();
 
     int airportsSize = airports.size();
 
@@ -108,9 +108,9 @@ TEST(test_4, createAirportNetwork) {
 
     string ukaTmpAirport = "UKA";
 
-    auto ukaAirport = new_script.getAirportsSet().find(Airport(ukaTmpAirport));
+    auto ukaAirport = new_script.getAirportsMap().find(ukaTmpAirport);
 
-    auto ukaVert = new_script.getAirportGraph().findVertex(*ukaAirport);
+    auto ukaVert = new_script.getAirportGraph().findVertex(ukaAirport->second);
 
     int outdegree = ukaVert->getAdj().size();
     int indegree = ukaVert->getIndegree();

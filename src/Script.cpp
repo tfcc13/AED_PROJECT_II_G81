@@ -74,7 +74,7 @@ void Script::loadAirports(const string &airports) {
         Airport tempAirport = Airport(airport_code, airport_name, airport_city, airport_country, airportPos);
 
         ///The Airport object is inserted in all_airports_ set
-        all_airports_.insert(tempAirport);
+        all_airports_.emplace(airport_code, tempAirport);
 
         airportGraph.addVertex(tempAirport);
 
@@ -181,7 +181,7 @@ void Script::loadFlights(const string &flights) {
 }
 
 
-set<Airport> Script::getAirportsSet() const {
+unordered_map<string,Airport> Script::getAirportsMap() const {
     return all_airports_;
 }
 
@@ -201,18 +201,14 @@ void Script::createAirportNetwork() {
       string destAirport = flight.getDestinationAirport();
       string airline = flight.getAirline();
 
-      Airport searchSrcAirport = Airport(srcAirport);
-      Airport searchDestAirport = Airport(destAirport);
 
-      auto tmpSrcAirport = getAirportsSet().find(searchSrcAirport);
-      auto tmpDestAirport = getAirportsSet().find(searchDestAirport);
+      auto tmpSrcAirport = getAirportsMap().find(destAirport);
+      auto tmpDestAirport = getAirportsMap().find(srcAirport);
 
+      if(tmpSrcAirport != getAirportsMap().end()  && tmpDestAirport!= getAirportsMap().end()) {
 
-
-      if(tmpSrcAirport != getAirportsSet().end()  && tmpDestAirport!= getAirportsSet().end()) {
-
-          auto tmpSrcVert = airportGraph.findVertex(*tmpSrcAirport);
-          auto tmpDestVert = airportGraph.findVertex(*tmpDestAirport);
+          auto tmpSrcVert = airportGraph.findVertex(tmpSrcAirport->second);
+          auto tmpDestVert = airportGraph.findVertex(tmpDestAirport->second);
 
           if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
               airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);

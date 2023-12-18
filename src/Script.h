@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_set>
+#include <unordered_map>
 #include "Airport.h"
 #include "Airline.h"
 #include "Flight.h"
@@ -37,7 +38,7 @@ class Script {
 
 private:
     string script_;
-    set<Airport> all_airports_;
+    unordered_map<string,Airport> all_airports_;
     set<Airline> all_airlines_;
     unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
     Graph<Airport> airportGraph;
@@ -72,7 +73,7 @@ public:
 
     ///Getter function of all_airports_
     /// \return all_airports_
-    set<Airport> getAirportsSet() const;
+    unordered_map<string, Airport> getAirportsMap() const;
 
     ///Getter function of all_airlines_
     /// \return all_airports_

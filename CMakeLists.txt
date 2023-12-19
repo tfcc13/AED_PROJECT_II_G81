@@ -19,7 +19,8 @@ set(SOURCE_FILES
         src/Graph.h
         src/Menu.cpp
         src/Menu.h
-        dataset
+        src/AirportManager.cpp
+        src/AirportManager.h
 
 )
 

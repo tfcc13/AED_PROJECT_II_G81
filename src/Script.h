@@ -15,6 +15,7 @@
 #include "Airline.h"
 #include "Flight.h"
 #include "Graph.h"
+#include "AirportManager.h"
 
 using namespace std;
 
@@ -37,6 +38,8 @@ struct FlightEqual {
     }
 };
 
+class AirportManager;
+
 class Script {
 
 
@@ -49,6 +52,10 @@ private:
     unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
     Graph<Airport> airportGraph;
     Graph<Airline> airlineGraph;
+
+
+    friend class AirportManager;
+
 public:
 
 
@@ -97,6 +104,8 @@ public:
     /// \return airportGraph;
     Graph<Airport> getAirportGraph() const;
     Graph<Airline> getAirlineGraph() const;
+
+
 
 
 

@@ -110,12 +110,11 @@ TEST(test_4, AirportNetwork) {
     int i = 0;
     int indegree = 0;
     int outdegree = 0;
-    auto currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+    auto currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-    auto currVert = new_script.getAirportGraph().findVertex(currAiport->second);
 
-    outdegree = currVert->getAdj().size();
-    indegree = currVert->getIndegree();
+    outdegree = currAirport->getAdj().size();
+    indegree = currAirport->getIndegree();
 
     EXPECT_EQ(1,outdegree);
     EXPECT_EQ(1,indegree);
@@ -123,13 +122,11 @@ TEST(test_4, AirportNetwork) {
 
     i++;
 
-    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+    currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
 
-    outdegree = currVert->getAdj().size();
-    indegree = currVert->getIndegree();
-
+    outdegree = currAirport->getAdj().size();
+    indegree = currAirport->getIndegree();
 
     EXPECT_EQ(8,outdegree);
     EXPECT_EQ(8,indegree);
@@ -137,12 +134,12 @@ TEST(test_4, AirportNetwork) {
 
     i++;
 
-    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+    currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
 
-    outdegree = currVert->getAdj().size();
-    indegree = currVert->getIndegree();
+    outdegree = currAirport->getAdj().size();
+    indegree = currAirport->getIndegree();
+
 
 
     EXPECT_EQ(6,outdegree);
@@ -155,12 +152,12 @@ TEST(test_4, AirportNetwork) {
 
     i++;
 
-    currAiport = new_script.getAirportsMap().find(airport_codes[i]);
+    currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-    currVert = new_script.getAirportGraph().findVertex(currAiport->second);
 
-    outdegree = currVert->getAdj().size();
-    indegree = currVert->getIndegree();
+    outdegree = currAirport->getAdj().size();
+    indegree = currAirport->getIndegree();
+
 
 
     EXPECT_EQ(3,outdegree);

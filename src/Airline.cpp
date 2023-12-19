@@ -37,8 +37,11 @@ bool Airline::operator<(const Airline &other) const {
 }
 
 bool Airline::operator==(const Airline &other) const {
-    return (airline_code_ == other.airline_code_ &&
+    /*return (airline_code_ == other.airline_code_ &&
     airline_name_ == other.airline_name_ &&
     callsign_ == other.callsign_ &&
     country_ == other.country_);
+     */
+    return this->airline_code_ == other.airline_code_;
+
 }

@@ -26,7 +26,9 @@ public:
     /// \param callsign Airline callsign
     /// \param country Airline headquarters country
 
-    Airline(const string & airline_code, const string & airline_name, const string & callsign, const string & country );
+    Airline(const string & airline_code, const string & airline_name="", const string & callsign="", const string & country="" );
+
+
 
 
     /// Getter function of airline_code_

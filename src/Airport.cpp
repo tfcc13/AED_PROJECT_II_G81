@@ -66,10 +66,13 @@ bool Airport::operator<(const Airport &other) const {
 }
 
 bool Airport::operator==(const Airport &other) const {
-    return (this->airport_position_ == other.airport_position_ &&
+   /* return (this->airport_position_ == other.airport_position_ &&
     this->airport_code_ == other.airport_code_ &&
     this->airport_country_ == other.airport_country_ &&
     this->airport_city_==other.airport_city_ &&
     this->airport_name_==other.airport_name_);
+    */
+
+   return (this->airport_code_ == other.airport_code_);
 }
 

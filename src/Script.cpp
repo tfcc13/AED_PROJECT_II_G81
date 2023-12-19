@@ -215,13 +215,17 @@ void Script::loadFlights(const string &flights) {
 }
 
 
-unordered_map<string,Airport> Script::getAirportsMap() const {
+/*unordered_map<string,Airport> Script::getAirportsMap() const {
     return all_airports_;
 }
+*/
 
-set<Airline> Script::getAirlinesSet() const {
+
+/*set<Airline> Script::getAirlinesSet() const {
     return all_airlines_;
 }
+*/
+
 
 unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
     return all_flights_;

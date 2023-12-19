@@ -123,7 +123,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
         case 0:
             return nullptr;
         case 1:
-            cout << "Has " + to_string(script_.getAirportsMap().size()) + "Airports!" << endl;
+            cout << "Has " + to_string(script_.getAirportGraph().getNumVertex()) + " Airports!" << endl;
             cout << endl;
             break;
         case 2:

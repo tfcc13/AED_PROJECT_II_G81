@@ -77,14 +77,17 @@ public:
     /// \param flights file with the flights data
     void loadFlights(const string& flights);
 
-
+/*
     ///Getter function of all_airports_
     /// \return all_airports_
     unordered_map<string, Airport> getAirportsMap() const;
+*/
 
+/*
     ///Getter function of all_airlines_
     /// \return all_airports_
     set<Airline> getAirlinesSet() const;
+*/
 
     ///Getter function of all_flights_
     /// \return all_flights_

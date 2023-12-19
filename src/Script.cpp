@@ -176,7 +176,7 @@ void Script::loadFlights(const string &flights) {
         Flight tempFlight = Flight(source_airport,dest_airport,airline);
 
 
-        std::unordered_map<std::string, Airport>::iterator airportSrcMapValue = all_airports_.find(source_airport);
+       /* std::unordered_map<std::string, Airport>::iterator airportSrcMapValue = all_airports_.find(source_airport);
         std::unordered_map<std::string, Airport>::iterator airportDestMapValue = all_airports_.find(dest_airport);
 
 
@@ -190,6 +190,20 @@ void Script::loadFlights(const string &flights) {
                 tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
             }
         }
+        */
+
+       Airport tmpSrcAirport = Airport(source_airport);
+       Airport tmpDestAirport = Airport(dest_airport);
+
+       auto tmpSrcVert = airportGraph.findVertex(tmpSrcAirport);
+       auto tmpDestVert = airportGraph.findVertex(tmpDestAirport);
+
+        if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
+            airportGraph.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
+            tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
+        }
+
+
 
         ///The Flight object is inserted in all_flights_ set
         all_flights_.insert(tempFlight);

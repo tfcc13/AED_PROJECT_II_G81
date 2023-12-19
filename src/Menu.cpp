@@ -106,6 +106,7 @@ void GeneralInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Airports available there are" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airlines available there are" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Flights available there are" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Flights available there are for a given Airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -127,7 +128,16 @@ Menu *GeneralInformationMenu::getNextMenu() {
             cout << endl;
             break;
         case 2:
+            cout << "There are " << script_.getAirlineGraph().getNumVertex() <<  " Airports available!" << endl;
+            cout << endl;
+            break;
+        case 3:
             cout << "There are " << script_.getFlightsSet().size() << " Flights available" << endl;
+            cout << endl;
+            break;
+
+        case 4:
+            cout << "There are " <<  << " Flights available" << endl;
             cout << endl;
             break;
     }

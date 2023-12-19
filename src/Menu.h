@@ -6,6 +6,7 @@
 #define PROJECT_II_MENU_H
 #include <iostream>
 #include "Script.h"
+#include "AirportManager.h"
 
 #define CLEAR "\033[2J\033[1;1H"
 

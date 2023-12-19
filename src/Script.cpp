@@ -77,7 +77,7 @@ void Script::loadAirports(const string &airports) {
         Airport tempAirport = Airport(airport_code, airport_name, airport_city, airport_country, airportPos);
 
         ///The Airport object is inserted in all_airports_ set
-        all_airports_.emplace(airport_code, tempAirport);
+        //all_airports_.emplace(airport_code, tempAirport);
 
         airportGraph.addVertex(tempAirport);
 
@@ -128,7 +128,8 @@ void Script::loadAirlines(const string &airlines) {
         Airline tempAirline = Airline(airline_code, airline_name, callsign, country);
 
         ///The Airline object is inserted in all_airlines_ set
-        all_airlines_.insert(tempAirline);
+        //all_airlines_.insert(tempAirline);
+        airlineGraph.addVertex(tempAirline);
     }
 
 
@@ -215,6 +216,10 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
 
 Graph<Airport> Script::getAirportGraph() const {
     return airportGraph;
+}
+
+Graph<Airline> Script::getAirlineGraph() const {
+    return airlineGraph;
 }
 
 

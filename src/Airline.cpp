@@ -35,3 +35,10 @@ const string &Airline::getAirlineCountry() const {
 bool Airline::operator<(const Airline &other) const {
     return this->airline_code_ < other.airline_code_;
 }
+
+bool Airline::operator==(const Airline &other) const {
+    return (airline_code_ == other.airline_code_ &&
+    airline_name_ == other.airline_name_ &&
+    callsign_ == other.callsign_ &&
+    country_ == other.country_);
+}

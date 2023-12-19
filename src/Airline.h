@@ -53,6 +53,13 @@ public:
 
 
 
+    ///Operator < overload
+    /// \param other Airline used for comparation
+    /// return *true* if the current Airline  is equal to an other Airline
+
+    bool operator==(const Airline& other) const;
+
+
 
 };
 

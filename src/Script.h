@@ -48,6 +48,7 @@ private:
     set<Airline> all_airlines_;
     unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
     Graph<Airport> airportGraph;
+    Graph<Airline> airlineGraph;
 public:
 
 
@@ -92,6 +93,8 @@ public:
     ///Getter function of airportGraph
     /// \return airportGraph;
     Graph<Airport> getAirportGraph() const;
+    Graph<Airline> getAirlineGraph() const;
+
 
 
 };

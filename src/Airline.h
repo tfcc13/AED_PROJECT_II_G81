@@ -48,6 +48,7 @@ public:
     /// \return country_
     const string& getAirlineCountry() const;
 
+
     ///Operator < overload
     /// \param other Airline used for comparation
     /// return *true* if the current Airline code is lower alphabetically

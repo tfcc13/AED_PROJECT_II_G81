@@ -8,6 +8,10 @@
 #include "Graph.h"
 #include "Airport.h"
 #include "Script.h"
+#include <iomanip>
+
+class Script;
+
 class AirportManager {
 
 
@@ -17,6 +21,13 @@ private:
 public:
     AirportManager(Script &script);
     int getAirportFlightsNumber(const string& airport);
+    int getAirportAirlinesNumber(const string& airport);
+    const set<string> getCitiesSet(const string& airport) const;
+    const set<string> getAirlinesSet(const string& airport) const;
+    int getDestinationCitiesNumber(const string& airport);
+    const string& getAirportName(const string& airport) const;
+    void getDestinationCitiesNames(const string& airport) const;
+    void getAirlinesNames(const string& airport) const;
 
 };
 

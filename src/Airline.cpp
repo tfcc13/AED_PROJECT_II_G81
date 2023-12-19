@@ -45,3 +45,4 @@ bool Airline::operator==(const Airline &other) const {
     return this->airline_code_ == other.airline_code_;
 
 }
+

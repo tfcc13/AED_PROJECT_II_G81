@@ -10,6 +10,9 @@
 
 #define CLEAR "\033[2J\033[1;1H"
 
+class Script;
+
+
 class Menu {
 
 

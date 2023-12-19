@@ -70,6 +70,7 @@ public:
     void setDest(Vertex<T> *dest);
     double getWeight() const;
     void setWeight(double weight);
+    string getAirline() const;
     friend class Graph<T>;
     friend class Vertex<T>;
 };
@@ -155,6 +156,11 @@ double Edge<T>::getWeight() const {
 template<class T>
 void Edge<T>::setWeight(double weight) {
     Edge::weight = weight;
+}
+
+template<class T>
+string Edge<T>::getAirline() const {
+    return airline_;
 }
 
 /*

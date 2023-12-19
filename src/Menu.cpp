@@ -103,9 +103,9 @@ GeneralInformationMenu::GeneralInformationMenu(Script &script) : Menu(script) {}
 void GeneralInformationMenu::show() {
     cout << CLEAR;
     int options = 0;
-    cout << "(" << ++options << ") >> " << "Check how many airpoirts there are" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many Airlines there are" << endl;
-    cout << "(" << ++options << ") >> " << "Go to XXXXX Menu" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Airports available there are" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Airlines available there are" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Flights available there are" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -123,11 +123,11 @@ Menu *GeneralInformationMenu::getNextMenu() {
         case 0:
             return nullptr;
         case 1:
-            cout << "Has " + to_string(script_.getAirportGraph().getNumVertex()) + " Airports!" << endl;
+            cout << "There are " + to_string(script_.getAirportGraph().getNumVertex()) + " Airports available!" << endl;
             cout << endl;
             break;
         case 2:
-            cout << "Sometething test" << endl;
+            cout << "There are " << script_.getFlightsSet().size() << " Flights available" << endl;
             cout << endl;
             break;
     }
@@ -135,7 +135,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
 
     waitEnter();
 
-    return nullptr;
+    return this;
 }
 
 

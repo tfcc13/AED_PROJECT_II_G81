@@ -110,3 +110,42 @@ void AirportManager::getAirlinesNames(const string &airport) const {
 
 }
 
+const set<Airport> AirportManager::getAirportsSet(const string &airport) const {
+    set<Airport> airportsSet;
+
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) return airportsSet;
+
+    for (auto edge : airportVert->getAdj()) {
+        auto dest = edge.getDest();
+        Airport airport = dest->getInfo();
+        airportsSet.insert(airport);
+    }
+
+    return airportsSet;
+
+
+}
+
+int AirportManager::getDestinationAirportsNumber(const string &airport) {
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) return -1;
+
+    auto airportSet = getAirportsSet(airport);
+
+    return airportSet.size();
+
+}
+
+void AirportManager::getDestinationAirportsNames(const string &airport) {
+
+    auto airportSet = getAirportsSet(airport);
+
+    cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << endl;
+
+    for(auto airport: airportSet) {
+        cout << left << setw(4) << airport.getAirportCode() << "|" << setw(10) << airport.getAirportName() << "|" << setw(15) << airport.getAirportCity() << "|" << setw(15) << airport.getAirportCountry() << endl;
+    }
+
+}
+

@@ -110,6 +110,7 @@ void GeneralInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Flights there are from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airlines there are in a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many cities you can fly to from a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -208,6 +209,32 @@ Menu *GeneralInformationMenu::getNextMenu() {
             }
             break;
         }
+
+        case 7: {
+            cout << "Please write the Airport code" << endl;
+            cout << endl;
+            input = getInput();
+
+            int airportCount = airportManager.getDestinationAirportsNumber(input);
+
+            if (airportCount == -1) {
+                cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                cout << endl;
+            } else {
+
+                string airportName = airportManager.getAirportName(input);
+                cout << "There are " << airportCount  << " destination Airports that you can fly to from the " << airportName << " Airport" << endl;
+                cout << endl;
+                cout << "Do you wish to know the names of the destination Airports ? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    airportManager.getDestinationAirportsNames(input);
+                }
+                break;
+            }
+            break;
+        }
+
     }
 
 

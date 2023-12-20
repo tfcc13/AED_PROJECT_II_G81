@@ -32,6 +32,9 @@ public:
     int getDestinationAirportsNumber(const string& airport);
     void getDestinationAirportsNames(const string& airport);
     void getAirportsFlightsData(const string& airport) const;
+    int getDestinationCountriesNumber(const string& airport) const;
+    const set<string>getDestinationCountriesSet(const string& airport) const;
+    void getDestinationCountriesNames(const string& airport) const;
 
 };
 

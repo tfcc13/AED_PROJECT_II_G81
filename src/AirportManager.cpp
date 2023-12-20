@@ -177,3 +177,49 @@ void AirportManager::getAirportsFlightsData(const string &airport) const {
 
 }
 
+int AirportManager::getDestinationCountriesNumber(const string &airport) const {
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) return -1;
+
+    auto countries = getDestinationCountriesSet(airport);
+
+    return countries.size();
+
+}
+
+const set<string> AirportManager::getDestinationCountriesSet(const string &airport) const {
+    set<string> countriesSet;
+
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) return countriesSet;
+
+    for(auto edge: airportVert->getAdj()) {
+        auto dest = edge.getDest()->getInfo();
+        string country = dest.getAirportCountry();
+        countriesSet.insert(country);
+    }
+
+    return countriesSet;
+
+}
+
+void AirportManager::getDestinationCountriesNames(const string &airport) const {
+
+
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) {
+        cout << "That airport doesn't exist in Airtuga database" << endl;
+        cout << endl;
+        return;
+    }
+    set<string> countriesSet = getDestinationCountriesSet(airport);
+
+    cout << left << "Country" << endl;
+
+    for(auto country: countriesSet) {
+        cout << left << country << endl;
+    }
+
+
+}
+

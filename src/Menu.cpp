@@ -158,6 +158,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Flights there are from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airlines there are in a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many cities you can fly to from a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many countries you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
@@ -251,8 +252,35 @@ Menu *AirportInformationMenu::getNextMenu() {
             }
             break;
         }
-
         case 4: {
+            cout << "Please write the Airport code" << endl;
+            cout << endl;
+            input = getInput();
+
+            int countriesCount = airportManager.getDestinationCountriesNumber(input);
+
+            if (countriesCount== -1) {
+                cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                cout << endl;
+            } else {
+
+                string airportName = airportManager.getAirportName(input);
+                cout << "There are " << countriesCount << " destination countries that you can fly to from the " << airportName << " Airport" << endl;
+                cout << endl;
+                cout << "Do you wish to know the names of the destination countries ? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    airportManager.getDestinationCountriesNames(input);
+                    cout << "Be aware that there may be domestic flights." << endl;
+                    cout << "The source country can be also a destination country." << endl;
+                }
+                break;
+            }
+            break;
+        }
+
+
+        case 5: {
             cout << "Please write the Airport code" << endl;
             cout << endl;
             input = getInput();
@@ -271,6 +299,9 @@ Menu *AirportInformationMenu::getNextMenu() {
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
                     airportManager.getDestinationAirportsNames(input);
+                    cout << endl;
+
+
                 }
                 break;
             }

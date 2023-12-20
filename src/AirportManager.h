@@ -31,6 +31,7 @@ public:
     void getAirlinesNames(const string& airport) const;
     int getDestinationAirportsNumber(const string& airport);
     void getDestinationAirportsNames(const string& airport);
+    void getAirportsFlightsData(const string& airport) const;
 
 };
 

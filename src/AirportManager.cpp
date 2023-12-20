@@ -149,3 +149,31 @@ void AirportManager::getDestinationAirportsNames(const string &airport) {
 
 }
 
+void AirportManager::getAirportsFlightsData(const string &airport) const {
+    auto airportVert = script_.airportGraph.findVertex(Airport(airport));
+    if(airportVert == NULL) {
+        cout << "That airport doesn't exist in Airtuga database" << endl;
+        cout << endl;
+        return;
+    }
+
+
+    cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
+    for (auto edge : airportVert->getAdj()) {
+        auto destAirport = edge.getDest();
+        auto airline  = edge.getAirline();
+        string airportCode = destAirport->getInfo().getAirportCode();
+        string airportName= destAirport->getInfo().getAirportName();
+        string city = destAirport->getInfo().getAirportCity();
+        string airportCountry = destAirport->getInfo().getAirportCountry();
+
+        cout << left << setw(4) << airportCode << "|" << setw(10) << airportName << "|" << setw(15) << city << "|" << setw(15) << airportCountry << "|" <<  setw(15) << airline << endl;
+
+    }
+
+
+
+
+
+}
+

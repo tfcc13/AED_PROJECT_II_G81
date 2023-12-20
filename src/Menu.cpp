@@ -190,10 +190,16 @@ Menu *AirportInformationMenu::getNextMenu() {
                 cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
                 break;
+            } else {
+                string airportName = airportManager.getAirportName(input);
+                cout << "There are " << flightsCount << " Flights available from " << airportName << " Airport" << endl;
+                cout << endl;
+                cout << "Do you wish to see the Flights data? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    airportManager.getAirportsFlightsData(input);
+                }
             }
-            string airportName = airportManager.getAirportName(input);
-            cout << "There are " << flightsCount << " Flights available from " << airportName << " Airport" << endl;
-            cout << endl;
             break;
         }
         case 2: {

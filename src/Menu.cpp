@@ -70,6 +70,7 @@ void FirstMenu::show() {
     cout << "MENU: \n\n";
 
     cout << "(" << ++options << ") >> " << "Go to General Information Menu" << endl;
+    cout << "(" << ++options << ") >> " << "Go to Airport Information Menu" << endl;
     cout << "(" << ++options << ") >> " << "Go to Best Flight Option Menu" << endl;
     cout << "(" << ++options << ") >> " << "Go to Best Flight Option with Filters Menu" << endl;
     cout << "(0) >> Exit "  << endl;
@@ -90,9 +91,7 @@ Menu *FirstMenu::getNextMenu() {
         case 1:
             return new GeneralInformationMenu(script_);
         case 2:
-            cout << "Sometething test" << endl;
-            cout << endl;
-            break;
+            return new AirportInformationMenu(script_);
     }
 
     return invalidOption();
@@ -142,7 +141,44 @@ Menu *GeneralInformationMenu::getNextMenu() {
             cout << endl;
             break;
 
-        case 4: {
+    }
+
+
+    waitEnter();
+
+    return this;
+}
+
+
+AirportInformationMenu::AirportInformationMenu(Script &script) : Menu(script) {}
+
+void AirportInformationMenu::show() {
+    cout << CLEAR;
+    int options = 0;
+    cout << "(" << ++options << ") >> " << "Check how many Flights there are from a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Airlines there are in a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many cities you can fly to from a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
+    cout << "(0) >> Exit "  << endl;
+    cout << endl;
+
+
+}
+
+Menu *AirportInformationMenu::getNextMenu() {
+    int option;
+
+    if(!get(option)) {
+        return invalidOption();
+    }
+
+    AirportManager airportManager(script_);
+    string input;
+    switch (option) {
+        case 0:
+            return nullptr;
+
+        case 1: {
 
             cout << "Please write the Airport code" << endl;
             cout << endl;
@@ -155,12 +191,12 @@ Menu *GeneralInformationMenu::getNextMenu() {
                 cout << endl;
                 break;
             }
-
-            cout << "There are " << flightsCount << " Flights available" << endl;
+            string airportName = airportManager.getAirportName(input);
+            cout << "There are " << flightsCount << " Flights available from " << airportName << " Airport" << endl;
             cout << endl;
             break;
         }
-        case 5: {
+        case 2: {
             cout << "Please write the Airport code" << endl;
             cout << endl;
             input = getInput();
@@ -184,8 +220,8 @@ Menu *GeneralInformationMenu::getNextMenu() {
             }
 
             break;
-    }
-        case 6: {
+        }
+        case 3: {
             cout << "Please write the Airport code" << endl;
             cout << endl;
             input = getInput();
@@ -195,7 +231,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
             if (citiesCount == -1) {
                 cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
-        } else {
+            } else {
 
                 string airportName = airportManager.getAirportName(input);
                 cout << "There are " << citiesCount  << " cities that you can fly to from the " << airportName << " Airport" << endl;
@@ -210,7 +246,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
             break;
         }
 
-        case 7: {
+        case 4: {
             cout << "Please write the Airport code" << endl;
             cout << endl;
             input = getInput();
@@ -242,5 +278,3 @@ Menu *GeneralInformationMenu::getNextMenu() {
 
     return this;
 }
-
-

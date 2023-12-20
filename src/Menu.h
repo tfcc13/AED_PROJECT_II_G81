@@ -48,4 +48,11 @@ public:
     Menu * getNextMenu();
 };
 
+class AirportInformationMenu: public Menu {
+public:
+    AirportInformationMenu(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
 #endif //PROJECT_II_MENU_H

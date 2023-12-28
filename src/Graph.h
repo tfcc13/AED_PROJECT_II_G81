@@ -12,6 +12,7 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -100,6 +101,8 @@ public:
     bool isDAG() const;
 
     vector<T> shortestPath(const T &source, const T &target) const;
+
+    vector<T> shortestPathWithFilter(const T &source, const T &target, const unordered_set<T> &verticesSet) const;
 };
 
 /****************** Provided constructors and functions ********************/
@@ -546,6 +549,65 @@ vector<T> Graph<T>::shortestPath(const T& source, const T& target) const {
             Vertex<T>* v = edge.getDest();
 
             if (!v->isVisited()) {
+                q.push(v);
+                v->setVisited(true);
+                v->setNum(u->getNum()); // Set predecessor information
+            }
+        }
+    }
+
+    // If target vertex is not reached, return empty path
+    return path;
+}
+
+
+template<class T>
+vector<T> Graph<T>::shortestPathWithFilter(const T& source, const T& target, const unordered_set<T>& verticesSet) const {
+    vector<T> path;
+    queue<Vertex<T>*> q;
+
+    Vertex<T>* src = findVertex(source);
+    Vertex<T>* trg = findVertex(target);
+
+    if (src == nullptr || trg == nullptr || verticesSet.find(source) == verticesSet.end() || verticesSet.find(target) == verticesSet.end()) {
+        // If either source or target vertex is not found, or they are not in the vertices set, return empty path
+        return path;
+    }
+
+    for (auto& vertex : vertexSet) {
+        vertex->setVisited(false);
+    }
+
+    q.push(src);
+    src->setVisited(true);
+
+    while (!q.empty()) {
+        Vertex<T>* u = q.front();
+        q.pop();
+
+        if (u == trg) {
+            // Reconstruct path when target vertex is reached
+            Vertex<T>* current = trg;
+            while (current != nullptr && current != src) {
+                path.insert(path.begin(), current->getInfo());
+                current = findVertex(current->getNum()); // Get predecessor vertex by number
+            }
+
+            if (current == nullptr) {
+                // If no path exists from source to target, return empty path
+                path.clear();
+            } else {
+                // Include source vertex in the path
+                path.insert(path.begin(), src->getInfo());
+            }
+
+            return path;
+        }
+
+        for (auto& edge : u->getAdj()) {
+            Vertex<T>* v = edge.getDest();
+
+            if (!v->isVisited() && verticesSet.find(v->getInfo()) != verticesSet.end()) {
                 q.push(v);
                 v->setVisited(true);
                 v->setNum(u->getNum()); // Set predecessor information

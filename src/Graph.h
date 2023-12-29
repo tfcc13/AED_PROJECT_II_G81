@@ -1,7 +1,3 @@
-//
-// Created by tiago on 16-12-2023.
-//
-
 #ifndef PROJECT_II_GRAPH_H
 #define PROJECT_II_GRAPH_H
 
@@ -61,7 +57,7 @@ public:
 
 template <class T>
 class Edge {
-    Vertex<T> * dest;      // destination vertex
+    Vertex<T>* dest;      // destination vertex
     double weight;         // edge weight
     string airline_;    // for airport connections
 public:
@@ -87,7 +83,7 @@ class Graph {
 public:
     Vertex<T> *findVertex(const T &in) const;
     int getNumVertex() const;
-    bool addVertex(const T &in);
+    Vertex<T>* addVertex(const T &in);
     bool removeVertex(const T &in);
     bool addEdge(const T &sourc, const T &dest, double w, const string& airline = "");
     bool removeEdge(const T &sourc, const T &dest);
@@ -224,19 +220,19 @@ void Vertex<T>::setAdj(const vector<Edge<T>> &adj) {
     Vertex::adj = adj;
 }
 
-
 /*
  *  Adds a vertex with a given content or info (in) to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
-bool Graph<T>::addVertex(const T &in) {
+Vertex<T>* Graph<T>::addVertex(const T &in) {
     if ( findVertex(in) != NULL)
-        return false;
-    vertexSet.push_back(new Vertex<T>(in));
-    return true;
-}
+        return nullptr;
 
+    Vertex<T>* newVertex = new Vertex<T>(in);
+    vertexSet.push_back(newVertex);
+
+    return newVertex;
+}
 
 /*
  * Adds an edge to a graph (this), given the contents of the source and

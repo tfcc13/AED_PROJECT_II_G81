@@ -1,7 +1,3 @@
-//
-// Created by tiago on 12-12-2023.
-//
-
 #ifndef PROJECT_II_FLIGHT_H
 #define PROJECT_II_FLIGHT_H
 

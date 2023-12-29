@@ -1,14 +1,9 @@
-//
-// Created by tiago on 11-12-2023.
-//
-
 #include "Airport.h"
 
 
 Airport::Airport() {
 
 }
-
 
 Airport::Airport(const string &airport_code, const string &airport_name, const string &airport_city,
                  const string &airport_country, const position &airport_position) {

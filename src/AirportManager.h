@@ -1,7 +1,3 @@
-//
-// Created by tiago on 19-12-2023.
-//
-
 #ifndef PROJECT_II_AIRPORTMANAGER_H
 #define PROJECT_II_AIRPORTMANAGER_H
 

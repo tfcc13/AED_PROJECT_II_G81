@@ -1,7 +1,3 @@
-//
-// Created by tiago on 18-12-2023.
-//
-
 #ifndef PROJECT_II_MENU_H
 #define PROJECT_II_MENU_H
 #include <iostream>

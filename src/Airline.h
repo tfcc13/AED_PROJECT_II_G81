@@ -1,7 +1,3 @@
-//
-// Created by tiago on 11-12-2023.
-//
-
 #ifndef PROJECT_II_AIRLINE_H
 #define PROJECT_II_AIRLINE_H
 #include <string>
@@ -28,9 +24,6 @@ public:
 
     Airline(const string & airline_code, const string & airline_name="", const string & callsign="", const string & country="" );
 
-
-
-
     /// Getter function of airline_code_
     /// \return airline_code_
     const string& getAirlineCode() const;
@@ -43,18 +36,14 @@ public:
     /// \return callsign_
     const string& getAirlineCallsign() const;
 
-
     /// Getter function of country_
     /// \return country_
     const string& getAirlineCountry() const;
-
 
     ///Operator < overload
     /// \param other Airline used for comparation
     /// return *true* if the current Airline code is lower alphabetically
     bool operator<(const Airline& other) const;
-
-
 
     ///Operator < overload
     /// \param other Airline used for comparation
@@ -62,9 +51,6 @@ public:
 
     bool operator==(const Airline& other) const;
 
-
-
 };
-
 
 #endif //PROJECT_II_AIRLINE_H

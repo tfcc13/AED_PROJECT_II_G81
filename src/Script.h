@@ -1,7 +1,3 @@
-//
-// Created by tiago on 11-12-2023.
-//
-
 #ifndef PROJECT_II_SCRIPT_H
 #define PROJECT_II_SCRIPT_H
 
@@ -11,6 +7,7 @@
 #include <sstream>
 #include <unordered_set>
 #include <unordered_map>
+#include <vector>
 #include "Airport.h"
 #include "Airline.h"
 #include "Flight.h"
@@ -24,7 +21,6 @@ static string airportsCSV  = "../dataset/airports.csv";
 static string airlinesCSV  = "../dataset/airlines.csv";
 
 static string flightsCSV  = "../dataset/flights.csv";
-
 
 struct FlightHash {
     size_t operator()(const Flight& flight) const {
@@ -42,27 +38,23 @@ class AirportManager;
 
 class Script {
 
-
-
-
 private:
     string script_;
-    unordered_map<string,Airport> all_airports_;
+    unordered_map<string, Vertex<Airport>*> all_airports_; // FG.
     set<Airline> all_airlines_;
     unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
-    Graph<Airport> airportGraph;
-    Graph<Airline> airlineGraph;
-
+    unordered_map<string, set<string>> cities_per_country_; // FG.
+    unordered_map<string, vector<Vertex<Airport>*>> airports_per_city_; // FG.
+    unordered_map<string, int> flights_per_airline_; // FG.
+    Graph<Airport> airportGraph_;
+    Graph<Airline> airlineGraph_;
 
     friend class AirportManager;
 
 public:
-
-
     /// Script constructor
     /// \param script name of the generated script class
     Script(const string& script);
-
 
     /// Loads the data from provided  csv files
     ///
@@ -72,7 +64,6 @@ public:
     ///**Time Complexity:** O(1)
     /// \param airports file with the airports data
     void loadAirports(const string& airports);
-
 
     ///Populates all_airlines_
     ///**Time Complexity:** O(1)
@@ -100,14 +91,15 @@ public:
     /// \return all_flights_
     unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
 
-    ///Getter function of airportGraph
-    /// \return airportGraph;
+    ///Getter function of airportGraph_
+    /// \return airportGraph_;
     Graph<Airport> getAirportGraph() const;
     Graph<Airline> getAirlineGraph() const;
 
-
-
-
+    set<string> getCitiesInCountryWithAirport(const string& country) const;
+    vector<Vertex<Airport>*> getAirportsPerCity(const string& city) const;
+    vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
+    int getNumberOfFlightsPerAirline(const string& airline) const;
 
 };
 

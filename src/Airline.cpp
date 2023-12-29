@@ -1,7 +1,3 @@
-//
-// Created by tiago on 11-12-2023.
-//
-
 #include "Airline.h"
 
 Airline::Airline(const string& airline_code, const string& airline_name, const string& callsign, const string& country) {
@@ -13,8 +9,6 @@ Airline::Airline(const string& airline_code, const string& airline_name, const s
 
 }
 
-
-
 const string &Airline::getAirlineCode() const {
     return airline_code_;
 }
@@ -22,7 +16,6 @@ const string &Airline::getAirlineCode() const {
 const string &Airline::getAirlineName() const {
     return airline_name_;
 }
-
 
 const string &Airline::getAirlineCallsign() const {
     return callsign_;

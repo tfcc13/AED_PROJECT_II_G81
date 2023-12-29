@@ -76,3 +76,30 @@ bool Airport::operator==(const Airport &other) const {
    return (this->airport_code_ == other.airport_code_);
 }
 
+double Airport::distance(position position){
+    //position latitude and longitude
+    double lat1 = position.latitude;
+    double lon1 = position.longitude;
+
+    //airport latitude and longitude
+    double lat2 = airport_position_.latitude;
+    double lon2 = airport_position_.longitude;
+
+    // distance between latitudes
+    // and longitudes
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+
+    // convert to radians
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    // apply formulae
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) *
+               cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+

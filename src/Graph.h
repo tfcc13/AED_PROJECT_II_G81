@@ -100,8 +100,17 @@ public:
     vector<T> topsort() const;
     bool isDAG() const;
 
+    ///Obtains the shortest path possible from an airport to another
+    /// \param source Departure airport
+    /// \param target Destination
+    /// \return Shortest path between airports
     vector<T> shortestPath(const T &source, const T &target) const;
 
+    ///Obtains the shortest path possible from an airport to another, with a filter
+    /// \param source Departure airport
+    /// \param target Destination
+    /// \param verticesSet Airports that can be passed
+    /// \return Shortest path between source and target, using only the desired airports
     vector<T> shortestPathWithFilter(const T &source, const T &target, const unordered_set<T> &verticesSet) const;
 };
 

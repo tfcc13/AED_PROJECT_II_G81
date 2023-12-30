@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -85,6 +86,11 @@ public:
      */
     bool operator==(const Airport& other) const;
 
+
+    ///Obtains the distance between the airport and a given position, using the Harvesine formula
+    /// \param position Position whose distance we wish to know
+    /// \return distance between airport and position
+    double distance(position position);
 };
 
 #endif //PROJECT_II_AIRPORT_H

@@ -84,6 +84,7 @@ public:
     int getAirportsNumber() const;
     int getAirlinesNumber() const;
 
+    Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 };
 
 #endif //PROJECT_II_SCRIPT_H

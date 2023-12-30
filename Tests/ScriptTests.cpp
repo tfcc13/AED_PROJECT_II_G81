@@ -48,9 +48,8 @@ TEST(test_2, loadAirlines) {
 
     new_script.loadAirlines(airlinesCSV);
 
-    auto airlines = new_script.getAirlineGraph();
 
-    int airlinesSize = airlines.getNumVertex();
+    int airlinesSize = new_script.getAirlinesNumber();
 
     EXPECT_EQ(444, airlinesSize);
 

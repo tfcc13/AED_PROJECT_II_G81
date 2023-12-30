@@ -37,6 +37,8 @@ public:
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();
     void dfs_art(Graph<Airport> &g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i);
+
+    Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

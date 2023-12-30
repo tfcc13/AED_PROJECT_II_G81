@@ -304,3 +304,25 @@ void AirportManager::dfs_art(Graph<Airport>& g, Vertex<Airport> *v, stack<Airpor
 
 }
 
+Vertex<Airport> *const AirportManager::findClosestAirport(const position& targetPosition) const {
+    // Initialize the closest airport and minimum distance variables
+    auto closestAirport = script_.all_airports_.begin();
+    double minDistance = closestAirport->second->getInfo().distance(targetPosition);
+
+    auto iter = script_.all_airports_.begin();
+
+    while (iter != script_.all_airports_.end()) {
+        Airport currentAirport = iter->second->getInfo();
+        double distance = currentAirport.distance(targetPosition);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestAirport = iter;
+        }
+
+        ++iter;
+    }
+
+    return closestAirport->second;
+}
+

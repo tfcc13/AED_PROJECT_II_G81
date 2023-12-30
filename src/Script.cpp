@@ -286,24 +286,3 @@ int Script::getNumberOfFlightsPerAirline(const string& airline) const{
 }
 */
 
-Vertex<Airport> *const Script::findClosestAirport(const position& targetPosition) const {
-    // Initialize the closest airport and minimum distance variables
-    auto closestAirport = all_airports_.begin();
-    double minDistance = closestAirport->second->getInfo().distance(targetPosition);
-
-    auto iter = all_airports_.begin();
-
-    while (iter != all_airports_.end()) {
-        Airport currentAirport = iter->second->getInfo();
-        double distance = currentAirport.distance(targetPosition);
-
-        if (distance < minDistance) {
-            minDistance = distance;
-            closestAirport = iter;
-        }
-
-        ++iter;
-    }
-
-    return closestAirport->second;
-}

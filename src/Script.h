@@ -101,7 +101,7 @@ public:
     ///Getter function of all_flights_
     /// \return all_flights_
     unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
-    
+
 
     ///Getter function of airportGraph
     /// \return airportGraph;

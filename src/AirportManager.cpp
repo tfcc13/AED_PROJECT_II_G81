@@ -223,3 +223,17 @@ void AirportManager::getDestinationCountriesNames(const string &airport) const {
 
 }
 
+vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
+    vector<pair<Airport,int>> topKAirports;
+    for (auto v : script_.airportGraph.getVertexSet()) {
+        int inFlights = v->getIndegree();
+        int outFlights = v->getAdj().size();
+        int flightsCount = inFlights+outFlights;
+        topKAirports.emplace_back(v->getInfo(),flightsCount);
+    }
+
+    sort(topKAirports.begin(),topKAirports.end(), [] (const auto& a, const auto& b){return a.second > b.second;});
+    topKAirports = vector<pair<Airport,int>> (topKAirports.begin(), topKAirports.begin()+k);
+    return topKAirports;
+}
+

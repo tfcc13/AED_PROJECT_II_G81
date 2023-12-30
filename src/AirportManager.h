@@ -9,6 +9,8 @@
 #include "Airport.h"
 #include "Script.h"
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 class Script;
 
@@ -35,6 +37,7 @@ public:
     int getDestinationCountriesNumber(const string& airport) const;
     const set<string>getDestinationCountriesSet(const string& airport) const;
     void getDestinationCountriesNames(const string& airport) const;
+    vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
 
 };
 

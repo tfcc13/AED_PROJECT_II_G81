@@ -332,7 +332,17 @@ Menu *AirportInformationMenu::getNextMenu() {
         break;
         }
         case 7: {
-            set<Airport> essentialAirports = airportManager.airportArticulationPoints()
+            set<Airport> essentialAirports = airportManager.airportArticulationPoints();
+            cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << endl;
+
+            for(const auto& airport: essentialAirports) {
+                cout << left << setw(4) << airport.getAirportCode() << "|" << setw(10) << airport.getAirportName() << "|" << setw(15) << airport.getAirportCity() << "|" << setw(15) << airport.getAirportCountry() << endl;
+            }
+            cout << endl;
+
+            cout << "It has " << essentialAirports.size() << " essential airports to the network's circulation capability" << endl;
+            cout << endl ;
+            break;
         }
         case 8: {
             airportManager.printAllAirports();

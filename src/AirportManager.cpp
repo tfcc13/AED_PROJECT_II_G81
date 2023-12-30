@@ -252,18 +252,18 @@ void AirportManager::printAllAirports() const {
 
 }
 
-set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGraph) {
+set<Airport> AirportManager::airportArticulationPoints() {
 
-    Graph<Airport>* undGraph;
+    Graph<Airport> undGraph;
 
-    for (auto v : airportGraph->getVertexSet()) {
-        undGraph->addVertex(v->getInfo());
+    for (auto v : script_.airportGraph.getVertexSet()) {
+        undGraph.addVertex(v->getInfo());
     }
 
-    for(auto v : airportGraph->getVertexSet()) {
-        for(auto edge : v->getAdj()) {
+    for(auto v :  script_.airportGraph.getVertexSet()) {
+        for(const auto& edge : v->getAdj()) {
             auto dest = edge.getDest();
-            undGraph->addEdge(dest->getInfo(), v->getInfo(),0);
+            undGraph.addEdge(dest->getInfo(), v->getInfo(),0);
         }
     }
 
@@ -273,12 +273,12 @@ set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGr
     int  i = 0;
 
 
-    for (auto& v :  undGraph->getVertexSet()) {
+    for (auto& v :  undGraph.getVertexSet()) {
         v->setVisited(false);
         v->setProcessing(false);
     }
 
-    for(auto & v: undGraph->getVertexSet()) {
+    for(auto & v: undGraph.getVertexSet()) {
         if(!v->isVisited()) {
             dfs_art(undGraph, v, s, res, i);
         }
@@ -288,7 +288,7 @@ set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGr
 
 }
 
-void AirportManager::dfs_art(Graph<Airport> *g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i) {
+void AirportManager::dfs_art(Graph<Airport>& g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i) {
     v->setVisited(true);
     v->setProcessing(true);
 

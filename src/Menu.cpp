@@ -161,6 +161,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many countries you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check the Airports with the greatest air traffic capacity" << endl;
+    cout << "(" << ++options << ") >> " << "See the airports essential to the network's circulation capability" << endl;
     cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
@@ -331,6 +332,9 @@ Menu *AirportInformationMenu::getNextMenu() {
         break;
         }
         case 7: {
+            set<Airport> essentialAirports = airportManager.airportArticulationPoints()
+        }
+        case 8: {
             airportManager.printAllAirports();
             cout << endl;
             break;

@@ -254,7 +254,18 @@ void AirportManager::printAllAirports() const {
 
 set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGraph) {
 
-    Graph<Airport> undGraph = airportGraph->createUndirectedGraph(airportGraph);
+    Graph<Airport>* undGraph;
+
+    for (auto v : airportGraph->getVertexSet()) {
+        undGraph->addVertex(v->getInfo());
+    }
+
+    for(auto v : airportGraph->getVertexSet()) {
+        for(auto edge : v->getAdj()) {
+            auto dest = edge.getDest();
+            undGraph->addEdge(dest->getInfo(), v->getInfo(),0);
+        }
+    }
 
 
     set<Airport> res;
@@ -262,14 +273,14 @@ set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGr
     int  i = 0;
 
 
-    for (auto v :  airportGraph->getVertexSet()) {
+    for (auto& v :  undGraph->getVertexSet()) {
         v->setVisited(false);
         v->setProcessing(false);
     }
 
-    for(auto & v: airportGraph->getVertexSet()) {
+    for(auto & v: undGraph->getVertexSet()) {
         if(!v->isVisited()) {
-            dfs_art(airportGraph, v, s, res, i);
+            dfs_art(undGraph, v, s, res, i);
         }
     }
 

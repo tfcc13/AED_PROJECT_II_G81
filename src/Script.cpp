@@ -16,6 +16,7 @@ void Script::loadDataset(const string &airports, const string &airlines, const s
     loadAirports(airports);
     loadAirlines(airlines);
     loadFlights(flights);
+    setAirportIndegree(airportGraph);
 }
 
 void Script::loadAirports(const string &airports) {
@@ -85,6 +86,7 @@ void Script::loadAirports(const string &airports) {
 
 /// File is closed after parsing all the data
  dataAirports.close();
+
 }
 
 void Script::loadAirlines(const string &airlines) {
@@ -232,6 +234,23 @@ unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
 }
 
 
+void Script::setAirportIndegree(Graph<Airport> airportGraph) {
+    for (auto& v : airportGraph.getVertexSet()) {
+        v->setIndegree(0);
+
+    }
+
+    for (auto& v : airportGraph.getVertexSet()) {
+        for(auto& edge : v->getAdj()) {
+            auto w = edge.getDest();
+            w->setIndegree(w->getIndegree()+1);
+        }
+    }
+
+
+}
+
+
 Graph<Airport> Script::getAirportGraph() const {
     return airportGraph;
 }
@@ -239,6 +258,3 @@ Graph<Airport> Script::getAirportGraph() const {
 Graph<Airline> Script::getAirlineGraph() const {
     return airlineGraph;
 }
-
-
-

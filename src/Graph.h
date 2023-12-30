@@ -98,6 +98,7 @@ public:
     vector<T> topsort() const;
     bool isDAG() const;
     void resetIndegree();
+    Graph<T> createUndirectedGraph(const Graph<T> * graph);
 };
 
 /****************** Provided constructors and functions ********************/
@@ -505,4 +506,20 @@ void Graph<T>::resetIndegree() {
 
 }
 
+template<class T>
+Graph<T> createUndirectedGraph(const Graph<T> * graph) {
+    Graph<T> undGraph = graph;
+
+    for (auto v : graph->getVertexSet()) {
+        undGraph.addVertex(v->getInfo());
+    }
+
+    for(auto v : graph->getVertexSet()) {
+        for(auto edge : v->getAdj()) {
+            auto dest = edge.getDest();
+            undGraph.addEdge(dest->getInfo(), v->getInfo());
+        }
+        }
+    return undGraph;
+}
 #endif //PROJECT_II_GRAPH_H

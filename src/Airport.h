@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -84,6 +85,11 @@ public:
      * Two airports are considered equal if their airport codes are the same (unique names)
      */
     bool operator==(const Airport& other) const;
+
+    ///Obtains the distance between the airport and a given position, using the Harvesine formula
+    /// \param position Position whose distance we wish to know
+    /// \return distance between airport and position
+    double distance(position position);
 
 };
 

@@ -253,6 +253,10 @@ void AirportManager::printAllAirports() const {
 }
 
 set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGraph) {
+
+    Graph<Airport> undGraph = airportGraph->createUndirectedGraph(airportGraph);
+
+
     set<Airport> res;
     stack<Airport> s;
     int  i = 0;

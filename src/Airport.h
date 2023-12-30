@@ -15,22 +15,20 @@ struct position {
     }
 };
 
-
-
 class Airport {
 
 private:
-
     string airport_code_;
     string airport_name_;
     string airport_city_;
     string airport_country_;
     position airport_position_;
 
-
 public:
 
+    /// Airport Default Constructor
     Airport();
+
     ///Airport Constructor with position struct
     ///
     /// \param airport_code Airport unique code
@@ -38,7 +36,6 @@ public:
     /// \param airport_city Airport city location
     /// \param airport_country Airport country location
     /// \param airport_position Airport position coordinates
-
     Airport(const string& airport_code, const string& airport_name="", const string& airport_city="",const string& airport_country="", const position& airport_position={0,0});
 
 
@@ -51,7 +48,6 @@ public:
     /// \param latitude Airport latitude coordinate
     /// \param longitude Airport longitude coordinate
     Airport(const string& airport_code, const string& airport_name, const string& airport_city,const string& airport_country, double latitude, double longitude);
-
 
     ///Getter function of airport_code_
     /// \return airport_code_
@@ -74,7 +70,6 @@ public:
     const position& getAirportPosition() const;
 
     ///Function that prints the coordinates of the airport position
-
     void printAirportPosition() const;
 
     ///Operator < overload
@@ -82,8 +77,14 @@ public:
     /// return *true* if the current Airport code is lower alphabetically
     bool operator<(const Airport& other) const;
 
+    /**
+     * @brief Equality comparison operator for Airport objects.
+     *
+     * This operator checks if the current Airport object is equal to another Airport object.
+     * Two airports are considered equal if their airport codes are the same (unique names)
+     */
     bool operator==(const Airport& other) const;
-};
 
+};
 
 #endif //PROJECT_II_AIRPORT_H

@@ -90,7 +90,6 @@ public:
     /// \param position Position whose distance we wish to know
     /// \return distance between airport and position
     double distance(position position);
-
 };
 
 #endif //PROJECT_II_AIRPORT_H

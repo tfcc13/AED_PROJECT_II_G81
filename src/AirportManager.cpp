@@ -229,11 +229,26 @@ vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
         int inFlights = v->getIndegree();
         int outFlights = v->getAdj().size();
         int flightsCount = inFlights+outFlights;
-        topKAirports.emplace_back(v->getInfo(),flightsCount);
+        topKAirports.push_back(make_pair(v->getInfo(),flightsCount));
     }
 
     sort(topKAirports.begin(),topKAirports.end(), [] (const auto& a, const auto& b){return a.second > b.second;});
     topKAirports = vector<pair<Airport,int>> (topKAirports.begin(), topKAirports.begin()+k);
     return topKAirports;
+}
+
+void AirportManager::printAllAirports() const {
+
+    cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
+    for (auto airport : script_.airportGraph.getVertexSet()) {
+        string airportCode = airport->getInfo().getAirportCode();
+        string airportName= airport->getInfo().getAirportName();
+        string city = airport->getInfo().getAirportCity();
+        string airportCountry = airport->getInfo().getAirportCountry();
+
+        cout << left << setw(4) << airportCode << "|" << setw(10) << airportName << "|" << setw(15) << city << "|" << setw(15) << airportCountry << "|" <<  setw(15) << endl;
+
+    }
+
 }
 

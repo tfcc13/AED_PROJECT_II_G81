@@ -161,6 +161,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many countries you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check the Airports with the greatest air traffic capacity" << endl;
+    cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -328,6 +329,11 @@ Menu *AirportInformationMenu::getNextMenu() {
 
         cout << endl;
         break;
+        }
+        case 7: {
+            airportManager.printAllAirports();
+            cout << endl;
+            break;
         }
 
 

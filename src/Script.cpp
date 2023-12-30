@@ -167,6 +167,8 @@ void Script::loadFlights(const string &flights) {
 
     while( getline(dataFlights,line)) {
 
+
+
         istringstream iss(line);
 
         getline(iss,source_airport, sep);

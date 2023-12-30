@@ -38,6 +38,7 @@ public:
     const set<string>getDestinationCountriesSet(const string& airport) const;
     void getDestinationCountriesNames(const string& airport) const;
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
+    void printAllAirports() const;
 
 };
 

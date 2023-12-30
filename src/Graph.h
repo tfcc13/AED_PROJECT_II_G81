@@ -97,6 +97,7 @@ public:
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
+    void resetIndegree();
 };
 
 /****************** Provided constructors and functions ********************/
@@ -495,5 +496,13 @@ vector<T> Graph<T>::topsort() const {
     return res;
 }
 
+template<class T>
+void Graph<T>::resetIndegree() {
+
+    for (auto& v:vertexSet) {
+        v->setIndegree(0);
+    }
+
+}
 
 #endif //PROJECT_II_GRAPH_H

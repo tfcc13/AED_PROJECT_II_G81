@@ -24,6 +24,9 @@ set(SOURCE_FILES
 
 )
 
+add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
+add_executable(${CMAKE_PROJECT_NAME}_run ${SOURCE_FILES})
+
 # Doxygen Build
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
@@ -46,6 +49,5 @@ else(DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
 endif(DOXYGEN_FOUND)
 
-add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
-add_executable(${CMAKE_PROJECT_NAME}_run ${SOURCE_FILES})
+
 

@@ -32,5 +32,5 @@ const string &Flight::getAirline() const {
 bool Flight::operator==(const Flight &other) const {
     return source_airport_ == other.source_airport_ &&
             dest_airport_ == other.dest_airport_ &&
-                    airline_ == other.airline_  ;
+                    airline_ == other.airline_;
 }

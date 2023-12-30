@@ -22,7 +22,6 @@ private:
     string airline_;
 
 public:
-
     ///Flight constructor
     /// \param src_airport Source Airport
     /// \param dest_airport Destination Airport
@@ -36,7 +35,7 @@ public:
     const string& getSourceAirport() const;
 
     ///Getter function of dest_airport_
-    /// \return airline_
+    /// \return dest_airport_
     const string& getDestinationAirport() const;
 
     ///Getter function of airline_
@@ -44,11 +43,10 @@ public:
     const string& getAirline() const;
 
     ///Operator == overload
-    /// \param other Flight used for comparation
-    /// return *true* if the current Flight is equal  to the Flight other
+    /// \param other Flight used for comparison
+    /// return *true* if the current Flight is equal to the Flight other
     bool operator==(const Flight& other) const;
 
 };
-
 
 #endif //PROJECT_II_FLIGHT_H

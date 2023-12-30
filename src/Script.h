@@ -101,10 +101,7 @@ public:
     ///Getter function of all_flights_
     /// \return all_flights_
     unordered_set<Flight, FlightHash, FlightEqual> getFlightsSet() const;
-
-    ///Setting indegree (flights incoming) of all airports
-
-    void setAirportIndegree(Graph<Airport> airportGraph);
+    
 
     ///Getter function of airportGraph
     /// \return airportGraph;

@@ -502,6 +502,10 @@ void Graph<T>::resetIndegree() {
 
     for (auto& v:vertexSet) {
         v->setIndegree(0);
+        v->setLow(0);
+        v->setProcessing(false);
+        v->setNum(0);
+        v->setVisited(false);
     }
 
 }

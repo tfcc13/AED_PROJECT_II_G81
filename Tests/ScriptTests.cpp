@@ -25,11 +25,12 @@ TEST(test_1, loadAirports) {
 
     new_script.loadAirports(airportsCSV);
 
-    //auto airports = new_script.getAirportsMap();
+    int airportsNum = new_script.getAirportsNumber();
 
-    //int airportsSize = airports.size();
+    int airportsSize = new_script.getAirportGraph().getNumVertex();
 
-   // EXPECT_EQ(3019, airportsSize);
+   EXPECT_EQ(3019, airportsSize);
+    EXPECT_EQ(3019, airportsNum);
 
 }
 

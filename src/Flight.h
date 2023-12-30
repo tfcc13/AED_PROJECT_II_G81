@@ -1,7 +1,7 @@
 #ifndef PROJECT_II_FLIGHT_H
 #define PROJECT_II_FLIGHT_H
 
-#include  <string>
+#include <string>
 
 using namespace std;
 
@@ -27,8 +27,7 @@ public:
     /// \param src_airport Source Airport
     /// \param dest_airport Destination Airport
     /// \param airline Airline operating the flight
-    Flight(const string& src_airport, const string& dest_airport,const string& airline );
-
+    Flight(const string& src_airport, const string& dest_airport,const string& airline);
 
     size_t operator()(const Flight& flight) const;
 
@@ -36,22 +35,18 @@ public:
     /// \return source_airport_
     const string& getSourceAirport() const;
 
-
     ///Getter function of dest_airport_
     /// \return airline_
     const string& getDestinationAirport() const;
-
 
     ///Getter function of airline_
     /// \return airline_
     const string& getAirline() const;
 
-
     ///Operator == overload
     /// \param other Flight used for comparation
     /// return *true* if the current Flight is equal  to the Flight other
     bool operator==(const Flight& other) const;
-
 
 };
 

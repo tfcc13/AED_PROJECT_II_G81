@@ -1,7 +1,5 @@
 #include "Flight.h"
 
-
-
 Flight::Flight(const string &src_airport, const string &dest_airport, const string &airline) {
 
     source_airport_ = src_airport;
@@ -17,7 +15,6 @@ size_t Flight::operator()(const Flight& flight) const {
     hash_combine(hash, flight.airline_);
 
     return hash;
-
 }
 
 const string &Flight::getSourceAirport() const {

@@ -125,11 +125,11 @@ Menu *GeneralInformationMenu::getNextMenu() {
         case 0:
             return nullptr;
         case 1:
-            cout << "There are " + to_string(script_.getAirportGraph().getNumVertex()) + " Airports available!" << endl;
+            cout << "There are " + to_string(script_.getAirportsNumber()) + " Airports available!" << endl;
             cout << endl;
             break;
         case 2:
-            cout << "There are " << script_.getAirlineGraph().getNumVertex() << " Airlines available!" << endl;
+            cout << "There are " << script_.getAirlinesNumber() << " Airlines available!" << endl;
             cout << endl;
             break;
         case 3:
@@ -138,7 +138,6 @@ Menu *GeneralInformationMenu::getNextMenu() {
             break;
 
     }
-
 
     waitEnter();
 
@@ -217,7 +216,7 @@ Menu *AirportInformationMenu::getNextMenu() {
                 cout << "Do you wish to know the names of the cities ? Press 'y' for yes or 'n' for no" << endl;
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
-                    airportManager.getAirlinesNames(input);
+                    airportManager.PrintAirlinesNames(input);
                 }
                 break;
             }

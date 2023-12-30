@@ -10,29 +10,27 @@ class Script;
 
 class AirportManager {
 
-
-
 private:
     Script& script_;
+
 public:
     AirportManager(Script &script);
-    int getAirportFlightsNumber(const string& airport);
-    int getAirportAirlinesNumber(const string& airport);
-    const set<string> getCitiesSet(const string& airport) const;
-    const set<string> getAirlinesSet(const string& airport) const;
-    const set<Airport>getAirportsSet(const string& airport) const;
-    int getDestinationCitiesNumber(const string& airport);
-    const string& getAirportName(const string& airport) const;
-    void getDestinationCitiesNames(const string& airport) const;
-    void getAirlinesNames(const string& airport) const;
-    int getDestinationAirportsNumber(const string& airport);
-    void getDestinationAirportsNames(const string& airport);
-    void getAirportsFlightsData(const string& airport) const;
-    int getDestinationCountriesNumber(const string& airport) const;
-    const set<string>getDestinationCountriesSet(const string& airport) const;
-    void getDestinationCountriesNames(const string& airport) const;
+    int getAirportFlightsNumber(const string& airport_name);
+    int getAirportAirlinesNumber(const string& airport_name);
+    const set<string> getCitiesSet(const string& airport_name) const;
+    const set<string> getAirlinesSet(const string& airport_name) const;
+    const set<Airport>getAirportsSet(const string& airport_name) const;
+    int getDestinationCitiesNumber(const string& airport_name);
+    const string& getAirportName(const string& airport_name) const;
+    void getDestinationCitiesNames(const string& airport_name) const;
+    void PrintAirlinesNames(const string& airport_name) const;
+    int getDestinationAirportsNumber(const string& airport_name);
+    void getDestinationAirportsNames(const string& airport_name);
+    void getAirportsFlightsData(const string& airport_name) const;
+    int getDestinationCountriesNumber(const string& airport_name) const;
+    const set<string>getDestinationCountriesSet(const string& airport_name) const;
+    void getDestinationCountriesNames(const string& airport_name) const;
 
 };
-
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

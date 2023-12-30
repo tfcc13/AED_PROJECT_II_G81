@@ -71,8 +71,8 @@ void Script::loadAirports(const string &airports) {
         Airport tempAirport = Airport(airport_code, airport_name, airport_city, airport_country, airportPos);
 
         ///The Airport object is inserted in all_airports_ set
-        //all_airports_.emplace(airport_code, tempAirport);
         Vertex<Airport>* newVertex = airportGraph_.addVertex(tempAirport);
+
         all_airports_.insert(make_pair(airport_code, newVertex));
 
         auto it_country = cities_per_country_.find(airport_country);
@@ -82,12 +82,21 @@ void Script::loadAirports(const string &airports) {
             cities_per_country_[airport_country].insert(airport_city);
         }
 
-        auto it_city = airports_per_city_.find(airport_city);
-        if(it_city == airports_per_city_.end()){
-            airports_per_city_[airport_city] = {newVertex};
-        } else{
-            airports_per_city_[airport_city].push_back(newVertex);
+        auto it_city = airports_per_city_and_country_.find(airport_city);
+
+        if (it_city == airports_per_city_and_country_.end()) {
+            airports_per_city_and_country_[airport_city] = {{airport_country, {newVertex}}};
+        } else {
+            auto& country_map = it_city->second;
+            auto it_city_s_country = country_map.find(airport_country);
+
+            if (it_city_s_country == country_map.end()) {
+                country_map[airport_country] = {newVertex};
+            } else {
+                country_map[airport_country].push_back(newVertex);
+            }
         }
+
 
     }
 
@@ -133,13 +142,11 @@ void Script::loadAirlines(const string &airlines) {
         getline(iss,country, '\r');
 
         ///it's created an Airline object with the extracted info
-        Airline tempAirline = Airline(airline_code, airline_name, callsign, country);
+        Airline tempAirline = Airline(airline_code, airline_name, callsign, country, 0);
 
         ///The Airline object is inserted in all_airlines_ set
-        //all_airlines_.insert(tempAirline);
-        airlineGraph_.addVertex(tempAirline);
+        all_airlines_[airline_code] = tempAirline;
     }
-
 
     dataAirlines.close();
 
@@ -181,6 +188,8 @@ void Script::loadFlights(const string &flights) {
         getline(iss,dest_airport, sep);
         getline(iss,airline, '\r');
 
+        all_airlines_[airline].IncreaseTheNumberOfFlights();
+
         ///it's created an Flight object with the extracted info
         Flight tempFlight = Flight(source_airport,dest_airport,airline);
 
@@ -215,12 +224,7 @@ void Script::loadFlights(const string &flights) {
         ///The Flight object is inserted in all_flights_ set
         all_flights_.insert(tempFlight);
 
-        auto it = flights_per_airline_.find(airline);
-        if(it == flights_per_airline_.end()){
-            flights_per_airline_[airline] = 1;
-        } else{
-            flights_per_airline_[airline]++;
-        }
+
     }
 
     dataFlights.close();
@@ -228,27 +232,12 @@ void Script::loadFlights(const string &flights) {
 }
 
 
-/*unordered_map<string,Airport> Script::getAirportsMap() const {
-    return all_airports_;
-}
-*/
-
-
-/*set<Airline> Script::getAirlinesSet() const {
-    return all_airlines_;
-}
-*/
-
 unordered_set<Flight, FlightHash,FlightEqual> Script::getFlightsSet() const {
     return all_flights_;
 }
 
 Graph<Airport> Script::getAirportGraph() const {
     return airportGraph_;
-}
-
-Graph<Airline> Script::getAirlineGraph() const {
-    return airlineGraph_;
 }
 
 set<string> Script::getCitiesInCountryWithAirport(const string& country) const{
@@ -260,6 +249,15 @@ set<string> Script::getCitiesInCountryWithAirport(const string& country) const{
     }
 }
 
+int Script::getAirportsNumber() const {
+    return int(all_airports_.size());
+}
+
+int Script::getAirlinesNumber() const {
+    return int(all_airlines_.size());
+}
+
+/*
 vector<Vertex<Airport>*> Script::getAirportsPerCity(const string& city) const{
     auto it = airports_per_city_.find(city);
     if(it != airports_per_city_.end()){
@@ -292,3 +290,5 @@ int Script::getNumberOfFlightsPerAirline(const string& airline) const{
         return 0;
     }
 }
+*/
+

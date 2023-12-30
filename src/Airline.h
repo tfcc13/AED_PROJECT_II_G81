@@ -1,10 +1,13 @@
 #ifndef PROJECT_II_AIRLINE_H
 #define PROJECT_II_AIRLINE_H
+
+#include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
-/// Class that represents an Airline Company
 
+/// Class that represents an Airline Company
 class Airline {
 
 private:
@@ -12,6 +15,7 @@ private:
     string airline_name_;
     string callsign_;
     string country_;
+    int number_of_flights_;
 
 public:
 
@@ -21,8 +25,17 @@ public:
     /// \param airline_name Airline name
     /// \param callsign Airline callsign
     /// \param country Airline headquarters country
+    /// \param number_of_flights Total number of flights conducted by the airline in question
 
-    Airline(const string & airline_code, const string & airline_name="", const string & callsign="", const string & country="" );
+    Airline();
+
+    Airline(const string & airline_code, const string & airline_name, const string& callsign, const string& country, int number_of_flights);
+
+    size_t operator()(const Airline& airline) const;
+
+    bool operator==(const Airline& other) const;
+
+    void PrintAirlineName() const;
 
     /// Getter function of airline_code_
     /// \return airline_code_
@@ -40,16 +53,7 @@ public:
     /// \return country_
     const string& getAirlineCountry() const;
 
-    ///Operator < overload
-    /// \param other Airline used for comparation
-    /// return *true* if the current Airline code is lower alphabetically
-    bool operator<(const Airline& other) const;
-
-    ///Operator < overload
-    /// \param other Airline used for comparation
-    /// return *true* if the current Airline  is equal to an other Airline
-
-    bool operator==(const Airline& other) const;
+    void IncreaseTheNumberOfFlights();
 
 };
 

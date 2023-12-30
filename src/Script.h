@@ -40,14 +40,12 @@ class Script {
 
 private:
     string script_;
-    unordered_map<string, Vertex<Airport>*> all_airports_; // FG.
-    set<Airline> all_airlines_;
-    unordered_set<Flight, FlightHash, FlightEqual > all_flights_;
-    unordered_map<string, set<string>> cities_per_country_; // FG.
-    unordered_map<string, vector<Vertex<Airport>*>> airports_per_city_; // FG.
-    unordered_map<string, int> flights_per_airline_; // FG.
+    unordered_map<string, Vertex<Airport>*> all_airports_;
+    unordered_map<string, Airline> all_airlines_;
+    unordered_set<Flight, FlightHash, FlightEqual> all_flights_;
+    unordered_map<string, set<string>> cities_per_country_;
+    unordered_map<string, unordered_map<string, vector<Vertex<Airport>*>>> airports_per_city_and_country_;
     Graph<Airport> airportGraph_;
-    Graph<Airline> airlineGraph_;
 
     friend class AirportManager;
 
@@ -94,14 +92,13 @@ public:
     ///Getter function of airportGraph_
     /// \return airportGraph_;
     Graph<Airport> getAirportGraph() const;
-    Graph<Airline> getAirlineGraph() const;
-
     set<string> getCitiesInCountryWithAirport(const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCity(const string& city) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
     int getNumberOfFlightsPerAirline(const string& airline) const;
+    int getAirportsNumber() const;
+    int getAirlinesNumber() const;
 
 };
-
 
 #endif //PROJECT_II_SCRIPT_H

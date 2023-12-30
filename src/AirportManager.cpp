@@ -263,6 +263,7 @@ set<Airport> AirportManager::airportArticulationPoints() {
     for(auto v :  script_.airportGraph.getVertexSet()) {
         for(const auto& edge : v->getAdj()) {
             auto dest = edge.getDest();
+            undGraph.addEdge(v->getInfo(),dest->getInfo(),0, edge.getAirline());
             undGraph.addEdge(dest->getInfo(), v->getInfo(),0);
         }
     }

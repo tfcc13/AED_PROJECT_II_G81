@@ -57,7 +57,7 @@ public:
      * @return  set of direct reachable Airports from a given Airport
      */
     set<Airport>getAirportsSet(const string& airport_name) const;
-    
+
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;

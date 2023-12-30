@@ -18,24 +18,19 @@ private:
     int number_of_flights_;
 
 public:
+    /// Airline Default Constructor
+    Airline();
 
-    ///Airline Constructor
+    /// Airline Constructor
     ///
     /// \param airline_code Airline unique code
     /// \param airline_name Airline name
     /// \param callsign Airline callsign
     /// \param country Airline headquarters country
     /// \param number_of_flights Total number of flights conducted by the airline in question
-
-    Airline();
-
-    Airline(const string & airline_code, const string & airline_name, const string& callsign, const string& country, int number_of_flights);
-
-    size_t operator()(const Airline& airline) const;
+    Airline(const string& airline_code, const string& airline_name, const string& callsign, const string& country, int number_of_flights);
 
     bool operator==(const Airline& other) const;
-
-    void PrintAirlineName() const;
 
     /// Getter function of airline_code_
     /// \return airline_code_
@@ -53,7 +48,15 @@ public:
     /// \return country_
     const string& getAirlineCountry() const;
 
+    /// Getter function of number_of_flights_
+    /// \return number_of_flights_
+    const int& getAirlineNumberOfFlights() const;
+
+    /// Increase the airline's flight count by one. This function is utilized during the parsing of airlines.csv to ultimately calculate the total number of flights conducted by each airline
     void IncreaseTheNumberOfFlights();
+
+    /// Print the airline's code, name, callsign, Country and the total number of performed flights
+    void PrintAirlineInfo() const;
 
 };
 

@@ -30,6 +30,12 @@ public:
     /// \param number_of_flights Total number of flights conducted by the airline in question
     Airline(const string& airline_code, const string& airline_name, const string& callsign, const string& country, int number_of_flights);
 
+    /**
+     * @brief Equality comparison operator for Airline objects.
+     *
+     * This operator checks if the current Airline object is equal to another Airline object.
+     * Two airlines are considered equal if their airline codes are the same.
+     */
     bool operator==(const Airline& other) const;
 
     /// Getter function of airline_code_

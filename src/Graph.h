@@ -13,7 +13,6 @@ using namespace std;
 template <class T> class Edge;
 template <class T> class Graph;
 template <class T> class Vertex;
-
 template <class T>
 class Vertex {
 

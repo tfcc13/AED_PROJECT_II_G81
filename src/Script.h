@@ -17,9 +17,7 @@
 using namespace std;
 
 static string airportsCSV  = "../dataset/airports.csv";
-
 static string airlinesCSV  = "../dataset/airlines.csv";
-
 static string flightsCSV  = "../dataset/flights.csv";
 
 struct FlightHash {
@@ -54,8 +52,7 @@ public:
     /// \param script name of the generated script class
     Script(const string& script);
 
-    /// Loads the data from provided  csv files
-    ///
+    /// Loads the data from provided csv files
     void loadDataset(const string& airports, const string& airlines, const string& flights);
 
     ///Populates all_airports_
@@ -72,18 +69,6 @@ public:
     ///**Time Complexity:** O(1)
     /// \param flights file with the flights data
     void loadFlights(const string& flights);
-
-/*
-    ///Getter function of all_airports_
-    /// \return all_airports_
-    unordered_map<string, Airport> getAirportsMap() const;
-*/
-
-/*
-    ///Getter function of all_airlines_
-    /// \return all_airports_
-    set<Airline> getAirlinesSet() const;
-*/
 
     ///Getter function of all_flights_
     /// \return all_flights_

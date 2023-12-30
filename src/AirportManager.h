@@ -17,18 +17,18 @@ public:
     AirportManager(Script &script);
     int getAirportFlightsNumber(const string& airport_name);
     int getAirportAirlinesNumber(const string& airport_name);
-    const set<string> getCitiesSet(const string& airport_name) const;
-    const set<string> getAirlinesSet(const string& airport_name) const;
-    const set<Airport>getAirportsSet(const string& airport_name) const;
+    set<string> getCitiesSet(const string& airport_name) const;
+    set<string> getAirlinesSet(const string& airport_name) const;
+    set<Airport>getAirportsSet(const string& airport_name) const;
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;
     void PrintAirlinesNames(const string& airport_name) const;
     int getDestinationAirportsNumber(const string& airport_name);
-    void getDestinationAirportsNames(const string& airport_name);
+    void getDestinationAirportsNames(const string& airport_name) const;
     void getAirportsFlightsData(const string& airport_name) const;
     int getDestinationCountriesNumber(const string& airport_name) const;
-    const set<string>getDestinationCountriesSet(const string& airport_name) const;
+    set<string>getDestinationCountriesSet(const string& airport_name) const;
     void getDestinationCountriesNames(const string& airport_name) const;
 
 };

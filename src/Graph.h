@@ -14,21 +14,24 @@ template <class T> class Edge;
 template <class T> class Graph;
 template <class T> class Vertex;
 
-
-/****************** Provided structures  ********************/
-
 template <class T>
 class Vertex {
-    T info;                // contents
-    vector<Edge<T> > adj;  // list of outgoing edges
-    bool visited;          // auxiliary field
-    bool processing;       // auxiliary field
-    int indegree;          // auxiliary field
-    int num;               // auxiliary field
-    int low;               // auxiliary field
+
+private:
+    T info;                         // contents
+    vector<Edge<T>> adj;            // list of outgoing edges
+    vector<Edge<T>> incomingEdges;  // list of incoming edges
+    bool visited;                   // auxiliary field
+    bool processing;                // auxiliary field
+    int indegree;                   // auxiliary field
+    int num;                        // auxiliary field
+    int low;                        // auxiliary field
 
     void addEdge(Vertex<T> *dest, double w, const string& airline);
+    void addIncomingEdge(Vertex<T> *src, double w, const string& airline);
     bool removeEdgeTo(Vertex<T> *d);
+    bool removeIncomingEdgeTo(Vertex<T> *s);
+
 public:
     Vertex(T in);
     T getInfo() const;
@@ -38,28 +41,27 @@ public:
     bool isProcessing() const;
     void setProcessing(bool p);
     const vector<Edge<T>> &getAdj() const;
+    const vector<Edge<T>> &getIncomingEdges() const;
     void setAdj(const vector<Edge<T>> &adj);
-
+    void setIncomingEdges(const vector<Edge<T>> &incomingEdges);
     int getIndegree() const;
-
     void setIndegree(int indegree);
-
     int getNum() const;
-
     void setNum(int num);
-
     int getLow() const;
-
     void setLow(int low);
-
     friend class Graph<T>;
+
 };
 
 template <class T>
 class Edge {
-    Vertex<T>* dest;      // destination vertex
-    double weight;         // edge weight
-    string airline_;    // for airport connections
+
+private:
+    Vertex<T>* dest;        // destination vertex
+    double weight;          // edge weight
+    string airline_;        // for airport connections
+
 public:
     Edge(Vertex<T> *d, double w, const string& airline = "");
     Vertex<T> *getDest() const;
@@ -69,17 +71,21 @@ public:
     string getAirline() const;
     friend class Graph<T>;
     friend class Vertex<T>;
+
 };
 
 template <class T>
 class Graph {
-    vector<Vertex<T> *> vertexSet;      // vertex set
-    int _index_;                        // auxiliary field
-    stack<Vertex<T>> _stack_;           // auxiliary field
-    list<list<T>> _list_sccs_;        // auxiliary field
+
+private:
+    vector<Vertex<T> *> vertexSet;          // vertex set
+    int _index_;                            // auxiliary field
+    stack<Vertex<T>> _stack_;               // auxiliary field
+    list<list<T>> _list_sccs_;              // auxiliary field
 
     void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
     bool dfsIsDAG(Vertex<T> *v) const;
+
 public:
     Vertex<T> *findVertex(const T &in) const;
     int getNumVertex() const;
@@ -93,9 +99,8 @@ public:
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
-};
 
-/****************** Provided constructors and functions ********************/
+};
 
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
@@ -215,9 +220,19 @@ const vector<Edge<T>> &Vertex<T>::getAdj() const {
     return adj;
 }
 
+template<class T>
+const vector<Edge<T>> &Vertex<T>::getIncomingEdges() const {
+    return incomingEdges;
+}
+
 template <class T>
 void Vertex<T>::setAdj(const vector<Edge<T>> &adj) {
     Vertex::adj = adj;
+}
+
+template <class T>
+void Vertex<T>::setIncomingEdges(const vector<Edge<T>> &incomingEdges){
+    Vertex::incomingEdges = incomingEdges;
 }
 
 /*
@@ -254,10 +269,14 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w, const string& ai
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, double w, const string& airline) {
-    adj.push_back(Edge<T>(d, w,airline));
+void Vertex<T>::addEdge(Vertex<T> *dest, double w, const string& airline) {
+    adj.push_back(Edge<T>(dest, w, airline));
 }
 
+template <class T>
+void Vertex<T>::addIncomingEdge(Vertex<T> *src, double w, const string& airline){
+    incomingEdges.push_back(Edge<T>(src, w, airline));
+}
 
 /*
  * Removes an edge from a graph (this).
@@ -288,6 +307,16 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
     return false;
 }
 
+template <class T>
+bool Vertex<T>::removeIncomingEdgeTo(Vertex<T> *s){
+    for (auto it = incomingEdges.begin(); it != incomingEdges.end(); it++)
+        if (it->dest  == s) {
+            incomingEdges.erase(it);
+            return true;
+        }
+    return false;
+}
+
 /*
  *  Removes a vertex with a given content (in) from a graph (this), and
  *  all outgoing and incoming edges.
@@ -307,8 +336,6 @@ bool Graph<T>::removeVertex(const T &in) {
     return false;
 }
 
-
-/****************** DFS ********************/
 /*
  * Performs a depth-first search (dfs) traversal in a graph (this).
  * Returns a vector with the contents of the vertices by dfs order.
@@ -340,8 +367,6 @@ void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
     }
 }
 
-
-/****************** DFS ********************/
 /*
  * Performs a depth-first search (dfs) in a graph (this).
  * Returns a vector with the contents of the vertices by dfs order,
@@ -361,8 +386,6 @@ vector<T> Graph<T>::dfs(const T & source) const {
     return res;
 }
 
-
-/****************** BFS ********************/
 /*
  * Performs a breadth-first search (bfs) in a graph (this), starting
  * from the vertex with the given source contents (source).
@@ -394,8 +417,6 @@ vector<T> Graph<T>::bfs(const T & source) const {
     return res;
 }
 
-
-/****************** isDAG  ********************/
 /*
  * Performs a depth-first search in a graph (this), to determine if the graph
  * is acyclic (acyclic directed graph or DAG).
@@ -417,7 +438,7 @@ bool Graph<T>::isDAG() const {
     return true;
 }
 
-/**
+/*
  * Auxiliary function that visits a vertex (v) and its adjacent, recursively.
  * Returns false (not acyclic) if an edge to a vertex in the stack is found.
  */
@@ -437,19 +458,12 @@ bool Graph<T>::dfsIsDAG(Vertex<T> *v) const {
     return true;
 }
 
-
-/****************** toposort ********************/
-//=============================================================================
-// Exercise 1: Topological Sorting
-//=============================================================================
-// TODO
 /*
  * Performs a topological sorting of the vertices of a graph (this).
  * Returns a vector with the contents of the vertices by topological order.
  * If the graph has cycles, returns an empty vector.
  * Follows the algorithm described in theoretical classes.
  */
-
 template<class T>
 vector<T> Graph<T>::topsort() const {
     vector<T> res;
@@ -487,9 +501,7 @@ vector<T> Graph<T>::topsort() const {
         }
     }
 
-
     return res;
 }
-
 
 #endif //PROJECT_II_GRAPH_H

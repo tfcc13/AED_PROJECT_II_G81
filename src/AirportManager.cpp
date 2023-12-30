@@ -202,7 +202,7 @@ void AirportManager::getDestinationCountriesNames(const string &airport) const {
 
 vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
     vector<pair<Airport,int>> topKAirports;
-    for (auto v : script_.airportGraph.getVertexSet()) {
+    for (auto v : script_.airportGraph_.getVertexSet()) {
         int inFlights = v->getIndegree();
         int outFlights = v->getAdj().size();
         int flightsCount = inFlights+outFlights;
@@ -217,7 +217,7 @@ vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
 void AirportManager::printAllAirports() const {
 
     cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
-    for (auto airport : script_.airportGraph.getVertexSet()) {
+    for (auto airport : script_.airportGraph_.getVertexSet()) {
         string airportCode = airport->getInfo().getAirportCode();
         string airportName= airport->getInfo().getAirportName();
         string city = airport->getInfo().getAirportCity();
@@ -233,11 +233,11 @@ set<Airport> AirportManager::airportArticulationPoints() {
 
     Graph<Airport> undGraph;
 
-    for (auto v : script_.airportGraph.getVertexSet()) {
+    for (auto v : script_.airportGraph_.getVertexSet()) {
         undGraph.addVertex(v->getInfo());
     }
 
-    for(auto v :  script_.airportGraph.getVertexSet()) {
+    for(auto v :  script_.airportGraph_.getVertexSet()) {
         for(const auto& edge : v->getAdj()) {
             auto dest = edge.getDest();
             undGraph.addEdge(v->getInfo(),dest->getInfo(),0, edge.getAirline());

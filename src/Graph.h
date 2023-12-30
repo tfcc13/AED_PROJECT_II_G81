@@ -102,7 +102,6 @@ public:
     void resetIndegree();
 };
 
-};
 
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}

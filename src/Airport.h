@@ -87,6 +87,7 @@ public:
     bool operator<(const Airport& other) const;
 
     bool operator==(const Airport& other) const;
+
 };
 
 

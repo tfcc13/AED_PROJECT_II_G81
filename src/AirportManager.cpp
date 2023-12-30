@@ -252,3 +252,62 @@ void AirportManager::printAllAirports() const {
 
 }
 
+set<Airport> AirportManager::airportArticulationPoints(Graph<Airport> *airportGraph) {
+    set<Airport> res;
+    stack<Airport> s;
+    int  i = 0;
+
+
+    for (auto v :  airportGraph->getVertexSet()) {
+        v->setVisited(false);
+        v->setProcessing(false);
+    }
+
+    for(auto & v: airportGraph->getVertexSet()) {
+        if(!v->isVisited()) {
+            dfs_art(airportGraph, v, s, res, i);
+        }
+    }
+
+    return res;
+
+}
+
+void AirportManager::dfs_art(Graph<Airport> *g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i) {
+    v->setVisited(true);
+    v->setProcessing(true);
+
+    v->setNum(i);
+    v->setLow(i);
+
+    i++;
+
+    s.push(v->getInfo());
+    int children =0;
+
+    for(auto & edge : v->getAdj()) {
+        auto dest = edge.getDest();
+
+        if(!dest->isVisited()) {
+            children++;
+            dfs_art(g, dest,s,l,i);
+            v->setLow(min(v->getLow(),dest->getLow()));
+            if(dest->getLow()>= v->getNum() && s.size() > 1 ) {
+                l.insert(v->getInfo());
+            }
+
+        }
+        else if(dest->isProcessing()) {
+            v->setLow(min(v->getLow(),dest->getNum()));
+        }
+    }
+
+    if(v->getNum()==0 && children>1) {
+        l.insert(v->getInfo());
+    }
+
+    s.pop();
+    v->setProcessing(false);
+
+}
+

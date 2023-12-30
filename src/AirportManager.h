@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 class Script;
 
@@ -39,6 +40,8 @@ public:
     void getDestinationCountriesNames(const string& airport) const;
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
     void printAllAirports() const;
+    set<Airport> airportArticulationPoints(Graph<Airport> *airportGraph);
+    void dfs_art(Graph<Airport> *g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i):
 
 };
 

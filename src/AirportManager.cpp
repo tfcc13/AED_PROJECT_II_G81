@@ -200,3 +200,107 @@ void AirportManager::getDestinationCountriesNames(const string &airport) const {
 
 }
 
+vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
+    vector<pair<Airport,int>> topKAirports;
+    for (auto v : script_.airportGraph.getVertexSet()) {
+        int inFlights = v->getIndegree();
+        int outFlights = v->getAdj().size();
+        int flightsCount = inFlights+outFlights;
+        topKAirports.push_back(make_pair(v->getInfo(),flightsCount));
+    }
+
+    sort(topKAirports.begin(),topKAirports.end(), [] (const auto& a, const auto& b){return a.second > b.second;});
+    topKAirports = vector<pair<Airport,int>> (topKAirports.begin(), topKAirports.begin()+k);
+    return topKAirports;
+}
+
+void AirportManager::printAllAirports() const {
+
+    cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
+    for (auto airport : script_.airportGraph.getVertexSet()) {
+        string airportCode = airport->getInfo().getAirportCode();
+        string airportName= airport->getInfo().getAirportName();
+        string city = airport->getInfo().getAirportCity();
+        string airportCountry = airport->getInfo().getAirportCountry();
+
+        cout << left << setw(4) << airportCode << "|" << setw(10) << airportName << "|" << setw(15) << city << "|" << setw(15) << airportCountry << "|" <<  setw(15) << endl;
+
+    }
+
+}
+
+set<Airport> AirportManager::airportArticulationPoints() {
+
+    Graph<Airport> undGraph;
+
+    for (auto v : script_.airportGraph.getVertexSet()) {
+        undGraph.addVertex(v->getInfo());
+    }
+
+    for(auto v :  script_.airportGraph.getVertexSet()) {
+        for(const auto& edge : v->getAdj()) {
+            auto dest = edge.getDest();
+            undGraph.addEdge(v->getInfo(),dest->getInfo(),0, edge.getAirline());
+            undGraph.addEdge(dest->getInfo(), v->getInfo(),0);
+        }
+    }
+
+
+    set<Airport> res;
+    stack<Airport> s;
+    int  i = 0;
+
+
+    for (auto& v :  undGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setProcessing(false);
+    }
+
+    for(auto & v: undGraph.getVertexSet()) {
+        if(!v->isVisited()) {
+            dfs_art(undGraph, v, s, res, i);
+        }
+    }
+
+    return res;
+
+}
+
+void AirportManager::dfs_art(Graph<Airport>& g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i) {
+    v->setVisited(true);
+    v->setProcessing(true);
+
+    v->setNum(i);
+    v->setLow(i);
+
+    i++;
+
+    s.push(v->getInfo());
+    int children =0;
+
+    for(auto & edge : v->getAdj()) {
+        auto dest = edge.getDest();
+
+        if(!dest->isVisited()) {
+            children++;
+            dfs_art(g, dest,s,l,i);
+            v->setLow(min(v->getLow(),dest->getLow()));
+            if(dest->getLow()>= v->getNum() && s.size() > 1 ) {
+                l.insert(v->getInfo());
+            }
+
+        }
+        else if(dest->isProcessing()) {
+            v->setLow(min(v->getLow(),dest->getNum()));
+        }
+    }
+
+    if(v->getNum()==0 && children>1) {
+        l.insert(v->getInfo());
+    }
+
+    s.pop();
+    v->setProcessing(false);
+
+}
+

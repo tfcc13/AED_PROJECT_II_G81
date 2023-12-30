@@ -179,6 +179,9 @@ void Script::loadFlights(const string &flights) {
 
     char sep = ',';
 
+    /// Sets all vertex's indegree to 0
+    airportGraph_.resetIndegree();
+
     while(getline(dataFlights,line)) {
 
         istringstream iss(line);

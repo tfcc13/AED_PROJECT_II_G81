@@ -5,6 +5,9 @@
 #include "Airport.h"
 #include "Script.h"
 #include <iomanip>
+#include <vector>
+#include <algorithm>
+#include <set>
 
 class Script;
 
@@ -30,7 +33,10 @@ public:
     int getDestinationCountriesNumber(const string& airport_name) const;
     set<string>getDestinationCountriesSet(const string& airport_name) const;
     void getDestinationCountriesNames(const string& airport_name) const;
-
+    vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
+    void printAllAirports() const;
+    set<Airport> airportArticulationPoints();
+    void dfs_art(Graph<Airport> &g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

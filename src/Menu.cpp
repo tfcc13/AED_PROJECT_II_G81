@@ -155,6 +155,9 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many cities you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many countries you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check the Airports with the greatest air traffic capacity" << endl;
+    cout << "(" << ++options << ") >> " << "See the airports essential to the network's circulation capability" << endl;
+    cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -302,6 +305,46 @@ Menu *AirportInformationMenu::getNextMenu() {
             }
             break;
         }
+
+        case 6: {
+            cout << "Please write the number of Airports you want to see" << endl;
+            cout << endl;
+            int k;
+            if(!get(k)) {
+                return invalidOption();
+            }
+
+            vector<pair<Airport, int>> topKAirports = airportManager.getTopKAiportTrafficCap(k);
+
+            cout << left << setw(4) << "Code" << "|" << setw(15) << "Name" << "|" << "Flights" << endl;
+
+            for (auto airport = topKAirports.begin(); airport != topKAirports.end(); airport++) {
+
+                cout << left << setw(4) << airport->first.getAirportCode() << "|" << setw(15) << airport->first.getAirportName() << "|" << airport->second << endl;
+            }
+
+        cout << endl;
+        break;
+        }
+        case 7: {
+            set<Airport> essentialAirports = airportManager.airportArticulationPoints();
+            cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << endl;
+
+            for(const auto& airport: essentialAirports) {
+                cout << left << setw(4) << airport.getAirportCode() << "|" << setw(10) << airport.getAirportName() << "|" << setw(15) << airport.getAirportCity() << "|" << setw(15) << airport.getAirportCountry() << endl;
+            }
+            cout << endl;
+
+            cout << "It has " << essentialAirports.size() << " essential airports to the network's circulation capability" << endl;
+            cout << endl ;
+            break;
+        }
+        case 8: {
+            airportManager.printAllAirports();
+            cout << endl;
+            break;
+        }
+
 
     }
 

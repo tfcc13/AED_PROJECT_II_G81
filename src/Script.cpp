@@ -251,6 +251,10 @@ int Script::getAirlinesNumber() const {
     return int(all_airlines_.size());
 }
 
+const unordered_map<string, Vertex<Airport> *> Script::getAllAirports() const {
+    return all_airports_;
+}
+
 /*
 vector<Vertex<Airport>*> Script::getAirportsPerCity(const string& city) const{
     auto it = airports_per_city_.find(city);

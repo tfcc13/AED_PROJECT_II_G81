@@ -105,17 +105,17 @@ public:
     void resetIndegree();
 
     ///Obtains the shortest path possible from an airport to another
-    /// \param source Departure airport
-    /// \param target Destination
+    /// \param src Departure airport
+    /// \param trg Destination
     /// \return Shortest path between airports
-    vector<T> shortestPath(const T &source, const T &target) const;
+    vector<T> shortestPath(Vertex<T> *src, Vertex<T> *trg) const;
 
     ///Obtains the shortest path possible from an airport to another, with a filter
-    /// \param source Departure airport
-    /// \param target Destination
+    /// \param src Departure airport
+    /// \param trg Destination
     /// \param verticesSet Airports that can be passed
     /// \return Shortest path between source and target, using only the desired airports
-    vector<T> shortestPathWithFilter(const T &source, const T &target, const unordered_set<T> &verticesSet) const;
+    vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
 };
 
 
@@ -535,12 +535,10 @@ void Graph<T>::resetIndegree() {
 }
 
 template<class T>
-vector<T> Graph<T>::shortestPath(const T& source, const T& target) const {
+vector<T> Graph<T>::shortestPath(Vertex<T>* src, Vertex<T>* trg) const {
     vector<T> path;
     queue<Vertex<T>*> q;
-
-    Vertex<T>* src = findVertex(source);
-    Vertex<T>* trg = findVertex(target);
+    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
 
     if (src == nullptr || trg == nullptr) {
         // If either source or target vertex is not found, return empty path
@@ -563,7 +561,7 @@ vector<T> Graph<T>::shortestPath(const T& source, const T& target) const {
             Vertex<T>* current = trg;
             while (current != nullptr && current != src) {
                 path.insert(path.begin(), current->getInfo());
-                current = findVertex(current->getNum()); // Get predecessor vertex by number
+                current = predecessors[current]; // Get predecessor vertex
             }
 
             if (current == nullptr) {
@@ -583,7 +581,7 @@ vector<T> Graph<T>::shortestPath(const T& source, const T& target) const {
             if (!v->isVisited()) {
                 q.push(v);
                 v->setVisited(true);
-                v->setNum(u->getNum()); // Set predecessor information
+                predecessors[v] = u; // Store predecessor information
             }
         }
     }
@@ -594,15 +592,13 @@ vector<T> Graph<T>::shortestPath(const T& source, const T& target) const {
 
 
 template<class T>
-vector<T> Graph<T>::shortestPathWithFilter(const T& source, const T& target, const unordered_set<T>& verticesSet) const {
+vector<T> Graph<T>::shortestPathWithFilter(Vertex<T>* src, Vertex<T>* trg, const unordered_set<T>& verticesSet) const {
     vector<T> path;
     queue<Vertex<T>*> q;
+    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
 
-    Vertex<T>* src = findVertex(source);
-    Vertex<T>* trg = findVertex(target);
-
-    if (src == nullptr || trg == nullptr || verticesSet.find(source) == verticesSet.end() || verticesSet.find(target) == verticesSet.end()) {
-        // If either source or target vertex is not found, or they are not in the vertices set, return empty path
+    if (src == nullptr || trg == nullptr) {
+        // If either source or target vertex is not found, return empty path
         return path;
     }
 
@@ -622,7 +618,7 @@ vector<T> Graph<T>::shortestPathWithFilter(const T& source, const T& target, con
             Vertex<T>* current = trg;
             while (current != nullptr && current != src) {
                 path.insert(path.begin(), current->getInfo());
-                current = findVertex(current->getNum()); // Get predecessor vertex by number
+                current = predecessors[current]; // Get predecessor vertex
             }
 
             if (current == nullptr) {
@@ -642,7 +638,7 @@ vector<T> Graph<T>::shortestPathWithFilter(const T& source, const T& target, con
             if (!v->isVisited() && verticesSet.find(v->getInfo()) != verticesSet.end()) {
                 q.push(v);
                 v->setVisited(true);
-                v->setNum(u->getNum()); // Set predecessor information
+                predecessors[v] = u; // Store predecessor information
             }
         }
     }

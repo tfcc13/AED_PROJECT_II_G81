@@ -78,6 +78,7 @@ public:
     /// \return airportGraph_;
     Graph<Airport> getAirportGraph() const;
     set<string> getCitiesInCountryWithAirport(const string& country) const;
+    const unordered_map<string, Vertex<Airport> *> getAllAirports() const;
     vector<Vertex<Airport>*> getAirportsPerCity(const string& city) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
     int getNumberOfFlightsPerAirline(const string& airline) const;

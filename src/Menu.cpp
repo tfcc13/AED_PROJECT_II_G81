@@ -88,6 +88,8 @@ Menu *FirstMenu::getNextMenu() {
             return new GeneralInformationMenu(script_);
         case 2:
             return new AirportInformationMenu(script_);
+        case 3:
+            return new BestFlightMenu(script_);
     }
 
     return invalidOption();
@@ -351,5 +353,114 @@ Menu *AirportInformationMenu::getNextMenu() {
 
     waitEnter();
 
+    return this;
+}
+
+
+
+
+
+
+
+
+BestFlightMenu::BestFlightMenu(Script &script) : Menu(script) {}
+
+
+
+void BestFlightMenu::show() {
+    cout << CLEAR;
+    int options = 0;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to City" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to Position" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from City to Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from City to City" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from City to Position" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Position to Airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Position to City" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Position to Position" << endl;
+    cout << "(0) >> Exit " << endl;
+    cout << endl;
+}
+
+Menu *BestFlightMenu::getNextMenu() {
+    int option;
+
+    if (!get(option)) {
+        return invalidOption();
+    }
+
+    AirportManager airportManager(script_);
+    string input;
+
+    switch (option) {
+        case 0:
+            return nullptr;
+
+        case 1:
+            string depAirportCode, destAirportCode;
+            cout << "Enter the Airport codes for departure and destination Airports: " << endl;
+            cin >> depAirportCode >> destAirportCode;
+            Vertex<Airport>* depAirport = script_.getAllAirports().find(depAirportCode)->second;
+            Vertex<Airport>* destAirport = script_.getAllAirports().find(destAirportCode)->second;
+            cout << endl;
+            auto path = script_.getAirportGraph().shortestPath(depAirport, destAirport);
+            if (path.empty()) cout << "There is no possible path.";
+            else {
+                cout << "The best path is:" << endl;
+                for (auto a : path) {
+                    cout << a.getAirportCode() << endl;
+                }
+                cout << endl;
+            }
+            cout << endl;
+            break;
+
+            /*
+        case 2:
+            // Logic for finding the best flight from Airport to City
+            // Implement the necessary functionality here
+            break;
+
+        case 3:
+            // Logic for finding the best flight from Airport to Position
+            // Implement the necessary functionality here
+            break;
+
+        case 4:
+            // Logic for finding the best flight from City to Airport
+            // Implement the necessary functionality here
+            break;
+
+        case 5:
+            // Logic for finding the best flight from City to City
+            // Implement the necessary functionality here
+            break;
+
+        case 6:
+            // Logic for finding the best flight from City to Position
+            // Implement the necessary functionality here
+            break;
+
+        case 7:
+            // Logic for finding the best flight from Position to Airport
+            // Implement the necessary functionality here
+            break;
+
+        case 8:
+            // Logic for finding the best flight from Position to City
+            // Implement the necessary functionality here
+            break;
+
+        case 9:
+            // Logic for finding the best flight from Position to Position
+            // Implement the necessary functionality here
+            break;
+
+             */
+    }
+
+
+    waitEnter();
     return this;
 }

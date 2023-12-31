@@ -17,12 +17,47 @@ private:
     Script& script_;
 
 public:
+    /**
+     *Class constructor
+     * @param script Reference to the used script
+     */
     AirportManager(Script &script);
+
+    /**
+     *
+     * @param airport_name Given airport code/name
+     * @return number of flights of a given Airport
+     */
     int getAirportFlightsNumber(const string& airport_name);
+
+    /**
+     *
+     * @param airport_name Given airport code/name
+     * @return number of airlines in a given Airport
+     */
     int getAirportAirlinesNumber(const string& airport_name);
+
+    /**
+     *
+     * @param airport_name Given airport code/name
+     * @return set of direct reachable cities from an Airport
+     */
     set<string> getCitiesSet(const string& airport_name) const;
+
+    /**
+     *
+     * @param airport_name Given airport code/name
+     * @return set of Airlines operating in a given Airport
+     */
     set<string> getAirlinesSet(const string& airport_name) const;
+
+    /**
+     *
+     * @param airport_name Given airport code/name
+     * @return  set of direct reachable Airports from a given Airport
+     */
     set<Airport>getAirportsSet(const string& airport_name) const;
+
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;

@@ -153,6 +153,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(" << ++options << ") >> " << "Check the Airports with the greatest air traffic capacity" << endl;
     cout << "(" << ++options << ") >> " << "See the airports essential to the network's circulation capability" << endl;
+    cout << "(" << ++options << ") >> " << "See the maximum trip, or trips, available in this airport network" << endl;
     cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
@@ -334,7 +335,22 @@ Menu *AirportInformationMenu::getNextMenu() {
             cout << endl ;
             break;
         }
+
         case 8: {
+            vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTrip();
+            cout << left << setw(4) << "Source Airport Code" << "|" << setw(15) << "Source Airport Name" << "|" << setw(4) << "Dest. Airport Code" << "|" << setw(15) << "Dest Airport Name" << "|" << "Number of Stops" << endl;
+
+            for(const auto& p: maxTripVector) {
+                cout << left << setw(4) << p.first.first->getInfo().getAirportCode() << "|" << setw(15) << p.first.first->getInfo().getAirportName() << "|" << setw(4) << p.first.second->getInfo().getAirportCode() << "|" << setw(15) << p.first.second->getInfo().getAirportName() << "|" << p.second<< endl;
+            }
+            cout << endl;
+
+            cout << "It has " <<  maxTripVector.size() << " maximum trips available" << endl;
+            cout << endl ;
+            break;
+        }
+
+        case 9: {
             airportManager.printAllAirports();
             cout << endl;
             break;

@@ -102,7 +102,7 @@ public:
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
-    void resetIndegree();
+    void resetIndegree() const;
 
     ///Obtains the shortest path possible from an airport to another
     /// \param src Departure airport
@@ -544,7 +544,7 @@ vector<T> Graph<T>::topsort() const {
 }
 
 template<class T>
-void Graph<T>::resetIndegree() {
+void Graph<T>::resetIndegree() const {
 
     for (auto& v:vertexSet) {
         v->setIndegree(0);

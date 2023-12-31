@@ -386,3 +386,7 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
 
     return it_airline->second.getAirlineNumberOfFlights();
 }
+
+vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTrip() {
+    return script_.airportGraph_.maximumStops();
+}

@@ -78,6 +78,7 @@ public:
     vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
     int getNumberOfFlightsInAirline(const string& airline) const;
+    vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
 
 
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;

@@ -105,7 +105,7 @@ TEST(test_4, AirportNetwork) {
     new_script.loadFlights(flightsCSV);
 
 
-    vector<string>   airport_codes =  {"UKA", "CIY", "NVI", "ACX", "BCN"};
+    vector<string>   airport_codes =  {"UKA", "CIY", "NVI", "ACX", "BCN", "OPO"};
 
     int i = 0;
     int indegree = 0;
@@ -175,6 +175,18 @@ TEST(test_4, AirportNetwork) {
     EXPECT_EQ(387,indegree);
     EXPECT_EQ(774,all_flights);
 
+
+    i++;
+
+    currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
+
+
+    outdegree = currAirport->getAdj().size();
+    indegree = currAirport->getIndegree();
+    all_flights = outdegree+indegree;
+    EXPECT_EQ(102,outdegree);
+    EXPECT_EQ(100,indegree);
+    EXPECT_EQ(202,all_flights);
 
 }
 

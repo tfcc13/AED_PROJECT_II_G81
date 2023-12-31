@@ -116,6 +116,11 @@ public:
     /// \param verticesSet Airports that can be passed
     /// \return Shortest path between source and target, using only the desired airports
     vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
+
+    vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> maximumStops() const;
+
+    void dfsVisitWithStops(Vertex<T>* v, Vertex<T>*& lastV , int& stops) const;
+
 };
 
 template <class T>
@@ -662,6 +667,49 @@ vector<T> Graph<T>::shortestPathWithFilter(Vertex<T>* src, Vertex<T>* trg, const
 
     // If target vertex is not reached, return empty path
     return path;
+}
+
+template<class T>
+vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> Graph<T>::maximumStops() const {
+    Graph<T>::resetIndegree();
+    vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> res;
+
+    int maxStops = 0;
+    Vertex<T>* firstVert = nullptr;
+    Vertex<T>* lastVert = nullptr;
+
+    for(auto v: vertexSet) {
+        firstVert = v;
+        int stops = 0;
+        if(!v->isVisited()) {
+            dfsVisitWithStops(v,lastVert,stops);
+            if(stops > maxStops) {
+                maxStops = stops;
+                res.clear();
+                res.push_back(make_pair(make_pair(firstVert,lastVert),stops));
+            }
+            else if(stops == maxStops) {
+                res.push_back(make_pair(make_pair(firstVert,lastVert),stops));
+            }
+        }
+    }
+
+    return res;
+
+
+}
+template<class T>
+void Graph<T>::dfsVisitWithStops(Vertex<T>* v, Vertex<T>*& lastV , int& stops) const {
+    v->setVisited(true);
+    stops++;
+
+    for(auto& edge : v->getAdj()) {
+        auto dest = edge.getDest();
+        lastV = dest;
+        if(!dest->isVisited()) {
+            dfsVisitWithStops(dest, dest, stops);
+        }
+    }
 }
 
 

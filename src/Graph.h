@@ -103,6 +103,7 @@ public:
     vector<T> topsort() const;
     bool isDAG() const;
     void resetIndegree();
+    void setIndegree();
 
     ///Obtains the shortest path possible from an airport to another
     /// \param src Departure airport
@@ -548,7 +549,17 @@ void Graph<T>::resetIndegree() {
         v->setNum(0);
         v->setVisited(false);
     }
+}
 
+template<class T>
+void Graph<T>::setIndegree() {
+    for (auto& v : vertexSet) {
+        v->setIndegree(int(v->getIncomingEdges().size()));
+        v->setLow(0);
+        v->setProcessing(false);
+        v->setNum(0);
+        v->setVisited(false);
+    }
 }
 
 template<class T>

@@ -1,7 +1,7 @@
 #include "AirportManager.h"
 
 AirportManager::AirportManager(Script& script) : script_(script) {}
-// OK
+
 int AirportManager::getAirportFlightsNumber(const string &airport_name) {
     auto airport = script_.all_airports_.find(airport_name);
 
@@ -207,11 +207,9 @@ void AirportManager::getDestinationCountriesNames(const string &airport) const {
 
 vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
     vector<pair<Airport,int>> topKAirports;
-    for (auto v : script_.airportGraph_.getVertexSet()) {
-        int inFlights = v->getIndegree();
-        int outFlights = v->getAdj().size();
-        int flightsCount = inFlights+outFlights;
-        topKAirports.push_back(make_pair(v->getInfo(),flightsCount));
+
+    for(auto& vertex : script_.airportGraph_.getVertexSet()){
+        topKAirports.emplace_back(vertex->getInfo(), vertex->getIndegree() + int(vertex->getAdj().size()));
     }
 
     sort(topKAirports.begin(),topKAirports.end(), [] (const auto& a, const auto& b){return a.second > b.second;});

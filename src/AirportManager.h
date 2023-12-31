@@ -61,7 +61,7 @@ public:
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;
-    void PrintAirlinesNames(const string& airport_name) const;
+    void printAirlinesNames(const string& airport_name) const;
     int getDestinationAirportsNumber(const string& airport_name);
     void getDestinationAirportsNames(const string& airport_name) const;
     void getAirportsFlightsData(const string& airport_name) const;
@@ -78,6 +78,9 @@ public:
     vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
     int getNumberOfFlightsInAirline(const string& airline) const;
+    set<Airport> getReachableAirports(const string &airport_name, int max_stops);
+    set<string> getReachableCountries(const string& airport_name, int max_stops);
+    set<pair<string, string>> getReachableCities(const string& airport_name, int max_stops);
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();

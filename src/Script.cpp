@@ -179,9 +179,6 @@ void Script::loadFlights(const string &flights) {
 
     char sep = ',';
 
-    /// Sets all vertex's indegree to 0
-    airportGraph_.resetIndegree();
-
     while(getline(dataFlights,line)) {
 
         istringstream iss(line);
@@ -202,7 +199,6 @@ void Script::loadFlights(const string &flights) {
         if(srcVert_pair != nullptr and destVert_pair != nullptr){
             auto srcVert = srcVert_pair->second;
             auto destVert = destVert_pair->second;
-            srcVert->setIndegree(srcVert->getIndegree() + 1);
             airportGraph_.addEdge(srcVert->getInfo(), destVert->getInfo(), 0, airline);
             airportGraph_.addIncomingEdge(srcVert->getInfo(), destVert->getInfo(), 0, airline);
         }
@@ -211,6 +207,8 @@ void Script::loadFlights(const string &flights) {
         all_flights_.insert(tempFlight);
 
     }
+
+    airportGraph_.setIndegree();
 
     dataFlights.close();
 

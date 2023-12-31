@@ -390,3 +390,40 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
 vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTrip() {
     return script_.airportGraph_.maximumStops();
 }
+
+vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTripDiameter() {
+    script_.airportGraph_.resetIndegree();
+    vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> res;
+
+    queue<pair<Vertex<Airport> *, int>> q;
+    int maxDistance = 0;
+    int curr = 0;
+    Vertex<Airport>* lastV = nullptr;
+
+    for(auto v : script_.airportGraph_.getVertexSet()) {
+        curr = airportsDistanceDFSVisit(script_.airportGraph_, v, lastV);
+        if( curr > maxDistance) {
+            maxDistance = curr;
+            res.clear();
+            res.push_back(make_pair(make_pair(v,lastV),curr));
+        }
+        else if (curr == maxDistance) {
+            res.push_back(make_pair(make_pair(v,lastV),curr));
+        }
+    }
+
+}
+
+int AirportManager::airportsDistanceDFSVisit(const Graph<Airport> &g, Vertex<Airport> *v1, Vertex<Airport>*& v2) {
+    v1->setVisited(true);
+    int count = 1;
+    for (auto& edge : v1->getAdj()) {
+        auto dest = edge.getDest();
+        v2 = dest;
+        if(!dest->isVisited()) {
+            count += airportsDistanceDFSVisit(g,dest, dest);
+        }
+    }
+    return count;
+
+}

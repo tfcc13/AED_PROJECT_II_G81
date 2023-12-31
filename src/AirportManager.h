@@ -78,10 +78,10 @@ public:
     vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
     int getNumberOfFlightsInAirline(const string& airline) const;
-    vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
-
-
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
+    vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
+    vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();
+    int airportsDistanceDFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

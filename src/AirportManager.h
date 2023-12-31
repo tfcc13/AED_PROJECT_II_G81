@@ -61,7 +61,7 @@ public:
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;
-    void PrintAirlinesNames(const string& airport_name) const;
+    void printAirlinesNames(const string& airport_name) const;
     int getDestinationAirportsNumber(const string& airport_name);
     void getDestinationAirportsNames(const string& airport_name) const;
     void getAirportsFlightsData(const string& airport_name) const;

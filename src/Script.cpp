@@ -14,13 +14,6 @@ void Script::loadDataset(const string &airports, const string &airlines, const s
     loadAirlines(airlines);
     loadFlights(flights);
 
-    auto it = all_airports_.find("ATL");
-    auto teste = it->second;
-
-    auto it_2 = airportGraph_.findVertex(Airport("ATL"));
-    int teste_2 = int(it->second->getIndegree()) + int(it->second->getAdj().size());
-
-
 }
 
 void Script::loadAirports(const string &airports) {

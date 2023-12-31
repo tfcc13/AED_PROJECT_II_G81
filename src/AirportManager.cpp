@@ -13,9 +13,11 @@ int AirportManager::getAirportFlightsNumber(const string &airport_name) {
 }
 
 int AirportManager::getAirportAirlinesNumber(const string &airport_name) {
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
+    auto airport = script_.all_airports_.find(airport_name);
 
-    if(airportVert == NULL) return -1;
+    if(airport == nullptr){
+        return -1;
+    }
 
     set<string> airlinesSet = getAirlinesSet(airport_name);
 
@@ -25,17 +27,20 @@ int AirportManager::getAirportAirlinesNumber(const string &airport_name) {
 set<string> AirportManager::getCitiesSet(const string &airport_name) const {
     set<string> cities;
 
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
-    if(airportVert == NULL) return cities;
+    auto airport = script_.all_airports_.find(airport_name);
 
-    for (const auto& airlines : airportVert->getAdj()) {
+    if(airport == nullptr){
+        return cities;
+    }
+
+    for (const auto& airlines : airport->second->getAdj()) {
         auto airportDest = airlines.getDest();
         cities.insert(airportDest->getInfo().getAirportCity());
     }
 
     return cities;
 }
-// OK
+
 set<string> AirportManager::getAirlinesSet(const string &airport_name) const {
     set<string> airlinesSet;
 
@@ -59,8 +64,11 @@ set<string> AirportManager::getAirlinesSet(const string &airport_name) const {
 }
 
 int AirportManager::getDestinationCitiesNumber(const string& airport_name) {
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
-    if(airportVert == NULL) return -1;
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
+        return -1;
+    }
 
     set<string> cities;
 
@@ -70,11 +78,14 @@ int AirportManager::getDestinationCitiesNumber(const string& airport_name) {
 }
 
 const string &AirportManager::getAirportName(const string &airport_name) const {
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
     string notFound = "Not found";
-    if(airportVert == NULL) return notFound;
+    auto airport = script_.all_airports_.find(airport_name);
 
-    return airportVert->getInfo().getAirportName();
+    if(airport == nullptr){
+        return notFound;
+    }
+
+    return airport->second->getInfo().getAirportName();
 }
 
 void AirportManager::getDestinationCitiesNames(const string &airport_name) const {
@@ -89,12 +100,14 @@ void AirportManager::getDestinationCitiesNames(const string &airport_name) const
 
 }
 
-void AirportManager::PrintAirlinesNames(const string &airport_name) const {
+void AirportManager::printAirlinesNames(const string &airport_name) const {
+
+    auto airlines = getAirlinesSet(airport_name);
 
     cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "Callsign" << "|" << setw(15) << "Country" << "|" << setw(5) << "Number of flights" << endl;
 
-    for(const auto& airline : script_.all_airlines_){
-        airline.second.PrintAirlineInfo();
+    for(const auto& airline : airlines){
+        script_.all_airlines_.find(airline)->second.PrintAirlineInfo();
     }
 
 }
@@ -102,13 +115,14 @@ void AirportManager::PrintAirlinesNames(const string &airport_name) const {
 set<Airport> AirportManager::getAirportsSet(const string &airport_name) const {
     set<Airport> airportsSet;
 
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
-    if(airportVert == NULL) return airportsSet;
+    auto airport = script_.all_airports_.find(airport_name);
 
-    for (const auto& edge : airportVert->getAdj()) {
-        auto dest = edge.getDest();
-        Airport airport = dest->getInfo();
-        airportsSet.insert(airport);
+    if(airport == nullptr){
+        return airportsSet;
+    }
+
+    for (const auto& edge : airport->second->getAdj()) {
+        airportsSet.insert(edge.getDest()->getInfo());
     }
 
     return airportsSet;
@@ -116,8 +130,11 @@ set<Airport> AirportManager::getAirportsSet(const string &airport_name) const {
 }
 
 int AirportManager::getDestinationAirportsNumber(const string &airport_name) {
-    auto airportVert = script_.all_airports_[airport_name];
-    if(airportVert == NULL) return -1;
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
+        return -1;
+    }
 
     auto airportSet = getAirportsSet(airport_name);
 
@@ -138,15 +155,16 @@ void AirportManager::getDestinationAirportsNames(const string &airport_name) con
 }
 
 void AirportManager::getAirportsFlightsData(const string &airport_name) const {
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport_name));
-    if(airportVert == NULL) {
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
         cout << "That airport doesn't exist in Airtuga database" << endl;
         cout << endl;
         return;
     }
 
     cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
-    for (const auto& edge : airportVert->getAdj()) {
+    for (const auto& edge : airport->second->getAdj()) {
         auto destAirport = edge.getDest();
         auto airline  = edge.getAirline();
         string airportCode = destAirport->getInfo().getAirportCode();
@@ -160,23 +178,29 @@ void AirportManager::getAirportsFlightsData(const string &airport_name) const {
 
 }
 
-int AirportManager::getDestinationCountriesNumber(const string &airport) const {
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport));
-    if(airportVert == NULL) return -1;
+int AirportManager::getDestinationCountriesNumber(const string &airport_name) const {
+    auto airport = script_.all_airports_.find(airport_name);
 
-    auto countries = getDestinationCountriesSet(airport);
+    if(airport == nullptr){
+        return -1;
+    }
+
+    auto countries = getDestinationCountriesSet(airport_name);
 
     return int(countries.size());
 
 }
 
-set<string> AirportManager::getDestinationCountriesSet(const string &airport) const {
+set<string> AirportManager::getDestinationCountriesSet(const string &airport_name) const {
     set<string> countriesSet;
 
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport));
-    if(airportVert == NULL) return countriesSet;
+    auto airport = script_.all_airports_.find(airport_name);
 
-    for(const auto& edge: airportVert->getAdj()) {
+    if(airport == nullptr){
+        return countriesSet;
+    }
+
+    for(const auto& edge: airport->second->getAdj()) {
         auto dest = edge.getDest()->getInfo();
         const string& country = dest.getAirportCountry();
         countriesSet.insert(country);
@@ -186,16 +210,16 @@ set<string> AirportManager::getDestinationCountriesSet(const string &airport) co
 
 }
 
-void AirportManager::getDestinationCountriesNames(const string &airport) const {
+void AirportManager::getDestinationCountriesNames(const string &airport_name) const {
+    auto airport = script_.all_airports_.find(airport_name);
 
-
-    auto airportVert = script_.airportGraph_.findVertex(Airport(airport));
-    if(airportVert == NULL) {
+    if(airport == nullptr){
         cout << "That airport doesn't exist in Airtuga database" << endl;
         cout << endl;
         return;
     }
-    set<string> countriesSet = getDestinationCountriesSet(airport);
+
+    set<string> countriesSet = getDestinationCountriesSet(airport_name);
 
     cout << left << "Country" << endl;
 

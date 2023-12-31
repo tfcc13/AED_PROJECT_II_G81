@@ -15,7 +15,6 @@ using namespace std;
 template <class T> class Edge;
 template <class T> class Graph;
 template <class T> class Vertex;
-
 template <class T>
 class Vertex {
 
@@ -94,14 +93,15 @@ public:
     Vertex<T>* addVertex(const T &in);
     bool removeVertex(const T &in);
     bool addEdge(const T &sourc, const T &dest, double w, const string& airline = "");
+    bool addIncomingEdge(const T &sourc, const T &dest, double w, const string& airline = "");
     bool removeEdge(const T &sourc, const T &dest);
+    bool removeIncomingEdge(const T &sourc, const T &dest);
     vector<Vertex<T> * > getVertexSet() const;
     vector<T> dfs() const;
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
-
     void resetIndegree();
 
     ///Obtains the shortest path possible from an airport to another
@@ -118,13 +118,11 @@ public:
     vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
 };
 
-
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 
 template <class T>
 Edge<T>::Edge(Vertex<T> *d, double w, const string& airline): dest(d), weight(w), airline_(airline) {}
-
 
 template <class T>
 int Graph<T>::getNumVertex() const {
@@ -281,6 +279,16 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w, const string& ai
     return true;
 }
 
+template <class T>
+bool Graph<T>::addIncomingEdge(const T &sourc, const T &dest, double w, const string& airline){
+    auto v1 = findVertex(sourc);
+    auto v2 = findVertex(dest);
+    if (v1 == NULL || v2 == NULL)
+        return false;
+    v2->addIncomingEdge(v1, w, airline);
+    return true;
+}
+
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
@@ -309,6 +317,15 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
     return v1->removeEdgeTo(v2);
 }
 
+template <class T>
+bool Graph<T>::removeIncomingEdge(const T &sourc, const T &dest){
+    auto v1 = findVertex(sourc);
+    auto v2 = findVertex(dest);
+    if (v1 == NULL || v2 == NULL)
+        return false;
+    return v2->removeIncomingEdgeTo(v1);
+}
+
 /*
  * Auxiliary function to remove an outgoing edge (with a given destination (d))
  * from a vertex (this).
@@ -327,7 +344,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 template <class T>
 bool Vertex<T>::removeIncomingEdgeTo(Vertex<T> *s){
     for (auto it = incomingEdges.begin(); it != incomingEdges.end(); it++)
-        if (it->dest  == s) {
+        if (it->dest == s) {
             incomingEdges.erase(it);
             return true;
         }

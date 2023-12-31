@@ -196,12 +196,6 @@ void Script::loadFlights(const string &flights) {
         /// It's created an Flight object with the extracted info
         Flight tempFlight = Flight(source_airport,dest_airport,airline);
 
-        Airport tmpSrcAirport = Airport(source_airport);
-        Airport tmpDestAirport = Airport(dest_airport);
-
-        auto tmpSrcVert = airportGraph_.findVertex(tmpSrcAirport);
-        auto tmpDestVert = airportGraph_.findVertex(tmpDestAirport);
-
         auto srcVert_pair = all_airports_.find(source_airport);
         auto destVert_pair = all_airports_.find(dest_airport);
 
@@ -209,12 +203,8 @@ void Script::loadFlights(const string &flights) {
             auto srcVert = srcVert_pair->second;
             auto destVert = destVert_pair->second;
             srcVert->setIndegree(srcVert->getIndegree() + 1);
-        }
-
-
-        if (tmpSrcVert != nullptr && tmpDestVert != nullptr) {
-            airportGraph_.addEdge(tmpSrcVert->getInfo(), tmpDestVert->getInfo(), 0, airline);
-            tmpDestVert->setIndegree(tmpDestVert->getIndegree() + 1);
+            airportGraph_.addEdge(srcVert->getInfo(), destVert->getInfo(), 0, airline);
+            airportGraph_.addIncomingEdge(srcVert->getInfo(), destVert->getInfo(), 0, airline);
         }
 
         ///The Flight object is inserted in all_flights_ set
@@ -234,59 +224,8 @@ Graph<Airport> Script::getAirportGraph() const {
     return airportGraph_;
 }
 
-set<string> Script::getCitiesInCountryWithAirport(const string& country) const{
-    auto it = cities_per_country_.find(country);
-    if(it != cities_per_country_.end()){
-        return it->second;
-    } else{
-        return {};
-    }
-}
-
-int Script::getAirportsNumber() const {
-    return int(all_airports_.size());
-}
-
-int Script::getAirlinesNumber() const {
-    return int(all_airlines_.size());
-}
-
 const unordered_map<string, Vertex<Airport> *> Script::getAllAirports() const {
     return all_airports_;
 }
 
-/*
-vector<Vertex<Airport>*> Script::getAirportsPerCity(const string& city) const{
-    auto it = airports_per_city_.find(city);
-    if(it != airports_per_city_.end()){
-        return it->second;
-    } else{
-        {};
-    }
-}
-
-vector<Vertex<Airport>*> Script::getAirportsPerCountry(const string& country) const {
-    set<string> cities_set = getCitiesInCountryWithAirport(country);
-
-    vector<Vertex<Airport>*> airports_in_country;
-
-    for (const auto& city : cities_set) {
-        auto it = airports_per_city_.find(city);
-        if (it != airports_per_city_.end()) {
-            airports_in_country.insert(airports_in_country.end(), it->second.begin(), it->second.end());
-        }
-    }
-
-    return airports_in_country;
-}
-
-int Script::getNumberOfFlightsPerAirline(const string& airline) const{
-    auto it = flights_per_airline_.find(airline);
-    if(it != flights_per_airline_.end()){
-        return it->second;
-    } else{
-        return 0;
-    }
-}
-*/
 

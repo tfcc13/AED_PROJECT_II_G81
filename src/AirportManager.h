@@ -72,6 +72,13 @@ public:
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();
     void dfs_art(Graph<Airport> &g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i);
+    int getAirportsNumber() const;
+    int getAirlinesNumber() const;
+    set<string> getCitiesInCountryWithAirport(const string& country) const;
+    vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
+    vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
+    int getNumberOfFlightsInAirline(const string& airline) const;
+
 
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 };

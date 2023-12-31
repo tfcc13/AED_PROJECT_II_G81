@@ -392,7 +392,6 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
 }
 
 vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTripDiameter() {
-    script_.airportGraph_.resetIndegree();
     vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> res;
 
     queue<pair<Vertex<Airport> *, int>> q;
@@ -401,7 +400,7 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
     Vertex<Airport>* lastV = nullptr;
 
     for(auto v : script_.airportGraph_.getVertexSet()) {
-        curr = airportsDistanceDFSVisit(script_.airportGraph_, v, lastV);
+        curr = airportsDistanceBFSVisit(script_.airportGraph_, v, lastV);
         if( curr > maxDistance) {
             maxDistance = curr;
             res.clear();
@@ -411,19 +410,36 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
             res.push_back(make_pair(make_pair(v,lastV),curr));
         }
     }
-
+    return res;
 }
 
-int AirportManager::airportsDistanceDFSVisit(const Graph<Airport> &g, Vertex<Airport> *v1, Vertex<Airport>*& v2) {
-    v1->setVisited(true);
-    int count = 1;
-    for (auto& edge : v1->getAdj()) {
-        auto dest = edge.getDest();
-        v2 = dest;
-        if(!dest->isVisited()) {
-            count += airportsDistanceDFSVisit(g,dest, dest);
-        }
-    }
-    return count;
+int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Airport> *v1, Vertex<Airport>*& v2) {
 
+    queue<pair<Vertex<Airport> *, int>> q;
+
+    g.resetIndegree();
+    int dist;
+    q.push({v1,0});
+
+    v1->setVisited(true);
+
+    while(!q.empty()) {
+        auto currPair = q.front();
+        q.pop();
+
+        auto currVert = currPair.first;
+        dist = currPair.second;
+
+        for(auto& edge : currVert->getAdj()) {
+            auto dest = edge.getDest();
+            if(!dest->isVisited()) {
+                v2 = dest;
+                q.push({dest,dist+1});
+                dest->setVisited(true);
+            }
+        }
+
+    }
+
+    return dist;
 }

@@ -671,7 +671,7 @@ vector<T> Graph<T>::shortestPathWithFilter(Vertex<T>* src, Vertex<T>* trg, const
 
 template<class T>
 vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> Graph<T>::maximumStops() const {
-    Graph<T>::resetIndegree();
+
     vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> res;
 
     int maxStops = 0;
@@ -681,7 +681,8 @@ vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> Graph<T>::maximumStops() const {
     for(auto v: vertexSet) {
         firstVert = v;
         int stops = 0;
-        if(!v->isVisited()) {
+        Graph<T>::resetIndegree();
+        //if(!v->isVisited()) {
             dfsVisitWithStops(v,lastVert,stops);
             if(stops > maxStops) {
                 maxStops = stops;
@@ -690,7 +691,7 @@ vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> Graph<T>::maximumStops() const {
             }
             else if(stops == maxStops) {
                 res.push_back(make_pair(make_pair(firstVert,lastVert),stops));
-            }
+          //  }
         }
     }
 

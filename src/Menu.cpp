@@ -100,10 +100,6 @@ void GeneralInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Airports there are" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Airlines  there are" << endl;
     cout << "(" << ++options << ") >> " << "Check how many Flights there are" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many Flights there are from a given Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many Airlines there are in a given Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many cities you can fly to from a given Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -340,7 +336,7 @@ Menu *AirportInformationMenu::getNextMenu() {
         case 9: {
             cout << "Please write the number of Airports you want to see" << endl;
             cout << endl;
-            int k;
+            int k; //SEGUIR ESTE
             if(!get(k)) {
                 return invalidOption();
             }

@@ -408,3 +408,57 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
 
     return it_airline->second.getAirlineNumberOfFlights();
 }
+
+set<Airport> AirportManager::getReachableAirports(const string &airport_name, int max_stops) {
+    set<Airport> airports_set;
+
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
+        return airports_set;
+    }
+
+    vector<Vertex<Airport>*> airports_ptr_vertices = script_.airportGraph_.reachableAirports(airport->second, max_stops);
+
+    for(auto& v : airports_ptr_vertices){
+        airports_set.insert(v->getInfo());
+    }
+
+    return airports_set;
+}
+
+set<string> AirportManager::getReachableCountries(const string& airport_name, int max_stops){
+    set<string> countries;
+
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
+        return countries;
+    }
+
+    vector<Vertex<Airport>*> airports_ptr_vertices = script_.airportGraph_.reachableAirports(airport->second, max_stops);
+
+    for(auto& v : airports_ptr_vertices){
+        countries.insert(v->getInfo().getAirportCountry());
+    }
+
+    return countries;
+}
+
+set<pair<string, string>> AirportManager::getReachableCities(const string& airport_name, int max_stops){
+    set<pair<string, string>> cities_countries;
+
+    auto airport = script_.all_airports_.find(airport_name);
+
+    if(airport == nullptr){
+        return cities_countries;
+    }
+
+    vector<Vertex<Airport>*> airports_ptr_vertices = script_.airportGraph_.reachableAirports(airport->second, max_stops);
+
+    for(auto& v : airports_ptr_vertices){
+        cities_countries.insert(make_pair(v->getInfo().getAirportCity(), v->getInfo().getAirportCountry()));
+    }
+
+    return cities_countries;
+}

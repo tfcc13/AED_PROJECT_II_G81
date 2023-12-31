@@ -101,6 +101,7 @@ public:
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
+    vector<Vertex<T>*> reachableAirports(Vertex<T>* source, int max_stops) const;
     bool isDAG() const;
     void resetIndegree();
     void setIndegree();
@@ -537,6 +538,49 @@ vector<T> Graph<T>::topsort() const {
     }
 
     return res;
+}
+
+template<class T>
+vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops) const {
+
+    queue<Vertex<T>*> q;
+    vector<Vertex<T>*> reachableAirports_vec;
+
+    int number_of_stops = 0;
+
+    for(auto v : vertexSet){
+        v->visited = false;
+    }
+
+    q.push(source);
+    source->visited = true;
+
+    while(!q.empty() and number_of_stops < max_stops){
+
+        int number_of_airports_per_depth = int(q.size());
+
+        for(int i = 0; i < number_of_airports_per_depth; i++){
+
+            auto v = q.front();
+            q.pop();
+            reachableAirports_vec.push_back(v);
+
+            for (auto & e : v->adj) {
+                auto w = e.dest;
+                if ( ! w->visited ) {
+                    q.push(w);
+                    w->visited = true;
+                }
+            }
+
+        }
+
+        number_of_stops++;
+
+    }
+
+    return reachableAirports_vec;
+
 }
 
 template<class T>

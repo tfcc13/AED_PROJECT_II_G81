@@ -77,12 +77,6 @@ public:
     ///Getter function of airportGraph_
     /// \return airportGraph_;
     Graph<Airport> getAirportGraph() const;
-    set<string> getCitiesInCountryWithAirport(const string& country) const;
-    vector<Vertex<Airport>*> getAirportsPerCity(const string& city) const;
-    vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
-    int getNumberOfFlightsPerAirline(const string& airline) const;
-    int getAirportsNumber() const;
-    int getAirlinesNumber() const;
 
 };
 

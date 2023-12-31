@@ -35,7 +35,7 @@ set<string> AirportManager::getCitiesSet(const string &airport_name) const {
 
     return cities;
 }
-
+// OK
 set<string> AirportManager::getAirlinesSet(const string &airport_name) const {
     set<string> airlinesSet;
 
@@ -46,6 +46,11 @@ set<string> AirportManager::getAirlinesSet(const string &airport_name) const {
     }
 
     for (const auto& edge : airport->second->getAdj()) {
+        auto airline = edge.getAirline();
+        airlinesSet.insert(airline);
+    }
+
+    for(const auto& edge : airport->second->getIncomingEdges()){
         auto airline = edge.getAirline();
         airlinesSet.insert(airline);
     }
@@ -304,3 +309,58 @@ void AirportManager::dfs_art(Graph<Airport>& g, Vertex<Airport> *v, stack<Airpor
 
 }
 
+int AirportManager::getAirportsNumber() const {
+    return int(script_.all_airports_.size());
+}
+
+int AirportManager::getAirlinesNumber() const {
+    return int(script_.all_airlines_.size());
+}
+
+set<string> AirportManager::getCitiesInCountryWithAirport(const string& country) const{
+    auto it = script_.cities_per_country_.find(country);
+    if(it == script_.cities_per_country_.end()){
+        return {};
+    } else{
+        return it->second;
+    }
+}
+
+vector<Vertex<Airport>*> AirportManager::getAirportsPerCityAndCountry(const string& city, const string& country) const {
+    auto it_city = script_.airports_per_city_and_country_.find(city);
+
+    if(it_city == script_.airports_per_city_and_country_.end()) {
+        return {};
+    }
+
+    auto& country_map = it_city->second;
+    auto it_city_s_country = country_map.find(country);
+
+    if(it_city_s_country == country_map.end()) {
+        return {};
+    }
+
+    return it_city_s_country->second;
+}
+
+vector<Vertex<Airport>*> AirportManager::getAirportsPerCountry(const string& country) const {
+    set<string> cities_set = getCitiesInCountryWithAirport(country);
+
+    vector<Vertex<Airport>*> airports_in_country;
+
+    for (const auto& city : cities_set) {
+        auto new_airports = getAirportsPerCityAndCountry(city, country);
+        airports_in_country.insert(airports_in_country.end(), new_airports.begin(), new_airports.end());
+    }
+
+    return airports_in_country;
+}
+
+int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
+    auto it_airline = script_.all_airlines_.find(airline);
+    if(it_airline == script_.all_airlines_.end()){
+        return -1;
+    }
+
+    return it_airline->second.getAirlineNumberOfFlights();
+}

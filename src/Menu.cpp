@@ -10,7 +10,7 @@ void waitEnter() {
 
 string getInput() {
     string input;
-    cout << ">>";
+    cout << ">> ";
     cin >> input;
     cout << endl;
     return input;
@@ -26,7 +26,6 @@ bool strToVar(const std::string &str, T &var){
     return true;
 }
 
-
 template <typename T>
 bool get(T &var){
     std::string str = getInput();
@@ -36,7 +35,6 @@ bool get(T &var){
     return strToVar(str, var);
 }
 
-
 Menu::Menu(Script &script) : script_(script) {}
 
 Menu *Menu::invalidOption() {
@@ -44,7 +42,6 @@ Menu *Menu::invalidOption() {
     waitEnter();
     return this;
 }
-
 
 FirstMenu::FirstMenu(Script &script) : Menu(script) {}
 
@@ -93,7 +90,6 @@ Menu *FirstMenu::getNextMenu() {
     return invalidOption();
 }
 
-
 GeneralInformationMenu::GeneralInformationMenu(Script &script) : Menu(script) {}
 
 void GeneralInformationMenu::show() {
@@ -108,7 +104,6 @@ void GeneralInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many Airports you can fly to from a given Airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
-
 
 }
 
@@ -125,11 +120,11 @@ Menu *GeneralInformationMenu::getNextMenu() {
         case 0:
             return nullptr;
         case 1:
-            cout << "There are " + to_string(script_.getAirportsNumber()) + " Airports available!" << endl;
+            cout << "There are " + to_string(airportManager.getAirportsNumber()) + " Airports available!" << endl;
             cout << endl;
             break;
         case 2:
-            cout << "There are " << script_.getAirlinesNumber() << " Airlines available!" << endl;
+            cout << "There are " << airportManager.getAirlinesNumber() << " Airlines available!" << endl;
             cout << endl;
             break;
         case 3:
@@ -143,7 +138,6 @@ Menu *GeneralInformationMenu::getNextMenu() {
 
     return this;
 }
-
 
 AirportInformationMenu::AirportInformationMenu(Script &script) : Menu(script) {}
 
@@ -160,7 +154,6 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
-
 
 }
 
@@ -345,11 +338,10 @@ Menu *AirportInformationMenu::getNextMenu() {
             break;
         }
 
-
     }
-
 
     waitEnter();
 
     return this;
+
 }

@@ -79,3 +79,30 @@ TEST(test_2, TopKAirports) {
 
 
 }
+
+TEST(test_3, Check_acyclic) {
+
+    cout << endl << "Checking if the airport graph is acyclic" << endl;
+
+    Script new_script = Script("script_test");
+
+    string airportsCSV = "../../dataset/airports.csv";
+
+    string airlinesCSV = "../../dataset/airlines.csv";
+
+    string flightsCSV = "../../dataset/flights.csv";
+
+
+    new_script.loadAirports(airportsCSV);
+
+    new_script.loadAirlines(airlinesCSV);
+
+    new_script.loadFlights(flightsCSV);
+
+    bool checkDAG = new_script.getAirportGraph().isDAG();
+
+    EXPECT_EQ(true, checkDAG);
+
+
+
+}

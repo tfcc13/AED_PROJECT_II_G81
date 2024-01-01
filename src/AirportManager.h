@@ -74,6 +74,8 @@ public:
     int getDestinationCountriesNumber(const string& airport_name, const string& departures_or_arrivals) const;
     set<string>getDestinationCountriesSet(const string& airport_name, const string& departures_or_arrivals) const;
     void getDestinationCountriesNames(const string& airport_name, const string& departures_or_arrivals) const;
+    int getFlightsPerCity(const string& city, const string& country) const;
+    int getFlightsPerAirline(const string& airline) const;
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();

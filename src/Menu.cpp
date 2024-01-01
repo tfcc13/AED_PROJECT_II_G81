@@ -182,7 +182,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many flights/airlines/cities/countries DEPART from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many flights/airlines/cities/countries ARRIVE from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check the total number of flights for a given city, considering both departures and arrivals at every airport in the city" << endl;
-    cout << "(" << ++options << ") >> " << "Check the total number of flights for a given airline, considering both departures and arrivals at every airport in the city" << endl;
+    cout << "(" << ++options << ") >> " << "Check the total number of flights for a given airline" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of reachable cities/countries/airports from a given airport in a maximum number of X stops (lay-overs)" << endl;
     cout << "(" << ++options << ") >> " << "Check the airports with the greatest air traffic capacity" << endl;
     cout << "(" << ++options << ") >> " << "See the airports essential to the network's circulation capability" << endl;
@@ -221,126 +221,38 @@ Menu *AirportInformationMenu::getNextMenu() {
             cout << "Please write the name of the country (only the city name may be ambiguous)" << endl;
             cout << endl;
             string country = getInput();
+            int number_of_flights = airportManager.getFlightsPerCity(city, country);
+            if(number_of_flights == -1){
+                cout << "Name of the city/country not found in Airtuga's database";
+                break;
+            }
+            cout << number_of_flights << " flights are performed in " << city << " city" << endl;
+            cout << endl;
+            break;
         }
 
         case 4: {
+            cout << "Please write the name of the airline" << endl;
+            cout << endl;
+            string airline = getInput();
+            int number_of_flights = airportManager.getFlightsPerAirline(airline);
+            cout << number_of_flights << " flights are performed by " << airline << "airline" << endl;
+            if(number_of_flights == -1){
+                cout << "Name of the airline not found in Airtuga's database";
+                break;
+            }
+            cout << endl;
             break;
         }
 
         case 5: {
-            cout << "Please write the airport code" << endl;
-            cout << endl;
-            input = getInput();
-
-            int airportCount = airportManager.getDestinationAirportsNumber(input);
-
-            if (airportCount == -1) {
-                cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
-                cout << endl;
-            } else {
-
-                string airportName = airportManager.getAirportName(input);
-                cout << "There are " << airportCount  << " destination airports that you can fly to from the " << airportName << " airport" << endl;
-                cout << endl;
-                cout << "Do you wish to know the names of the destination airports ? Press 'y' for yes or 'n' for no" << endl;
-                string ans = getInput();
-                if(ans == "y" || ans == "Y") {
-                    airportManager.getDestinationAirportsNames(input);
-                    cout << endl;
-                }
-                break;
-            }
-            break;
+            return new ReachableFromXStops(script_);
         }
 
         case 6: {
-            cout << "Please write the airport code" << endl;
-            cout << endl;
-            input = getInput();
-            cout << "Please write the maximum number of stops" << endl;
-            int max_stops;
-            if(!get(max_stops)) {
-                return invalidOption();
-            }
-            if(max_stops <= 0){
-                cout << "Invalid maximum number of stops. The number must be greater than 0!";
-                break;
-            } else{
-                set<pair<string, string>> reachable_cities = airportManager.getReachableCities(input, max_stops);
-                cout << "There are " << int(reachable_cities.size()) << " cities reachable from " << input << " airport" << endl;
-                cout << endl;
-                cout << "Do you wish to see the names of reachable cities? Press 'y' for yes or 'n' for no" << endl;
-                string ans = getInput();
-                if(ans == "y" || ans == "Y") {
-                    cout << left << setw(35) << "city" << " | " << "country" << endl << endl;
-                    for(const auto& city_country : reachable_cities){
-                        cout << left << setw(35) << city_country.first << " | " << city_country.second << endl;
-                    }
-                }
-            }
-            break;
-        }
-
-        case 7: {
-            cout << "Please write the airport code" << endl;
-            cout << endl;
-            input = getInput();
-            cout << "Please write the maximum number of stops" << endl;
-            int max_stops;
-            if(!get(max_stops)) {
-                return invalidOption();
-            }
-            if(max_stops <= 0){
-                cout << "Invalid maximum number of stops. The number must be greater than 0!";
-                break;
-            } else{
-                set<string> reachable_countries = airportManager.getReachableCountries(input, max_stops);
-                cout << "There are " << int(reachable_countries.size()) << " countries reachable from " << input << " airport" << endl;
-                cout << endl;
-                cout << "Do you wish to see the names of reachable countries? Press 'y' for yes or 'n' for no" << endl;
-                string ans = getInput();
-                if(ans == "y" || ans == "Y") {
-                    cout << left << setw(35) << "country" << endl << endl;
-                    for(const auto& country : reachable_countries){
-                        cout << left << country << endl;
-                    }
-                }
-            }
-            break;
-        }
-
-        case 8: {
-            cout << "Please write the airport code" << endl;
-            cout << endl;
-            input = getInput();
-            cout << "Please write the maximum number of stops" << endl;
-            int max_stops;
-            if(!get(max_stops)) {
-                return invalidOption();
-            }
-            if(max_stops <= 0){
-                cout << "Invalid maximum number of stops. The number must be greater than 0!";
-                break;
-            } else{
-                set<pair<string, string>> reachable_airports = airportManager.getReachableAirports(input, max_stops);
-                cout << "There are " << int(reachable_airports.size()) << " airports reachable from " << input << " airport" << endl;
-                cout << endl;
-                cout << "Do you wish to see the names of reachable airports? Press 'y' for yes or 'n' for no" << endl;
-                string ans = getInput();
-                if(ans == "y" || ans == "Y") {
-                    cout << left << setw(15) << "airport code" << " | " << "airport name" << endl << endl;
-                    for(const auto& airport : reachable_airports){
-                        cout << left << setw(15) << airport.first << " | " << airport.second << endl;
-                    }
-                }
-            }
-            break;
-        }
-
-        case 9: {
             cout << "Please write the number of airports you want to see" << endl;
             cout << endl;
-            int k; //SEGUIR ESTE
+            int k;
             if(!get(k)) {
                 return invalidOption();
             }
@@ -354,11 +266,11 @@ Menu *AirportInformationMenu::getNextMenu() {
                 cout << left << setw(4) << airport->first.getAirportCode() << "|" << setw(15) << airport->first.getAirportName() << "|" << airport->second << endl;
             }
 
-        cout << endl;
-        break;
+            cout << endl;
+            break;
         }
 
-        case 10: {
+        case 7: {
             set<Airport> essentialAirports = airportManager.airportArticulationPoints();
             cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "city" << "|" << setw(15) << "country" << endl;
 
@@ -372,7 +284,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             break;
         }
 
-        case 11: {
+        case 8: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTrip();
             cout << left << setw(4) << "Source airport Code" << "|" << setw(15) << "Source airport Name" << "|" << setw(4) << "Dest. airport Code" << "|" << setw(15) << "Dest airport Name" << "|" << "Number of Stops" << endl;
 
@@ -386,7 +298,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             break;
         }
 
-        case 12: {
+        case 9: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTripDiameter();
             cout << left << setw(4) << "Source airport Code" << "|" << setw(15) << "Source airport Name" << "|" << setw(4) << "Dest. airport Code" << "|" << setw(15) << "Dest airport Name" << "|" << "Number of Stops" << endl;
 
@@ -399,7 +311,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             cout << endl ;
             break;
         }
-        case 13: {
+        case 10: {
             airportManager.printAllAirports();
             cout << endl;
             break;
@@ -554,8 +466,8 @@ AirportArrivalsMenu::AirportArrivalsMenu(Script &script) : Menu(script){}
 void AirportArrivalsMenu::show(){
     cout << CLEAR;
     int options = 0;
-    cout << "(" << ++options << ") >> " << "Check how many flights ARRIVE from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many airlines ARRIVE from a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many flights ARRIVE from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many cities ARRIVE from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many countries ARRIVE from a given airport" << endl;
     cout << "(0) >> Exit "  << endl;
@@ -563,6 +475,7 @@ void AirportArrivalsMenu::show(){
 }
 
 Menu *AirportArrivalsMenu::getNextMenu(){
+    
     int option;
 
     if(!get(option)) {
@@ -686,9 +599,126 @@ Menu *AirportArrivalsMenu::getNextMenu(){
 
 }
 
+ReachableFromXStops::ReachableFromXStops(Script &script) : Menu(script){}
+
+void ReachableFromXStops::show() {
+    cout << CLEAR;
+    int options = 0;
+    cout << "(" << ++options << ") >> " << "Check the number of reachable cities from a given airport in a maximum number of X stops (lay-overs)" << endl;
+    cout << "(" << ++options << ") >> " << "Check the number of reachable countries from a given airport in a maximum number of X stops (lay-overs)" << endl;
+    cout << "(" << ++options << ") >> " << "Check the number of reachable airports from a given airport in a maximum number of X stops (lay-overs)" << endl;
+    cout << "(0) >> Exit "  << endl;
+    cout << endl;
+}
+
+Menu * ReachableFromXStops::getNextMenu(){
+    int option;
+
+    if(!get(option)) {
+        return invalidOption();
+    }
+
+    AirportManager airportManager(script_);
+    string input;
+
+    switch (option) {
+
+        case 0: {
+            return nullptr;
+        }
+
+        case 1: {
+            cout << "Please write the airport code" << endl;
+            cout << endl;
+            input = getInput();
+            cout << "Please write the maximum number of stops" << endl;
+            int max_stops;
+            if(!get(max_stops)) {
+                return invalidOption();
+            }
+            if(max_stops <= 0){
+                cout << "Invalid maximum number of stops. The number must be greater than 0!";
+                break;
+            } else{
+                set<pair<string, string>> reachable_cities = airportManager.getReachableCities(input, max_stops);
+                cout << "There are " << int(reachable_cities.size()) << " cities reachable from " << input << " airport" << endl;
+                cout << endl;
+                cout << "Do you wish to see the names of reachable cities? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    cout << left << setw(35) << "city" << " | " << "country" << endl << endl;
+                    for(const auto& city_country : reachable_cities){
+                        cout << left << setw(35) << city_country.first << " | " << city_country.second << endl;
+                    }
+                }
+            }
+            break;
+        }
+
+        case 2: {
+            cout << "Please write the airport code" << endl;
+            cout << endl;
+            input = getInput();
+            cout << "Please write the maximum number of stops" << endl;
+            int max_stops;
+            if(!get(max_stops)) {
+                return invalidOption();
+            }
+            if(max_stops <= 0){
+                cout << "Invalid maximum number of stops. The number must be greater than 0!";
+                break;
+            } else{
+                set<string> reachable_countries = airportManager.getReachableCountries(input, max_stops);
+                cout << "There are " << int(reachable_countries.size()) << " countries reachable from " << input << " airport" << endl;
+                cout << endl;
+                cout << "Do you wish to see the names of reachable countries? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    cout << left << setw(35) << "country" << endl << endl;
+                    for(const auto& country : reachable_countries){
+                        cout << left << country << endl;
+                    }
+                }
+            }
+            break;
+        }
+
+        case 3:{
+            cout << "Please write the airport code" << endl;
+            cout << endl;
+            input = getInput();
+            cout << "Please write the maximum number of stops" << endl;
+            int max_stops;
+            if(!get(max_stops)) {
+                return invalidOption();
+            }
+            if(max_stops <= 0){
+                cout << "Invalid maximum number of stops. The number must be greater than 0!";
+                break;
+            } else{
+                set<pair<string, string>> reachable_airports = airportManager.getReachableAirports(input, max_stops);
+                cout << "There are " << int(reachable_airports.size()) << " airports reachable from " << input << " airport" << endl;
+                cout << endl;
+                cout << "Do you wish to see the names of reachable airports? Press 'y' for yes or 'n' for no" << endl;
+                string ans = getInput();
+                if(ans == "y" || ans == "Y") {
+                    cout << left << setw(15) << "airport code" << " | " << "airport name" << endl << endl;
+                    for(const auto& airport : reachable_airports){
+                        cout << left << setw(15) << airport.first << " | " << airport.second << endl;
+                    }
+                }
+            }
+            break;
+        }
+
+    }
+
+    waitEnter();
+    return this;
+
+}
+
 BestFlightMenu::BestFlightMenu(Script &script) : Menu(script) {}
-
-
 
 void BestFlightMenu::show() {
     cout << CLEAR;

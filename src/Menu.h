@@ -65,6 +65,13 @@ public:
     Menu * getNextMenu();
 };
 
+class ReachableFromXStops : public Menu {
+public:
+    ReachableFromXStops(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
 class AirportArrivalsMenu : public Menu {
 public:
     AirportArrivalsMenu(Script &script);

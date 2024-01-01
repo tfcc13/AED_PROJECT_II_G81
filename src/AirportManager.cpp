@@ -263,6 +263,36 @@ void AirportManager::getDestinationCountriesNames(const string &airport_name, co
 
 }
 
+int AirportManager::getFlightsPerCity(const string& city, const string& country) const{
+
+    int counter = 0;
+
+    auto airports = getAirportsPerCityAndCountry(city, country);
+
+    if(airports.empty()){
+        return -1;
+    }
+
+    for(const auto& airport : airports){
+        counter += int(airport->getAdj().size()) + int(airport->getIncomingEdges().size());
+    }
+
+    return counter;
+
+}
+
+int AirportManager::getFlightsPerAirline(const string& airline) const{
+
+    auto it = script_.all_airlines_.find(airline);
+
+    if(it == script_.all_airlines_.end()){
+        return -1;
+    }
+
+    return it->second.getAirlineNumberOfFlights();
+
+}
+
 vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
     vector<pair<Airport,int>> topKAirports;
 

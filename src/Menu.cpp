@@ -386,70 +386,175 @@ Menu *BestFlightMenu::getNextMenu() {
     string input;
 
     switch (option) {
-        case 0:
-            return nullptr;
+        case 0: {return nullptr;}
 
-        case 1:
+        case 1: {
             string depAirportCode, destAirportCode;
             cout << "Enter the Airport codes for departure and destination Airports: " << endl;
             cin >> depAirportCode >> destAirportCode;
-            Vertex<Airport>* depAirport = script_.getAllAirports().find(depAirportCode)->second;
-            Vertex<Airport>* destAirport = script_.getAllAirports().find(destAirportCode)->second;
+
+            // Retrieve the vertices (airports) if they exist, otherwise nullptr
+            Vertex<Airport> *depAirport = nullptr;
+            Vertex<Airport> *destAirport = nullptr;
+
+            auto allAirports = script_.getAllAirports();
+            auto depAirportIter = allAirports.find(depAirportCode);
+            auto destAirportIter = allAirports.find(destAirportCode);
+
+            if (depAirportIter != allAirports.end()) {
+                depAirport = depAirportIter->second;
+            }
+
+            if (destAirportIter != allAirports.end()) {
+                destAirport = destAirportIter->second;
+            }
+
+            // Check for invalid input
+            if (depAirport == nullptr || destAirport == nullptr) {
+                cout << "Invalid airport code(s) entered." << endl;
+            } else {
+                cout << endl;
+                auto path = script_.getAirportGraph().allShortestPaths(depAirport, destAirport);
+                if (path.empty()) {
+                    cout << "There is no possible path." << endl;
+                } else {
+                    int option = 0;
+                    for (auto a: path) {
+                        ++option;
+                        cout << "Option " << option << ":" << endl;
+                        cout << depAirport->getInfo().getAirportCode() << endl;
+                        for (auto b : a) {
+                            cout << "Fly with " << b.getAirline() << " to " << b.getDest()->getInfo().getAirportCode() << endl;
+                        }
+                    }
+                    cout << endl;
+                }
+            }
+        } break;
+
+
+
+        case 2: {
+            string depAirportCode, country, city;
+
+            cout << "Enter the Airport code for departure:" << endl;
+
+            cin >> depAirportCode;
+            cin.ignore(); // Clear the input buffer
+
+            cout << "Enter the destination City: " << endl;
+            getline(cin, city);
+
+            cout << "Enter that city's Country: " << endl;
+            getline(cin, country);
+
+
+            // Retrieve the vertices (airports) if they exist, otherwise nullptr
+            Vertex<Airport> *depAirport = nullptr;
+
+            auto allAirports = script_.getAllAirports();
+            auto depAirportIter = allAirports.find(depAirportCode);
+            auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
+
+            if (depAirportIter != allAirports.end()) {
+                depAirport = depAirportIter->second;
+            }
+
+            vector<vector<Airport>> paths;
+            for (auto airport: destAirports) {
+                paths.push_back(script_.getAirportGraph().shortestPath(depAirport, airport));
+            }
+
+            const std::vector<Airport> *shortest = &paths[0];
+
+            // Iterate through the vectors to find the shortest one
+            for (const auto &path: paths) {
+                if (path.size() < shortest->size()) {
+                    shortest = &path;
+                }
+            }
+
             cout << endl;
-            auto path = script_.getAirportGraph().shortestPath(depAirport, destAirport);
-            if (path.empty()) cout << "There is no possible path.";
-            else {
-                cout << "The best path is:" << endl;
-                for (auto a : path) {
+            if (shortest->empty()) {
+                cout << "There is no possible path." << endl;
+            } else {
+                for (auto a: *shortest) {
                     cout << a.getAirportCode() << endl;
                 }
                 cout << endl;
             }
-            cout << endl;
-            break;
+        } break;
+
+        case 3: {
+            string depAirportCode;
+            double lat, lon;
+
+            cout << "Enter the Airport code for departure and Destination Position (Latitude and Longitude, as double):" << endl;
+
+            cin >> depAirportCode >> lat >> lon;
+
+            Vertex<Airport> *depAirport = nullptr;
+
+            auto allAirports = script_.getAllAirports();
+            auto depAirportIter = allAirports.find(depAirportCode);
+            if (depAirportIter != allAirports.end()) {
+                depAirport = depAirportIter->second;
+            }
+
+
+
+            if (depAirport == nullptr) {
+                cout << "Invalid airport code entered." << endl;
+            } else if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
+                cout << "Invalid coordinate entered." << endl;
+            } else {
+                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat, lon});
+
+                cout << endl;
+                auto path = script_.getAirportGraph().shortestPath(depAirport, destAirport);
+                if (path.empty()) {
+                    cout << "There is no possible path." << endl;
+                } else {
+                    for (auto a: path) {
+                        cout << a.getAirportCode() << endl;
+                    }
+                    cout << endl;
+                }
+            }
+        } break;
 
             /*
-        case 2:
-            // Logic for finding the best flight from Airport to City
-            // Implement the necessary functionality here
-            break;
+            case 4:
+                // Logic for finding the best flight from City to Airport
+                // Implement the necessary functionality here
+                break;
 
-        case 3:
-            // Logic for finding the best flight from Airport to Position
-            // Implement the necessary functionality here
-            break;
+            case 5:
+                // Logic for finding the best flight from City to City
+                // Implement the necessary functionality here
+                break;
 
-        case 4:
-            // Logic for finding the best flight from City to Airport
-            // Implement the necessary functionality here
-            break;
+            case 6:
+                // Logic for finding the best flight from City to Position
+                // Implement the necessary functionality here
+                break;
 
-        case 5:
-            // Logic for finding the best flight from City to City
-            // Implement the necessary functionality here
-            break;
+            case 7:
+                // Logic for finding the best flight from Position to Airport
+                // Implement the necessary functionality here
+                break;
 
-        case 6:
-            // Logic for finding the best flight from City to Position
-            // Implement the necessary functionality here
-            break;
+            case 8:
+                // Logic for finding the best flight from Position to City
+                // Implement the necessary functionality here
+                break;
 
-        case 7:
-            // Logic for finding the best flight from Position to Airport
-            // Implement the necessary functionality here
-            break;
+            case 9:
+                // Logic for finding the best flight from Position to Position
+                // Implement the necessary functionality here
+                break;
 
-        case 8:
-            // Logic for finding the best flight from Position to City
-            // Implement the necessary functionality here
-            break;
-
-        case 9:
-            // Logic for finding the best flight from Position to Position
-            // Implement the necessary functionality here
-            break;
-
-             */
+                 */
     }
 
 

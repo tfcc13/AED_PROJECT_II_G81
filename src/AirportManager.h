@@ -58,13 +58,19 @@ public:
      */
     set<Airport>getAirportsSet(const string& airport_name) const;
 
+    int getAirportsNumber() const;
+    int getAirlinesNumber() const;
+    int getFlightsNumber() const;
+    int getCitiesNumber() const;
+    int getCountriesNumber() const;
+    set<string> getCitiesInCountry(const string& country);
     int getDestinationCitiesNumber(const string& airport_name);
     const string& getAirportName(const string& airport_name) const;
     void getDestinationCitiesNames(const string& airport_name) const;
     void printAirlinesNames(const string& airport_name) const;
     int getDestinationAirportsNumber(const string& airport_name);
     void getDestinationAirportsNames(const string& airport_name) const;
-    void getAirportsFlightsData(const string& airport_name) const;
+    void getAirportsFlightsData(const string& airport_name, const string& departures_or_arrivals) const;
     int getDestinationCountriesNumber(const string& airport_name) const;
     set<string>getDestinationCountriesSet(const string& airport_name) const;
     void getDestinationCountriesNames(const string& airport_name) const;
@@ -72,8 +78,7 @@ public:
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();
     void dfs_art(Graph<Airport> &g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i);
-    int getAirportsNumber() const;
-    int getAirlinesNumber() const;
+
     set<string> getCitiesInCountryWithAirport(const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
@@ -85,6 +90,7 @@ public:
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();
     int airportsDistanceBFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2);
+
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

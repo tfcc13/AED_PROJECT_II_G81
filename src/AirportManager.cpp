@@ -154,7 +154,7 @@ void AirportManager::getDestinationAirportsNames(const string &airport_name) con
 
 }
 
-void AirportManager::getAirportsFlightsData(const string &airport_name) const {
+void AirportManager::getAirportsFlightsData(const string& airport_name, const string& departures_or_arrivals) const {
     auto airport = script_.all_airports_.find(airport_name);
 
     if(airport == nullptr){
@@ -164,7 +164,15 @@ void AirportManager::getAirportsFlightsData(const string &airport_name) const {
     }
 
     cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
-    for (const auto& edge : airport->second->getAdj()) {
+
+    vector<Edge<Airport>> edges;
+    if(departures_or_arrivals == "departures"){
+        edges = airport->second->getAdj();
+    } else {
+        edges = airport->second->getIncomingEdges();
+    }
+
+    for (const auto& edge : edges) {
         auto destAirport = edge.getDest();
         auto airline  = edge.getAirline();
         string airportCode = destAirport->getInfo().getAirportCode();
@@ -361,6 +369,30 @@ int AirportManager::getAirlinesNumber() const {
     return int(script_.all_airlines_.size());
 }
 
+int AirportManager::getFlightsNumber() const{
+    return int(script_.all_flights_.size());
+}
+
+int AirportManager::getCitiesNumber() const{
+    int counter = 0;
+    for(const auto& country_cities : script_.cities_per_country_){
+        counter += int(country_cities.second.size());
+    }
+    return counter;
+}
+
+int AirportManager::getCountriesNumber() const{
+    return int(script_.cities_per_country_.size());
+}
+
+set<string> AirportManager::getCitiesInCountry(const string& country){
+    auto it = script_.cities_per_country_.find(country);
+    if(it == script_.cities_per_country_.end()){
+        return {};
+    }
+    return it->second;
+}
+
 set<string> AirportManager::getCitiesInCountryWithAirport(const string& country) const{
     auto it = script_.cities_per_country_.find(country);
     if(it == script_.cities_per_country_.end()){
@@ -462,6 +494,7 @@ set<pair<string, string>> AirportManager::getReachableCities(const string& airpo
 
     return cities_countries;
 }
+
 vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTrip() {
     return script_.airportGraph_.maximumStops();
 }

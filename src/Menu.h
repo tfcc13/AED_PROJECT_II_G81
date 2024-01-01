@@ -58,4 +58,18 @@ public:
     Menu * getNextMenu();
 };
 
+class AirportDeparturesMenu : public Menu {
+public:
+    AirportDeparturesMenu(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
+class AirportArrivalsMenu : public Menu {
+public:
+    AirportArrivalsMenu(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
 #endif //PROJECT_II_MENU_H

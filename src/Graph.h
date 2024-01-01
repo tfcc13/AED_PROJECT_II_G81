@@ -545,6 +545,23 @@ vector<T> Graph<T>::topsort() const {
     return res;
 }
 
+/**
+ * @brief Find reachable airports from a given source airport within a maximum number of stops
+ *
+ * This function performs a modified Breadth-First Search (BFS) to identify airports that can
+ * be reached from a specified source airport within a specified maximum number of stops (layovers)
+ *
+ * Key Steps:
+ *   1. Initialize a BFS queue and vector of reachable airport vertices pointers to track visited airports. Reset vertices
+ *   2. Enqueue the source airport and mark it as visited
+ *   3. While the queue is not empty and the number of stops is within the limit:
+ *      a. Process the current airport and enqueue its unvisited adjacent airports;
+ *      b. Track the depth (stops) to control the number of stops.
+ *
+ * @param source The source airport vertex
+ * @param max_stops The maximum number of stops allowed
+ * @return vector of reachable airport vertices pointers
+ */
 template<class T>
 vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops) const {
 
@@ -560,7 +577,7 @@ vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops)
     q.push(source);
     source->visited = true;
 
-    while(!q.empty() and number_of_stops < max_stops){
+    while(!q.empty() and number_of_stops <= max_stops){
 
         int number_of_airports_per_depth = int(q.size());
 
@@ -584,6 +601,7 @@ vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops)
 
     }
 
+    reachableAirports_vec.erase(reachableAirports_vec.begin());
     return reachableAirports_vec;
 
 }

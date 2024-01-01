@@ -58,9 +58,9 @@ public:
     Menu * getNextMenu();
 };
 
-class BestFlightMenuWithFilters : public Menu {
+class BestFlightWithFiltersMenu : public Menu {
 public:
-    BestFlightMenuWithFilters(Script &script);
+    BestFlightWithFiltersMenu(Script &script);
     void show() override;
     Menu * getNextMenu();
 };

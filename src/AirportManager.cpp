@@ -392,7 +392,7 @@ void AirportManager::printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airp
         cout << "There is no path that corresponds to your wishes." << endl;
     } else {
         int option = 1;
-        auto it = paths.begin() + 1;
+        auto it = paths.begin();
 
         while (it != paths.end()) {
             cout << "Option " << option << ":" << endl;

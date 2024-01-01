@@ -45,6 +45,6 @@ void Airline::IncreaseTheNumberOfFlights() {
 }
 
 void Airline::PrintAirlineInfo() const {
-    cout << left << setw(4) << airline_code_ << "|" << setw(10) << airline_name_ << "|" << setw(15) << callsign_ << "|" << setw(15) << country_ << setw(5) <<"|" << number_of_flights_ << endl;
+    cout << left << setw(4) << airline_code_ << "|" << setw(41) << airline_name_ << "|" << setw(26) << callsign_ << "|" << setw(37) << country_ << setw(17) << "|" << number_of_flights_ << endl;
 }
 

@@ -28,28 +28,28 @@ public:
      * @param airport_name Given airport code/name
      * @return number of flights of a given Airport
      */
-    int getAirportFlightsNumber(const string& airport_name);
+    int getAirportFlightsNumber(const string& airport_name, const string& departures_or_arrivals);
 
     /**
      *
      * @param airport_name Given airport code/name
      * @return number of airlines in a given Airport
      */
-    int getAirportAirlinesNumber(const string& airport_name);
+    int getAirportAirlinesNumber(const string& airport_name, const string& departures_or_arrivals);
 
     /**
      *
      * @param airport_name Given airport code/name
      * @return set of direct reachable cities from an Airport
      */
-    set<string> getCitiesSet(const string& airport_name) const;
+    set<string> getCitiesSet(const string& airport_name, const string& departures_or_arrivals) const;
 
     /**
      *
      * @param airport_name Given airport code/name
      * @return set of Airlines operating in a given Airport
      */
-    set<string> getAirlinesSet(const string& airport_name) const;
+    set<string> getAirlinesSet(const string& airport_name, const string& departures_or_arrivals) const;
 
     /**
      *
@@ -64,16 +64,16 @@ public:
     int getCitiesNumber() const;
     int getCountriesNumber() const;
     set<string> getCitiesInCountry(const string& country);
-    int getDestinationCitiesNumber(const string& airport_name);
+    int getDestinationCitiesNumber(const string& airport_name, const string& departures_or_arrivals);
     const string& getAirportName(const string& airport_name) const;
-    void getDestinationCitiesNames(const string& airport_name) const;
-    void printAirlinesNames(const string& airport_name) const;
+    void getDestinationCitiesNames(const string& airport_name, const string& departures_or_arrivals) const;
+    void printAirlinesNames(const string& airport_name, const string& departures_or_arrivals) const;
     int getDestinationAirportsNumber(const string& airport_name);
     void getDestinationAirportsNames(const string& airport_name) const;
     void getAirportsFlightsData(const string& airport_name, const string& departures_or_arrivals) const;
-    int getDestinationCountriesNumber(const string& airport_name) const;
-    set<string>getDestinationCountriesSet(const string& airport_name) const;
-    void getDestinationCountriesNames(const string& airport_name) const;
+    int getDestinationCountriesNumber(const string& airport_name, const string& departures_or_arrivals) const;
+    set<string>getDestinationCountriesSet(const string& airport_name, const string& departures_or_arrivals) const;
+    void getDestinationCountriesNames(const string& airport_name, const string& departures_or_arrivals) const;
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();

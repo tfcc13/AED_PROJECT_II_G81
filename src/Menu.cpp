@@ -63,9 +63,9 @@ void FirstMenu::show() {
     cout << "MENU: \n\n";
 
     cout << "(" << ++options << ") >> " << "Go to General Information Menu" << endl;
-    cout << "(" << ++options << ") >> " << "Go to Airport Information Menu" << endl;
-    cout << "(" << ++options << ") >> " << "Go to Best Flight Option Menu" << endl;
-    cout << "(" << ++options << ") >> " << "Go to Best Flight Option with Filters Menu" << endl;
+    cout << "(" << ++options << ") >> " << "Go to airport Information Menu" << endl;
+    cout << "(" << ++options << ") >> " << "Go to Best flight Option Menu" << endl;
+    cout << "(" << ++options << ") >> " << "Go to Best flight Option with Filters Menu" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 
@@ -183,12 +183,12 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many flights/airlines/cities/countries ARRIVE from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of flights per city" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of flights per airline" << endl;
-    cout << "(" << ++options << ") >> " << "Check the number of reachable cities/countries/airports from a given Airport in a maximum number of X stops (lay-overs)" << endl;
-    cout << "(" << ++options << ") >> " << "Check the Airports with the greatest air traffic capacity" << endl;
-    cout << "(" << ++options << ") >> " << "See the Airports essential to the network's circulation capability" << endl;
+    cout << "(" << ++options << ") >> " << "Check the number of reachable cities/countries/airports from a given airport in a maximum number of X stops (lay-overs)" << endl;
+    cout << "(" << ++options << ") >> " << "Check the airports with the greatest air traffic capacity" << endl;
+    cout << "(" << ++options << ") >> " << "See the airports essential to the network's circulation capability" << endl;
     cout << "(" << ++options << ") >> " << "See the maximum trip, or trips, available in this airport network" << endl;
     cout << "(" << ++options << ") >> " << "See the maximum trip, or trips, diameter in this airport network" << endl;
-    cout << "(" << ++options << ") >> " << "See all Airports" << endl;
+    cout << "(" << ++options << ") >> " << "See all airports" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 }
@@ -228,21 +228,21 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 1: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int flightsCount = airportManager.getAirportFlightsNumber(input);
+                    int flightsCount = airportManager.getAirportFlightsNumber(input, "departures");
 
                     if (flightsCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                         break;
                     } else {
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << flightsCount << " Flights available from " << airportName << " Airport" << endl;
+                        cout << "There are " << flightsCount << " flights departing from " << airportName << " airport" << endl;
                         cout << endl;
-                        cout << "Do you wish to see the Flights data? Press 'y' for yes or 'n' for no" << endl;
+                        cout << "Do you wish to see the flights data? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
                             airportManager.getAirportsFlightsData(input, "departures");
@@ -252,24 +252,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 2: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int airlinesCount = airportManager.getAirportAirlinesNumber(input);
+                    int airlinesCount = airportManager.getAirportAirlinesNumber(input, "departures");
 
                     if (airlinesCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
 
                     } else {
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << airlinesCount << " airlines flying from " << airportName << " Airport" << endl;
+                        cout << "There are " << airlinesCount << " airlines departing from " << airportName << " airport" << endl;
                         cout << endl;
-                        cout << "Do you wish to know the names of the cities ? Press 'y' for yes or 'n' for no" << endl;
+                        cout << "Do you wish to know the names of the cities? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.printAirlinesNames(input);
+                            airportManager.printAirlinesNames(input, "departures");
                         }
                         break;
                     }
@@ -278,24 +278,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 3: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int citiesCount = airportManager.getDestinationCitiesNumber(input);
+                    int citiesCount = airportManager.getDestinationCitiesNumber(input, "departures");
 
                     if (citiesCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                     } else {
 
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << citiesCount  << " cities that you can fly to from the " << airportName << " Airport" << endl;
+                        cout << "There are " << citiesCount  << " cities that you can fly to from the " << airportName << " airport" << endl;
                         cout << endl;
                         cout << "Do you wish to know the names of the cities ? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.getDestinationCitiesNames(input);
+                            airportManager.getDestinationCitiesNames(input, "departures");
                         }
                         break;
                     }
@@ -303,24 +303,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 4: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int countriesCount = airportManager.getDestinationCountriesNumber(input);
+                    int countriesCount = airportManager.getDestinationCountriesNumber(input, "departures");
 
                     if (countriesCount== -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                     } else {
 
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << countriesCount << " destination countries that you can fly to from the " << airportName << " Airport" << endl;
+                        cout << "There are " << countriesCount << " destination countries that you can fly to from the " << airportName << " airport" << endl;
                         cout << endl;
                         cout << "Do you wish to know the names of the destination countries ? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.getDestinationCountriesNames(input);
+                            airportManager.getDestinationCountriesNames(input, "departures");
                             cout << "Be aware that there may be domestic flights." << endl;
                             cout << "The source country can be also a destination country." << endl;
                         }
@@ -354,21 +354,21 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 1: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int flightsCount = airportManager.getAirportFlightsNumber(input);
+                    int flightsCount = airportManager.getAirportFlightsNumber(input, "arrivals");
 
                     if (flightsCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                         break;
                     } else {
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << flightsCount << " Flights available from " << airportName << " Airport" << endl;
+                        cout << "There are " << flightsCount << " flights arriving at " << airportName << " airport" << endl;
                         cout << endl;
-                        cout << "Do you wish to see the Flights data? Press 'y' for yes or 'n' for no" << endl;
+                        cout << "Do you wish to see the flights data? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
                             airportManager.getAirportsFlightsData(input, "arrivals");
@@ -378,24 +378,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 2: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int airlinesCount = airportManager.getAirportAirlinesNumber(input);
+                    int airlinesCount = airportManager.getAirportAirlinesNumber(input, "arrivals");
 
                     if (airlinesCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
 
                     } else {
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << airlinesCount << " airlines flying from " << airportName << " Airport" << endl;
+                        cout << "There are " << airlinesCount << " airlines arriving at " << airportName << " airport" << endl;
                         cout << endl;
-                        cout << "Do you wish to know the names of the cities ? Press 'y' for yes or 'n' for no" << endl;
+                        cout << "Do you wish to know the names of the cities? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.printAirlinesNames(input);
+                            airportManager.printAirlinesNames(input, "arrivals");
                         }
                         break;
                     }
@@ -404,24 +404,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 3: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int citiesCount = airportManager.getDestinationCitiesNumber(input);
+                    int citiesCount = airportManager.getDestinationCitiesNumber(input, "arrivals");
 
                     if (citiesCount == -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                     } else {
 
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << citiesCount  << " cities that you can fly to from the " << airportName << " Airport" << endl;
+                        cout << "There are " << citiesCount  << " cities that fly to the " << airportName << " airport" << endl;
                         cout << endl;
                         cout << "Do you wish to know the names of the cities ? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.getDestinationCitiesNames(input);
+                            airportManager.getDestinationCitiesNames(input, "arrivals");
                         }
                         break;
                     }
@@ -429,24 +429,24 @@ Menu *AirportInformationMenu::getNextMenu() {
                 }
 
                 case 4: {
-                    cout << "Please write the Airport code" << endl;
+                    cout << "Please write the airport code" << endl;
                     cout << endl;
                     input = getInput();
 
-                    int countriesCount = airportManager.getDestinationCountriesNumber(input);
+                    int countriesCount = airportManager.getDestinationCountriesNumber(input, "arrivals");
 
                     if (countriesCount== -1) {
-                        cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                        cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                         cout << endl;
                     } else {
 
                         string airportName = airportManager.getAirportName(input);
-                        cout << "There are " << countriesCount << " destination countries that you can fly to from the " << airportName << " Airport" << endl;
+                        cout << "There are " << countriesCount << " countries that fly to the " << airportName << " airport" << endl;
                         cout << endl;
                         cout << "Do you wish to know the names of the destination countries ? Press 'y' for yes or 'n' for no" << endl;
                         string ans = getInput();
                         if(ans == "y" || ans == "Y") {
-                            airportManager.getDestinationCountriesNames(input);
+                            airportManager.getDestinationCountriesNames(input, "arrivals");
                             cout << "Be aware that there may be domestic flights." << endl;
                             cout << "The source country can be also a destination country." << endl;
                         }
@@ -467,21 +467,21 @@ Menu *AirportInformationMenu::getNextMenu() {
         }
 
         case 5: {
-            cout << "Please write the Airport code" << endl;
+            cout << "Please write the airport code" << endl;
             cout << endl;
             input = getInput();
 
             int airportCount = airportManager.getDestinationAirportsNumber(input);
 
             if (airportCount == -1) {
-                cout << "That Airport doesn't exist in Airtuga database, try another one please" << endl;
+                cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
             } else {
 
                 string airportName = airportManager.getAirportName(input);
-                cout << "There are " << airportCount  << " destination Airports that you can fly to from the " << airportName << " Airport" << endl;
+                cout << "There are " << airportCount  << " destination airports that you can fly to from the " << airportName << " airport" << endl;
                 cout << endl;
-                cout << "Do you wish to know the names of the destination Airports ? Press 'y' for yes or 'n' for no" << endl;
+                cout << "Do you wish to know the names of the destination airports ? Press 'y' for yes or 'n' for no" << endl;
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
                     airportManager.getDestinationAirportsNames(input);
@@ -493,7 +493,7 @@ Menu *AirportInformationMenu::getNextMenu() {
         }
 
         case 6: {
-            cout << "Please write the Airport code" << endl;
+            cout << "Please write the airport code" << endl;
             cout << endl;
             input = getInput();
             cout << "Please write the maximum number of stops" << endl;
@@ -506,12 +506,12 @@ Menu *AirportInformationMenu::getNextMenu() {
                 break;
             } else{
                 set<pair<string, string>> reachable_cities = airportManager.getReachableCities(input, max_stops);
-                cout << "There are " << int(reachable_cities.size()) << " Cities reachable from " << input << " Airport" << endl;
+                cout << "There are " << int(reachable_cities.size()) << " cities reachable from " << input << " airport" << endl;
                 cout << endl;
-                cout << "Do you wish to see the names of reachable Cities? Press 'y' for yes or 'n' for no" << endl;
+                cout << "Do you wish to see the names of reachable cities? Press 'y' for yes or 'n' for no" << endl;
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
-                    cout << left << setw(35) << "City" << " | " << "Country" << endl << endl;
+                    cout << left << setw(35) << "city" << " | " << "country" << endl << endl;
                     for(const auto& city_country : reachable_cities){
                         cout << left << setw(35) << city_country.first << " | " << city_country.second << endl;
                     }
@@ -521,7 +521,7 @@ Menu *AirportInformationMenu::getNextMenu() {
         }
 
         case 7: {
-            cout << "Please write the Airport code" << endl;
+            cout << "Please write the airport code" << endl;
             cout << endl;
             input = getInput();
             cout << "Please write the maximum number of stops" << endl;
@@ -534,12 +534,12 @@ Menu *AirportInformationMenu::getNextMenu() {
                 break;
             } else{
                 set<string> reachable_countries = airportManager.getReachableCountries(input, max_stops);
-                cout << "There are " << int(reachable_countries.size()) << " Countries reachable from " << input << " Airport" << endl;
+                cout << "There are " << int(reachable_countries.size()) << " countries reachable from " << input << " airport" << endl;
                 cout << endl;
-                cout << "Do you wish to see the names of reachable Countries? Press 'y' for yes or 'n' for no" << endl;
+                cout << "Do you wish to see the names of reachable countries? Press 'y' for yes or 'n' for no" << endl;
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
-                    cout << left << setw(35) << "Country" << endl << endl;
+                    cout << left << setw(35) << "country" << endl << endl;
                     for(const auto& country : reachable_countries){
                         cout << left << country << endl;
                     }
@@ -549,7 +549,7 @@ Menu *AirportInformationMenu::getNextMenu() {
         }
 
         case 8: {
-            cout << "Please write the Airport code" << endl;
+            cout << "Please write the airport code" << endl;
             cout << endl;
             input = getInput();
             cout << "Please write the maximum number of stops" << endl;
@@ -562,12 +562,12 @@ Menu *AirportInformationMenu::getNextMenu() {
                 break;
             } else{
                 set<pair<string, string>> reachable_airports = airportManager.getReachableAirports(input, max_stops);
-                cout << "There are " << int(reachable_airports.size()) << " Airports reachable from " << input << " Airport" << endl;
+                cout << "There are " << int(reachable_airports.size()) << " airports reachable from " << input << " airport" << endl;
                 cout << endl;
-                cout << "Do you wish to see the names of reachable Airports? Press 'y' for yes or 'n' for no" << endl;
+                cout << "Do you wish to see the names of reachable airports? Press 'y' for yes or 'n' for no" << endl;
                 string ans = getInput();
                 if(ans == "y" || ans == "Y") {
-                    cout << left << setw(15) << "Airport code" << " | " << "Airport name" << endl << endl;
+                    cout << left << setw(15) << "airport code" << " | " << "airport name" << endl << endl;
                     for(const auto& airport : reachable_airports){
                         cout << left << setw(15) << airport.first << " | " << airport.second << endl;
                     }
@@ -577,7 +577,7 @@ Menu *AirportInformationMenu::getNextMenu() {
         }
 
         case 9: {
-            cout << "Please write the number of Airports you want to see" << endl;
+            cout << "Please write the number of airports you want to see" << endl;
             cout << endl;
             int k; //SEGUIR ESTE
             if(!get(k)) {
@@ -586,7 +586,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
             vector<pair<Airport, int>> topKAirports = airportManager.getTopKAiportTrafficCap(k);
 
-            cout << left << setw(4) << "Code" << "|" << setw(15) << "Name" << "|" << "Flights" << endl;
+            cout << left << setw(4) << "Code" << "|" << setw(15) << "Name" << "|" << "flights" << endl;
 
             for (auto airport = topKAirports.begin(); airport != topKAirports.end(); airport++) {
 
@@ -599,7 +599,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
         case 10: {
             set<Airport> essentialAirports = airportManager.airportArticulationPoints();
-            cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << endl;
+            cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "city" << "|" << setw(15) << "country" << endl;
 
             for(const auto& airport: essentialAirports) {
                 cout << left << setw(4) << airport.getAirportCode() << "|" << setw(10) << airport.getAirportName() << "|" << setw(15) << airport.getAirportCity() << "|" << setw(15) << airport.getAirportCountry() << endl;
@@ -613,7 +613,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
         case 11: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTrip();
-            cout << left << setw(4) << "Source Airport Code" << "|" << setw(15) << "Source Airport Name" << "|" << setw(4) << "Dest. Airport Code" << "|" << setw(15) << "Dest Airport Name" << "|" << "Number of Stops" << endl;
+            cout << left << setw(4) << "Source airport Code" << "|" << setw(15) << "Source airport Name" << "|" << setw(4) << "Dest. airport Code" << "|" << setw(15) << "Dest airport Name" << "|" << "Number of Stops" << endl;
 
             for(const auto& p: maxTripVector) {
                 cout << left << setw(4) << p.first.first->getInfo().getAirportCode() << "|" << setw(15) << p.first.first->getInfo().getAirportName() << "|" << setw(4) << p.first.second->getInfo().getAirportCode() << "|" << setw(15) << p.first.second->getInfo().getAirportName() << "|" << p.second<< endl;
@@ -627,7 +627,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
         case 12: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTripDiameter();
-            cout << left << setw(4) << "Source Airport Code" << "|" << setw(15) << "Source Airport Name" << "|" << setw(4) << "Dest. Airport Code" << "|" << setw(15) << "Dest Airport Name" << "|" << "Number of Stops" << endl;
+            cout << left << setw(4) << "Source airport Code" << "|" << setw(15) << "Source airport Name" << "|" << setw(4) << "Dest. airport Code" << "|" << setw(15) << "Dest airport Name" << "|" << "Number of Stops" << endl;
 
             for(const auto& p: maxTripVector) {
                 cout << left << setw(4) << p.first.first->getInfo().getAirportCode() << "|" << setw(15) << p.first.first->getInfo().getAirportName() << "|" << setw(4) << p.first.second->getInfo().getAirportCode() << "|" << setw(15) << p.first.second->getInfo().getAirportName() << "|" << p.second<< endl;
@@ -665,14 +665,14 @@ BestFlightMenu::BestFlightMenu(Script &script) : Menu(script) {}
 void BestFlightMenu::show() {
     cout << CLEAR;
     int options = 0;
-    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to City" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from Airport to Position" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from City to Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from City to City" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from City to Position" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from Position to Airport" << endl;
-    cout << "(" << ++options << ") >> " << "Find the best flight from Position to City" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from airport to airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from airport to city" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from airport to Position" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from city to airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from city to city" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from city to Position" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Position to airport" << endl;
+    cout << "(" << ++options << ") >> " << "Find the best flight from Position to city" << endl;
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to Position" << endl;
     cout << "(0) >> Exit " << endl;
     cout << endl;
@@ -694,7 +694,7 @@ Menu *BestFlightMenu::getNextMenu() {
 
         case 1:
             string depAirportCode, destAirportCode;
-            cout << "Enter the Airport codes for departure and destination Airports: " << endl;
+            cout << "Enter the airport codes for departure and destination airports: " << endl;
             cin >> depAirportCode >> destAirportCode;
             Vertex<Airport>* depAirport = script_.getAllAirports().find(depAirportCode)->second;
             Vertex<Airport>* destAirport = script_.getAllAirports().find(destAirportCode)->second;
@@ -713,37 +713,37 @@ Menu *BestFlightMenu::getNextMenu() {
 
             /*
         case 2:
-            // Logic for finding the best flight from Airport to City
+            // Logic for finding the best flight from airport to city
             // Implement the necessary functionality here
             break;
 
         case 3:
-            // Logic for finding the best flight from Airport to Position
+            // Logic for finding the best flight from airport to Position
             // Implement the necessary functionality here
             break;
 
         case 4:
-            // Logic for finding the best flight from City to Airport
+            // Logic for finding the best flight from city to airport
             // Implement the necessary functionality here
             break;
 
         case 5:
-            // Logic for finding the best flight from City to City
+            // Logic for finding the best flight from city to city
             // Implement the necessary functionality here
             break;
 
         case 6:
-            // Logic for finding the best flight from City to Position
+            // Logic for finding the best flight from city to Position
             // Implement the necessary functionality here
             break;
 
         case 7:
-            // Logic for finding the best flight from Position to Airport
+            // Logic for finding the best flight from Position to airport
             // Implement the necessary functionality here
             break;
 
         case 8:
-            // Logic for finding the best flight from Position to City
+            // Logic for finding the best flight from Position to city
             // Implement the necessary functionality here
             break;
 

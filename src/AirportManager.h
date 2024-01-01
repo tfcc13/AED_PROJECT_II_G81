@@ -20,57 +20,97 @@ private:
     Script& script_;
 
 public:
-    /**
-     *Class constructor
-     * @param script Reference to the used script
-     */
+
+    /// Class constructor
+    /// \param script Reference to the used script
     AirportManager(Script &script);
 
-    /**
-     *
-     * @param airport_name Given airport code/name
-     * @return number of flights of a given Airport
-     */
+    /// Finds the number of outgoing and incoming flights
+    ///**Time Complexity:** O(1)
+    /// @param airport_name Given airport code/name
+    /// \return number of flights of a given Airport
     int getAirportFlightsNumber(const string& airport_name);
 
-    /**
-     *
-     * @param airport_name Given airport code/name
-     * @return number of airlines in a given Airport
-     */
+    /// Finds the number of Airlines Operating in a given Airport
+    ///**Time Complexity:** O(1)
+    /// \param airport_name Given airport code/name
+    /// \return number of airlines in a given Airport
     int getAirportAirlinesNumber(const string& airport_name);
 
-    /**
-     *
-     * @param airport_name Given airport code/name
-     * @return set of direct reachable cities from an Airport
-     */
+    /// Makes a set of destination cities available from an Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    ///\return set of direct reachable cities from an Airport
     set<string> getCitiesSet(const string& airport_name) const;
 
-    /**
-     *
-     * @param airport_name Given airport code/name
-     * @return set of Airlines operating in a given Airport
-     */
+    /// Makes a set of Airlines Operating in a given Airport
+    ///**Time Complexity:** O(|E|+|E|)
+    /// \param airport_name Given airport code/name
+    ///\return set of Airlines operating in a given Airport
     set<string> getAirlinesSet(const string& airport_name) const;
 
-    /**
-     *
-     * @param airport_name Given airport code/name
-     * @return  set of direct reachable Airports from a given Airport
-     */
+    /// Makes a set of destination Airports
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    /// \return  set of direct reachable Airports from a given Airport
     set<Airport>getAirportsSet(const string& airport_name) const;
 
+    /// Finds the number of destination cities available in a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    /// \return  number of destination cities
     int getDestinationCitiesNumber(const string& airport_name);
+
+    /// Searches for an Airport name
+    ///**Time Complexity:** O(1)
+    /// \param airport_name Given airport code/name
+    /// \return  the name of the Airport
     const string& getAirportName(const string& airport_name) const;
+
+    /// Prints destination cities available from an Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
     void getDestinationCitiesNames(const string& airport_name) const;
+
+    /// Prints the Airlines Operating in a given Airport
+    ///**Time Complexity:** O(|E|+|E|)
+    /// \param airport_name Given airport code/name
     void printAirlinesNames(const string& airport_name) const;
+
+    /// Finds the number of destination Airports from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    /// \return number of reachable Airports from a given Airport
     int getDestinationAirportsNumber(const string& airport_name);
+
+    /// Prints the destination Airports from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
     void getDestinationAirportsNames(const string& airport_name) const;
+
+    /// Prints the flights data available from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
     void getAirportsFlightsData(const string& airport_name) const;
+
+    /// Finds the number of destination countries  from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    /// \return the number of direct reachable countries from a given Airport
     int getDestinationCountriesNumber(const string& airport_name) const;
+
+    /// Finds the destination countries  from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
+    /// \return set of direct reachable countries from a given Airport
     set<string>getDestinationCountriesSet(const string& airport_name) const;
+
+    /// Prints the destination countries  from a given Airport
+    ///**Time Complexity:** O(|E|)
+    /// \param airport_name Given airport code/name
     void getDestinationCountriesNames(const string& airport_name) const;
+
+
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
     void printAllAirports() const;
     set<Airport> airportArticulationPoints();

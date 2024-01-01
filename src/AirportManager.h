@@ -110,13 +110,37 @@ public:
     /// \param airport_name Given airport code/name
     void getDestinationCountriesNames(const string& airport_name) const;
 
-
+    /// Finds the Airports with the greatest air traffic capacity
+    ///**Time Complexity:** O(|V|)
+    /// \param k  number of Airports  to list
+    /// \return vector of pairs of Airports and the number of their flights
     vector<pair<Airport,int>> getTopKAiportTrafficCap(int k) const ;
+
+    /// Prints all airports
+    ///**Time Complexity:** O(|V|)
     void printAllAirports() const;
+
+    /// Finds the Airports important to the network capability
+    ///**Time Complexity:** O(|V|+|E|)
+    /// \return set of Airports that are important to the network capability
     set<Airport> airportArticulationPoints();
+
+    /// Auxiliary function to check if removing an Airport creates an extra component
+    ///**Time Complexity:** O(|V|+|E|)
+    /// \param v current airport doing a DFS
+    /// \param s auxiliary stack to keep track of the vertices in the current component
+    /// \param l set of Airports that are articulation points
+    /// \param i index of the vertex on the search
     void dfs_art(Graph<Airport> &g, Vertex<Airport> *v, stack<Airport> &s, set<Airport> &l, int &i);
+
+    /// Gets the number of existent Airports in the network
+    /// \return number of airports
     int getAirportsNumber() const;
+
+    /// Gets the number of existent Airlines in the network
+    /// \return number of airlines
     int getAirlinesNumber() const;
+
     set<string> getCitiesInCountryWithAirport(const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCityAndCountry(const string& city, const string& country) const;
     vector<Vertex<Airport>*> getAirportsPerCountry(const string& country) const;
@@ -125,8 +149,24 @@ public:
     set<string> getReachableCountries(const string& airport_name, int max_stops);
     set<pair<string, string>> getReachableCities(const string& airport_name, int max_stops);
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
+
+    /// Finds the pair of airports with the most flight stops in a trip
+    ///**Time Complexity:** O(|V|*(|V|+|E|))
+    /// \return a vector with the pairs of airports with most flight stops in a trip
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
+
+    /// Finds the pair of airports with the most distance between them (network diameter)
+    ///**Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
+    /// \return a vector with a pair of a pair of airports with the most distance between them and the distance
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();
+
+    /// Auxiliary function to get the maximum distance between Airports and the pair of their source and destination
+    ///**Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
+    /// \param g network Airport graph
+    /// \param v1 source vertex of the BFS
+    /// \param v2 vertex to keep track of the last visited Airport
+    /// \param res vector with a pair of a pair of airports with the most distance between them and the distance
+    /// \param maxD variable to keep track of the current maximum distance between two vertices
     int airportsDistanceBFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2,   vector<destToSrcStopsPair>& res, int maxD);
 };
 

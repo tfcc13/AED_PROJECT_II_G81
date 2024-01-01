@@ -106,11 +106,6 @@ public:
     bool isDAG() const;
     void resetIndegree();
 
-    ///Obtains the shortest path possible from an airport to another
-    /// \param src Departure airport
-    /// \param trg Destination
-    /// \return Shortest path between airports
-    vector<T> shortestPath(Vertex<T> *src, Vertex<T> *trg) const;
 
     ///Obtains the shortest path possible from an airport to another, with a filter
     /// \param src Departure airport
@@ -119,16 +114,11 @@ public:
     /// \return Shortest path between source and target, using only the desired airports
     vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
 
-    void allShortestPaths(Vertex<T> *src, Vertex<T> *trg, vector<vector<Edge<T>>> paths);
-
-    vector<T> nodesAtDistanceDFS(const T &source, int k);
-
-    void allPathsOfSize(Vertex<T> *src, Vertex<T> *trg, vector<Edge<T>> path, vector<vector<Edge<T>>> &allPaths,
-                        int desiredSize);
 
     vector<vector<Edge<T>>> allShortestPaths(Vertex<T> *src, Vertex<T> *trg);
 
-    void allPathsOfSize(Vertex<T> *src, Vertex<T> *trg, vector<vector<Edge<T>>> &allPaths, int desiredSize);
+    vector<vector<Edge<T>>>
+    allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string> &filter);
 };
 
 template <class T>
@@ -570,230 +560,9 @@ void Graph<T>::resetIndegree() {
 }
 
 template<class T>
-vector<T> Graph<T>::shortestPath(Vertex<T>* src, Vertex<T>* trg) const {
-    vector<T> path;
-    queue<Vertex<T>*> q;
-    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
-
-    if (src == nullptr || trg == nullptr) {
-        // If either source or target vertex is not found, return empty path
-        return path;
-    }
-
-    for (auto& vertex : vertexSet) {
-        vertex->setVisited(false);
-    }
-
-    q.push(src);
-    src->setVisited(true);
-
-    while (!q.empty()) {
-        Vertex<T>* u = q.front();
-        q.pop();
-
-        if (u == trg) {
-            // Reconstruct path when target vertex is reached
-            Vertex<T>* current = trg;
-            while (current != nullptr && current != src) {
-                path.insert(path.begin(), current->getInfo());
-                current = predecessors[current]; // Get predecessor vertex
-            }
-
-            if (current == nullptr) {
-                // If no path exists from source to target, return empty path
-                path.clear();
-            } else {
-                // Include source vertex in the path
-                path.insert(path.begin(), src->getInfo());
-            }
-
-            return path;
-        }
-
-        for (auto& edge : u->getAdj()) {
-            Vertex<T>* v = edge.getDest();
-
-            if (!v->isVisited()) {
-                q.push(v);
-                v->setVisited(true);
-                predecessors[v] = u; // Store predecessor information
-            }
-        }
-    }
-
-    // If target vertex is not reached, return empty path
-    return path;
-}
-
-
-template<class T>
-vector<T> Graph<T>::shortestPathWithFilter(Vertex<T>* src, Vertex<T>* trg, const unordered_set<T>& verticesSet) const {
-    vector<T> path;
-    queue<Vertex<T>*> q;
-    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
-
-    if (src == nullptr || trg == nullptr) {
-        // If either source or target vertex is not found, return empty path
-        return path;
-    }
-
-    for (auto& vertex : vertexSet) {
-        vertex->setVisited(false);
-    }
-
-    q.push(src);
-    src->setVisited(true);
-
-    while (!q.empty()) {
-        Vertex<T>* u = q.front();
-        q.pop();
-
-        if (u == trg) {
-            // Reconstruct path when target vertex is reached
-            Vertex<T>* current = trg;
-            while (current != nullptr && current != src) {
-                path.insert(path.begin(), current->getInfo());
-                current = predecessors[current]; // Get predecessor vertex
-            }
-
-            if (current == nullptr) {
-                // If no path exists from source to target, return empty path
-                path.clear();
-            } else {
-                // Include source vertex in the path
-                path.insert(path.begin(), src->getInfo());
-            }
-
-            return path;
-        }
-
-        for (auto& edge : u->getAdj()) {
-            Vertex<T>* v = edge.getDest();
-
-            if (!v->isVisited() && verticesSet.find(v->getInfo()) != verticesSet.end()) {
-                q.push(v);
-                v->setVisited(true);
-                predecessors[v] = u; // Store predecessor information
-            }
-        }
-    }
-
-    // If target vertex is not reached, return empty path
-    return path;
-}
-/*
-template<class T>
-int Graph<T>::getVertexPos(Vertex<T>* v) {
-    for (int i = 0; i < vertexSet.size(); i++) {
-        if (vertexSet.at(i) == v) return i;
-    }
-    return -1;
-}
-
-template<class T>
-vector<vector<T>> Graph<T>::allShortestPaths(Vertex<T>* src, Vertex<T>* trg) const {
-    int numNodes = vertexSet.size();
-
-    vector<vector<Edge<T>>> prev(numNodes);
-    priority_queue<Vertex<T>> q;
-
-    for (auto v: vertexSet) {
-        v->setLow(INT_MAX);
-        q.push(src);
-    }
-    src->setLow(0);
-
-    while (!q.empty()) {
-        Vertex<T>* cur = q.front();
-        q.pop();
-
-        for (auto adj: cur->getAdj()) {
-            if ()
-        }
-    }
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-template <class T>
-void nodesAtDistanceDFSVisit(const Graph<T> *g, Vertex<T> *v, int k, vector<T> &res);
-
-
-template <class T>
-vector<T> Graph<T>::nodesAtDistanceDFS(const T &source, int k) {
-    vector<T> res;
-    // Find the vertex corresponding to the source Person
-    Vertex<T>* sourceVertex = this->findVertex(source);
-    if (sourceVertex != nullptr) {
-        nodesAtDistanceDFSVisit(this, sourceVertex, k, res);
-    }
-    return res;
-}
-
-// TODO
-template <class T>
-void nodesAtDistanceDFSVisit(const Graph<T>* g, Vertex<T>* v, int k, vector<T>& res) {
-    // Base case: If the distance is zero, add the current Person to the result
-    if (k == 0) {
-        res.push_back(v->getInfo());
-        return;
-    }
-
-    // Decrement k for recursive DFS calls
-    k--;
-
-    // Mark the current vertex as visited
-    v->setVisited(true);
-
-    // Traverse adjacent vertices
-    for (Edge<T> e : v->getAdj()) {
-        Vertex<T>* adjacentVertex = e.getDest();
-        if (!adjacentVertex->isVisited()) {
-            // Recursive call for adjacent vertices with reduced distance
-            nodesAtDistanceDFSVisit(g, adjacentVertex, k, res);
-        }
-    }
-}
-
-
-
-
-/*
-template <class T>
-void Graph<T>::allShortestPaths(Vertex<T> *src, Vertex<T> *trg, vector<Edge<T>> path) {
-
-    path.push_back(src);
-
-    int k = shortestPath(src, trg).size();
-
-    for (Edge<T> e : src->getAdj()) {
-        if (e.getDest() == trg) return;
-        auto vec = nodesAtDistanceDFS(e.getDest(), k-1);
-        auto it = find(vec.begin(), vec.end(), trg->getInfo());
-        if (it != vec.end()) allShortestPaths(e.getDest(), trg, path);
-    }
-}
- */
-
-template<class T>
 vector<vector<Edge<T>>> Graph<T>::allShortestPaths(Vertex<T> *src, Vertex<T> *trg) {
-    int size = shortestPath(src, trg).size();
-    vector<vector<Edge<T>>> paths;
-    allPathsOfSize( src, trg, paths, size - 1);
-    return paths;
-}
-
-template<class T>
-void Graph<T>::allPathsOfSize(Vertex<T>* src, Vertex<T>* trg, vector<vector<Edge<T>>>& allPaths, int desiredSize) {
+    vector<vector<Edge<T>>> allPaths;
+    int desiredSize = INT_MAX;
     queue<pair<Vertex<T>*, vector<Edge<T>>>> q;
     q.push({src, {}}); // Start with an empty path
 
@@ -803,6 +572,13 @@ void Graph<T>::allPathsOfSize(Vertex<T>* src, Vertex<T>* trg, vector<vector<Edge
 
         Vertex<T>* currentVertex = current.first;
         vector<Edge<T>> currentPath = current.second;
+
+        // 1st BFS solution; we know that this an optimal path; update desiredSize
+        if (allPaths.empty() && currentVertex == trg) {
+            desiredSize = currentPath.size();
+            allPaths.push_back(currentPath);
+            continue;
+        }
 
         if (currentPath.size() == desiredSize && currentVertex == trg) {
             allPaths.push_back(currentPath);
@@ -821,8 +597,51 @@ void Graph<T>::allPathsOfSize(Vertex<T>* src, Vertex<T>* trg, vector<vector<Edge
             q.push({nextVertex, nextPath}); // Add the next vertex and extended path to the queue
         }
     }
+    return allPaths;
 }
 
+template<class T>
+vector<vector<Edge<T>>> Graph<T>::allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string>& filter) {
+    vector<vector<Edge<T>>> allPaths;
+    int desiredSize = INT_MAX;
+    queue<pair<Vertex<T>*, vector<Edge<T>>>> q;
+    q.push({src, {}}); // Start with an empty path
 
+    while (!q.empty()) {
+        auto current = q.front();
+        q.pop();
+
+        Vertex<T>* currentVertex = current.first;
+        vector<Edge<T>> currentPath = current.second;
+
+
+        // 1st BFS solution; we know that this an optimal path; update desiredSize
+        if (allPaths.empty() && currentVertex == trg) {
+            desiredSize = currentPath.size();
+            allPaths.push_back(currentPath);
+            continue;
+        }
+
+        if (currentPath.size() == desiredSize && currentVertex == trg) {
+            allPaths.push_back(currentPath);
+            continue; // Skip exploring further if the desired size and target are reached
+        }
+
+        if (currentPath.size() >= desiredSize || currentVertex == trg) {
+            continue; // Skip exploring further if the path exceeds the desired size or reaches the target
+        }
+
+        for (Edge<T> e : currentVertex->getAdj()) {
+            auto it = find(filter.begin(), filter.end(), e.getAirline());
+            if (it == filter.end()) continue;
+            Vertex<T>* nextVertex = e.getDest();
+            vector<Edge<T>> nextPath = currentPath;
+            nextPath.push_back(e); // Extend the current path
+
+            q.push({nextVertex, nextPath}); // Add the next vertex and extended path to the queue
+        }
+    }
+    return allPaths;
+}
 
 #endif //PROJECT_II_GRAPH_H

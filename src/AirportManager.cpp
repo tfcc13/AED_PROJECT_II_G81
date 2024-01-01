@@ -409,8 +409,8 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
     return it_airline->second.getAirlineNumberOfFlights();
 }
 
-set<Airport> AirportManager::getReachableAirports(const string &airport_name, int max_stops) {
-    set<Airport> airports_set;
+set<pair<string, string>> AirportManager::getReachableAirports(const string &airport_name, int max_stops) {
+    set<pair<string, string>> airports_set;
 
     auto airport = script_.all_airports_.find(airport_name);
 
@@ -421,7 +421,7 @@ set<Airport> AirportManager::getReachableAirports(const string &airport_name, in
     vector<Vertex<Airport>*> airports_ptr_vertices = script_.airportGraph_.reachableAirports(airport->second, max_stops);
 
     for(auto& v : airports_ptr_vertices){
-        airports_set.insert(v->getInfo());
+        airports_set.insert(make_pair(v->getInfo().getAirportCode(), v->getInfo().getAirportName()));
     }
 
     return airports_set;

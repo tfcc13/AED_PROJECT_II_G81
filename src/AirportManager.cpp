@@ -478,13 +478,8 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
         curr = airportsDistanceBFSVisit(script_.airportGraph_, v, lastV, res, maxDistance);
         if( curr > maxDistance) {
             maxDistance = curr;
-            //res.clear();
-            //res.push_back(make_pair(make_pair(v,lastV),curr));
         }
-        /*else if (curr == maxDistance) {
-            res.push_back(make_pair(make_pair(v,lastV),curr));
-        }
-         */
+
     }
     return res;
 }

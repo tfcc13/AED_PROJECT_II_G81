@@ -11,6 +11,9 @@
 
 class Script;
 
+using destToSrcStopsPair = pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>;
+
+
 class AirportManager {
 
 private:
@@ -84,7 +87,7 @@ public:
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();
-    int airportsDistanceBFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2);
+    int airportsDistanceBFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2,   vector<destToSrcStopsPair>& res, int maxD);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

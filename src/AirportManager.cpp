@@ -467,7 +467,7 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
 }
 
 vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::getMaximumTripDiameter() {
-    vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> res;
+    vector<destToSrcStopsPair> res;
 
     queue<pair<Vertex<Airport> *, int>> q;
     int maxDistance = 0;
@@ -475,20 +475,21 @@ vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> AirportManager::ge
     Vertex<Airport>* lastV = nullptr;
 
     for(auto v : script_.airportGraph_.getVertexSet()) {
-        curr = airportsDistanceBFSVisit(script_.airportGraph_, v, lastV);
+        curr = airportsDistanceBFSVisit(script_.airportGraph_, v, lastV, res, maxDistance);
         if( curr > maxDistance) {
             maxDistance = curr;
-            res.clear();
+            //res.clear();
+            //res.push_back(make_pair(make_pair(v,lastV),curr));
+        }
+        /*else if (curr == maxDistance) {
             res.push_back(make_pair(make_pair(v,lastV),curr));
         }
-        else if (curr == maxDistance) {
-            res.push_back(make_pair(make_pair(v,lastV),curr));
-        }
+         */
     }
     return res;
 }
 
-int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Airport> *v1, Vertex<Airport>*& v2) {
+int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Airport> *v1, Vertex<Airport>*& v2,   vector<destToSrcStopsPair>& res, int maxD) {
 
     queue<pair<Vertex<Airport> *, int>> q;
 
@@ -511,6 +512,15 @@ int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Air
                 v2 = dest;
                 q.push({dest,dist+1});
                 dest->setVisited(true);
+                if( dist +1> maxD) {
+                    maxD = dist +1;
+                    res.clear();
+                    res.push_back(make_pair(make_pair(v1,v2),dist+1));
+                }
+                else if (dist + 1 == maxD) {
+                    res.push_back(make_pair(make_pair(v1,v2),dist+1));
+                }
+
             }
         }
 

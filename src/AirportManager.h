@@ -81,6 +81,8 @@ public:
 
 
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
+
+    void printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport> *vertex);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

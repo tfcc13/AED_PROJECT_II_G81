@@ -386,3 +386,26 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
 
     return it_airline->second.getAirlineNumberOfFlights();
 }
+
+void AirportManager::printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport>* vertex) {
+    if (paths.empty()) {
+        cout << "There is no possible path." << endl;
+    } else {
+        int option = 1;
+        auto it = paths.begin() + 1;
+
+        while (it != paths.end()) {
+            cout << "Option " << option << ":" << endl;
+            cout << "Start in " << vertex->getInfo().getAirportCode() << endl;
+
+            for (auto b : *it) {
+                cout << "Fly with " << b.getAirline() << " to " << b.getDest()->getInfo().getAirportCode() << endl;
+            }
+            cout << endl;
+
+            ++option;
+            ++it;
+        }
+        cout << endl;
+    }
+}

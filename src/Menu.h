@@ -58,4 +58,12 @@ public:
     Menu * getNextMenu();
 };
 
+class BestFlightMenuWithFilters : public Menu {
+public:
+    BestFlightMenuWithFilters(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
+
 #endif //PROJECT_II_MENU_H

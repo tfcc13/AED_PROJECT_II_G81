@@ -389,7 +389,7 @@ int AirportManager::getNumberOfFlightsInAirline(const string& airline) const{
 
 void AirportManager::printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport>* vertex) {
     if (paths.empty()) {
-        cout << "There is no possible path." << endl;
+        cout << "There is no path that corresponds to your wishes." << endl;
     } else {
         int option = 1;
         auto it = paths.begin() + 1;

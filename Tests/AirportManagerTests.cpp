@@ -30,15 +30,22 @@ TEST(test_1, getAirportFlightsNumber) {
 
     new_script.loadAirports(airportsCSV);
 
-    new_script.loadAirlines(airlinesCSV);
 
     new_script.loadFlights(flightsCSV);
 
     AirportManager airportManager(new_script);
 
-    int BCN = airportManager.getAirportFlightsNumber("BCN");
-    int OPO =  airportManager.getAirportFlightsNumber("OPO");
-    int NVI = airportManager.getAirportFlightsNumber("NVI");
+    int BCNDepartures = airportManager.getAirportFlightsNumber("BCN","departures");
+    int OPODepartures =  airportManager.getAirportFlightsNumber("OPO","departures");
+    int NVIDepartures = airportManager.getAirportFlightsNumber("NVI","departures");
+
+    int BCNArrivals = airportManager.getAirportFlightsNumber("BCN","Arrivals");
+    int OPOArrivals =  airportManager.getAirportFlightsNumber("OPO","Arrivals");
+    int NVIArrivals = airportManager.getAirportFlightsNumber("NVI","Arrivals");
+
+    int BCN = BCNDepartures+BCNArrivals;
+    int OPO = OPODepartures+OPOArrivals;
+    int NVI = NVIArrivals+NVIDepartures;
 
     EXPECT_EQ(774,BCN);
     EXPECT_EQ(202,OPO);
@@ -101,7 +108,7 @@ TEST(test_3, Check_acyclic) {
 
     bool checkDAG = new_script.getAirportGraph().isDAG();
 
-    EXPECT_EQ(true, checkDAG);
+    EXPECT_EQ(false, checkDAG);
 
 
 

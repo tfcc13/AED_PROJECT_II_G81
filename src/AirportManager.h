@@ -187,6 +187,45 @@ public:
     ///\param paths Vector that stores paths, in the form of vectors containing the edges that make the path.
     ///\param vertex Vertex from which the paths begin
     void printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport> *vertex);
+
+
+
+
+    void shortestAirportToAirport(string depAirportCode, string destAirportCode);
+
+    void shortestAirportToCity(string depAirportCode, string city, string country);
+
+    void shortestAirportToPosition(string depAirportCode, double lat, double lon);
+
+    void shortestCityToAirport(string city, string country, string destAirportCode);
+
+    void shortestCityToCity(string depCity, string depCountry, string destCity, string destCountry);
+
+    void shortestCityToPosition(string city, string country, double lat, double lon);
+
+    void shortestPositionToAirport(double lat, double lon, string destAirportCode);
+
+    void shortestPositionToCity(double lat, double lon, string city, string country);
+
+    void shortestPositionToPosition(double lat1, double lon1, double lat2, double lon2);
+
+    void shortestAirportToAirport_Filter(string depAirportCode, string destAirportCode, unordered_set<string> filter);
+
+    void shortestAirportToCity_Filter(string depAirportCode, string city, string country, unordered_set<string> filter);
+
+    void shortestAirportToPosition_Filter(string depAirportCode, double lat, double lon, unordered_set<string> filter);
+
+    void shortestCityToAirport_Filter(string city, string country, string destAirportCode, unordered_set<string> filter);
+
+    void shortestCityToCity_Filter(string depCity, string depCountry, string destCity, string destCountry, unordered_set<string> filter);
+
+    void shortestCityToPosition_Filter(string city, string country, double lat, double lon, unordered_set<string> filter);
+
+    void shortestPositionToAirport_Filter(double lat, double lon, string destAirportCode, unordered_set<string> filter);
+
+    void shortestPositionToCity_Filter(double lat, double lon, string city, string country, unordered_set<string> filter);
+
+    void shortestPositionToPosition_Filter(double lat1, double lon1, double lat2, double lon2, unordered_set<string> filter);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

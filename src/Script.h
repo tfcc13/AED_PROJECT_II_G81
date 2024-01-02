@@ -16,10 +16,6 @@
 
 using namespace std;
 
-//static string airportsCSV  = "../dataset/airports.csv";
-//static string airlinesCSV  = "../dataset/airlines.csv";
-//static string flightsCSV  = "../dataset/flights.csv";
-
 struct FlightHash {
     size_t operator()(const Flight& flight) const {
         return flight(flight);
@@ -77,8 +73,13 @@ public:
     ///Getter function of airportGraph_
     /// \return airportGraph_;
     Graph<Airport> getAirportGraph() const;
+
+    ///Getter function of all_airports_
+    /// \return all_airports_
     const unordered_map<string, Vertex<Airport> *> getAllAirports() const;
 
+    ///Getter function of all_airlines_
+    /// \return all_airlines_
     const unordered_map<string, Airline> getAllAirlines() const;
 };
 

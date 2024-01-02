@@ -106,19 +106,21 @@ public:
     bool isDAG() const;
     void resetIndegree();
 
-
-    ///Obtains the shortest path possible from an airport to another, with a filter
-    /// \param src Departure airport
-    /// \param trg Destination
-    /// \param verticesSet Airports that can be passed
-    /// \return Shortest path between source and target, using only the desired airports
-    vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
-
-
+    ///Obtains the shortest paths possible between a source vertex and a target vertex
+    ///Time Complexity: O(V + E)
+    ///\param src Source Vertex
+    ///\param trg Target Vertex
+    ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path.
     vector<vector<Edge<T>>> allShortestPaths(Vertex<T> *src, Vertex<T> *trg);
 
-    vector<vector<Edge<T>>>
-    allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string> &filter);
+
+    ///Obtains the shortest paths possible between a source vertex and a target vertex, through a limited set of airlines
+    ///Time Complexity: O(V + E)
+    ///\param src Source Vertex
+    ///\param trg Target Vertex
+    ///\param filter Set of airlines that can be in the path
+    ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path, that respect the filter.
+    vector<vector<Edge<T>>> allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string> &filter);
 };
 
 template <class T>

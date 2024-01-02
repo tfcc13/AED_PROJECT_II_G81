@@ -80,8 +80,17 @@ public:
     int getNumberOfFlightsInAirline(const string& airline) const;
 
 
+    ///Finds the closest airport to a given position
+    ///Time Complexity: O(n)
+    ///\param targetPosition Position (coordinates in latitude and longitude)
+    ///\return Pointer to vertex of airport that's closest to targetPosition
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 
+
+    ///Prints a group of paths
+    ///Time Complexity: O(m*k) (where m is the number of paths and k is the average number of edges in a path)
+    ///\param paths Vector that stores paths, in the form of vectors containing the edges that make the path.
+    ///\param vertex Vertex from which the paths begin
     void printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport> *vertex);
 };
 

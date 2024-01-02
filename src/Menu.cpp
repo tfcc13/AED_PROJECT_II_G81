@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include <climits>
+#include <limits>
 
 void waitEnter() {
     cout << endl << "Press enter to continue " << endl;

@@ -8,9 +8,7 @@
 
 class Script;
 
-
 class Menu {
-
 
 protected:
     Script &script_;
@@ -24,11 +22,7 @@ public:
     virtual void show() = 0;
 
     virtual Menu *getNextMenu() = 0;
-
-
-
 };
-
 
 class FirstMenu : public Menu {
 public:
@@ -85,6 +79,5 @@ public:
     void show() override;
     Menu * getNextMenu();
 };
-
 
 #endif //PROJECT_II_MENU_H

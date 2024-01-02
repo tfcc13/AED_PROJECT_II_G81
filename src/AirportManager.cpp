@@ -1,7 +1,7 @@
 #include "AirportManager.h"
 
 AirportManager::AirportManager(Script& script) : script_(script) {}
-// OK
+
 int AirportManager::getAirportFlightsNumber(const string& airport_name, const string& departures_or_arrivals) {
 
     auto airport = script_.all_airports_.find(airport_name);
@@ -19,7 +19,7 @@ int AirportManager::getAirportFlightsNumber(const string& airport_name, const st
 
     return int(edges.size());
 }
-// OK
+
 int AirportManager::getAirportAirlinesNumber(const string& airport_name, const string& departures_or_arrivals) {
     auto airport = script_.all_airports_.find(airport_name);
 
@@ -31,7 +31,7 @@ int AirportManager::getAirportAirlinesNumber(const string& airport_name, const s
 
     return int(airlinesSet.size());
 }
-// OK
+
 set<string> AirportManager::getCitiesSet(const string &airport_name, const string& departures_or_arrivals) const {
     set<string> cities;
 
@@ -79,7 +79,7 @@ set<string> AirportManager::getAirlinesSet(const string& airport_name, const str
 
     return airlinesSet;
 }
-// OK
+
 int AirportManager::getDestinationCitiesNumber(const string& airport_name, const string& departures_or_arrivals) {
     auto airport = script_.all_airports_.find(airport_name);
 
@@ -104,7 +104,7 @@ const string &AirportManager::getAirportName(const string &airport_name) const {
 
     return airport->second->getInfo().getAirportName();
 }
-// OK
+
 void AirportManager::getDestinationCitiesNames(const string &airport_name, const string& departures_or_arrivals) const {
 
     auto cities = getCitiesSet(airport_name, departures_or_arrivals);
@@ -116,7 +116,7 @@ void AirportManager::getDestinationCitiesNames(const string &airport_name, const
     }
 
 }
-// OK
+
 void AirportManager::printAirlinesNames(const string &airport_name, const string& departures_or_arrivals) const {
 
     auto airlines = getAirlinesSet(airport_name, departures_or_arrivals);
@@ -170,7 +170,7 @@ void AirportManager::getDestinationAirportsNames(const string &airport_name) con
     }
 
 }
-// OK
+
 void AirportManager::getAirportsFlightsData(const string& airport_name, const string& departures_or_arrivals) const {
     auto airport = script_.all_airports_.find(airport_name);
 
@@ -305,14 +305,14 @@ vector<pair<Airport,int>> AirportManager::getTopKAiportTrafficCap(int k) const {
 
 void AirportManager::printAllAirports() const {
 
-    cout << left << setw(4) << "Code" << "|" << setw(10) << "Name" << "|" << setw(15) << "City" << "|" << setw(15) << "Country" << "|" <<  setw(15) << "Airline" << endl;
+    cout << left << setw(4) << "Code" << "|" << setw(55) << "Name" << "|" << setw(30) << "City" << "|" << setw(32) << "Country" << endl << endl;
     for (auto airport : script_.airportGraph_.getVertexSet()) {
         string airportCode = airport->getInfo().getAirportCode();
         string airportName= airport->getInfo().getAirportName();
         string city = airport->getInfo().getAirportCity();
         string airportCountry = airport->getInfo().getAirportCountry();
 
-        cout << left << setw(4) << airportCode << "|" << setw(10) << airportName << "|" << setw(15) << city << "|" << setw(15) << airportCountry << "|" <<  setw(15) << endl;
+        cout << left << setw(4) << airportCode << "|" << setw(55) << airportName << "|" << setw(30) << city << "|" << setw(32) << airportCountry << endl;
 
     }
 
@@ -333,7 +333,6 @@ set<Airport> AirportManager::airportArticulationPoints() {
             undGraph.addEdge(dest->getInfo(), v->getInfo(),0);
         }
     }
-
 
     set<Airport> res;
     stack<Airport> s;

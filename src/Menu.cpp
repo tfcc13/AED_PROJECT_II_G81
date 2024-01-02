@@ -20,6 +20,8 @@ string getInput() {
     return input;
 }
 
+/// Waits for an user input string
+/// \return the user input
 string getInputLine() {
     string input;
     cout << ">> ";
@@ -260,11 +262,11 @@ Menu *AirportInformationMenu::getNextMenu() {
             cout << endl;
             string airline = getInput();
             int number_of_flights = airportManager.getFlightsPerAirline(airline);
-            cout << number_of_flights << " flights are performed by " << airline << "airline" << endl;
             if(number_of_flights == -1){
                 cout << "Name of the airline not found in Airtuga's database";
                 break;
             }
+            cout << number_of_flights << " flights are performed by " << airline << " airline" << endl;
             cout << endl;
             break;
         }
@@ -712,8 +714,8 @@ Menu * ReachableFromXStops::getNextMenu(){
                             cout << left << country << endl;
                         }
                     }
+                    break;
                 }
-                break;
             }
             break;
         }

@@ -226,4 +226,8 @@ const unordered_map<string, Vertex<Airport> *> Script::getAllAirports() const {
     return all_airports_;
 }
 
+const unordered_map<string, Airline> Script::getAllAirlines() const {
+    return all_airlines_;
+}
+
 

@@ -79,6 +79,7 @@ public:
     Graph<Airport> getAirportGraph() const;
     const unordered_map<string, Vertex<Airport> *> getAllAirports() const;
 
+    const unordered_map<string, Airline> getAllAirlines() const;
 };
 
 #endif //PROJECT_II_SCRIPT_H

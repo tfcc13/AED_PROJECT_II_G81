@@ -663,7 +663,6 @@ void AirportManager::shortestAirportToAirport(string depAirportCode, string dest
     }
 }
 
-
 void AirportManager::shortestAirportToCity(string depAirportCode, string city, string country) {
     Vertex<Airport> *depAirport = nullptr;
 
@@ -725,7 +724,6 @@ void AirportManager::shortestAirportToPosition(string depAirportCode, double lat
         printPaths(paths, depAirport);
     }
 }
-
 
 void AirportManager::shortestCityToAirport(string city, string country, string destAirportCode) {
     Vertex<Airport> *destAirport = nullptr;
@@ -790,7 +788,6 @@ void AirportManager::shortestCityToAirport(string city, string country, string d
     }
 }
 
-
 void AirportManager::shortestCityToCity(string depCity, string depCountry, string destCity, string destCountry) {
     auto depAirports = getAirportsPerCityAndCountry(depCity, depCountry);
     auto destAirports = getAirportsPerCityAndCountry(destCity, destCountry);
@@ -848,7 +845,6 @@ void AirportManager::shortestCityToCity(string depCity, string depCountry, strin
     }
 
 }
-
 
 void AirportManager::shortestCityToPosition(string city, string country, double lat, double lon) {
     auto depAirports = getAirportsPerCityAndCountry(city, country);
@@ -983,7 +979,6 @@ void AirportManager::shortestPositionToPosition(double lat1, double lon1, double
     }
 }
 
-
 void AirportManager::shortestAirportToAirport_Filter(string depAirportCode, string destAirportCode, unordered_set<string> filter) {
     Vertex<Airport> *depAirport = nullptr;
     Vertex<Airport> *destAirport = nullptr;
@@ -1048,7 +1043,6 @@ void AirportManager::shortestAirportToCity_Filter(string depAirportCode, string 
         printPaths(shortestPaths, depAirport);
     }
 }
-
 
 void AirportManager::shortestAirportToPosition_Filter(string depAirportCode, double lat, double lon, unordered_set<string> filter) {
     Vertex<Airport> *depAirport = nullptr;
@@ -1136,7 +1130,6 @@ void AirportManager::shortestCityToAirport_Filter(string city, string country, s
         }
     }
 }
-
 
 void AirportManager::shortestCityToCity_Filter(string depCity, string depCountry, string destCity, string destCountry, unordered_set<string> filter) {
     auto depAirports = getAirportsPerCityAndCountry(depCity, depCountry);
@@ -1254,7 +1247,6 @@ void AirportManager::shortestCityToPosition_Filter(string city, string country, 
     }
 }
 
-
 void AirportManager::shortestPositionToAirport_Filter(double lat, double lon, string destAirportCode, unordered_set<string> filter) {
     Vertex<Airport> *destAirport = nullptr;
 
@@ -1311,7 +1303,6 @@ void AirportManager::shortestPositionToCity_Filter(double lat, double lon, strin
         printPaths(shortestPaths, depAirport);
     }
 }
-
 
 void AirportManager::shortestPositionToPosition_Filter(double lat1, double lon1, double lat2, double lon2, unordered_set<string> filter) {
     if (!(-90 < lat1 && lat1 < 90 && -180 < lon1 && lon1 < 180 && -90 < lat2 && lat2 < 90 && -180 < lon2 && lon2 < 180)) {

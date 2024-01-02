@@ -2,6 +2,7 @@
 #include <climits>
 #include <limits>
 
+/// Ignores an input after pressing the key enter
 void waitForInput() {
     cout << endl << "Press enter to continue ..." << endl;
     string tempString;
@@ -9,6 +10,8 @@ void waitForInput() {
     getline(cin,tempString);
 }
 
+/// Waits for an user input
+/// \return Returns the user input
 string getInput() {
     string input;
     cout << ">> ";
@@ -25,6 +28,10 @@ string getInputLine() {
     return input;
 }
 
+/// Converts an user input string to a variable T
+/// \param str String read in the input
+/// \param T Type of the expected conversion defined by the input string
+/// \return true if conversion is successful
 template <typename T>
 bool convertStrToVar(const std::string &str, T &var){
     std::istringstream ss{str};
@@ -35,6 +42,10 @@ bool convertStrToVar(const std::string &str, T &var){
     return true;
 }
 
+/// Expects a variable of type T from input cin
+/// \param T Type of the expected variable
+/// \param var variable with the pretend  type of var
+/// return true if it gets the expected variable
 template <typename T>
 bool get(T &var){
     std::string str = getInput();

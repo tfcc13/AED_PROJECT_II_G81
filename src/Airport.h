@@ -16,6 +16,7 @@ struct position {
     }
 };
 
+/// Class that represents an Airport
 class Airport {
 
 private:

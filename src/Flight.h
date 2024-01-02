@@ -14,6 +14,7 @@ inline void hash_combine(std::size_t& hashSeed, const T& val) {
     hashSeed ^= std::hash<T>{}(val) + 0x9e3779b9 + (hashSeed << 6) + (hashSeed >> 2);
 }
 
+/// Class that represents a Flight
 class Flight {
 
 private:

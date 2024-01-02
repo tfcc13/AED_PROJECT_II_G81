@@ -59,7 +59,7 @@ bool get(T &var){
 
 Menu::Menu(Script &script) : script_(script) {}
 
-Menu *Menu::invalidOption() {
+Menu *Menu::invalidInput() {
     cout << "Invalid option. Please try again." << std::endl;
     waitForInput();
     return this;
@@ -97,7 +97,7 @@ Menu *FirstMenu::getNextMenu() {
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     switch (option) {
@@ -113,7 +113,7 @@ Menu *FirstMenu::getNextMenu() {
             return new BestFlightWithFiltersMenu(script_);
     }
 
-    return invalidOption();
+    return invalidInput();
 }
 
 GeneralInformationMenu::GeneralInformationMenu(Script &script) : Menu(script) {}
@@ -135,7 +135,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -223,7 +223,7 @@ Menu *AirportInformationMenu::getNextMenu() {
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -280,7 +280,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             cout << endl;
             int k;
             if(!get(k)) {
-                return invalidOption();
+                return invalidInput();
             }
 
             vector<pair<Airport, int>> topKAirports = airportManager.getTopKAiportTrafficCap(k);
@@ -366,7 +366,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -504,7 +504,7 @@ Menu *AirportArrivalsMenu::getNextMenu(){
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -640,7 +640,7 @@ Menu * ReachableFromXStops::getNextMenu(){
     int option;
 
     if(!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -659,7 +659,7 @@ Menu * ReachableFromXStops::getNextMenu(){
             cout << "Please write the maximum number of stops" << endl;
             int max_stops;
             if(!get(max_stops)) {
-                return invalidOption();
+                return invalidInput();
             }
             if(max_stops <= 0){
                 cout << "Invalid maximum number of stops. The number must be greater than 0!";
@@ -693,7 +693,7 @@ Menu * ReachableFromXStops::getNextMenu(){
             cout << "Please write the maximum number of stops" << endl;
             int max_stops;
             if(!get(max_stops)) {
-                return invalidOption();
+                return invalidInput();
             }
             if(max_stops <= 0){
                 cout << "Invalid maximum number of stops. The number must be greater than 0!";
@@ -727,7 +727,7 @@ Menu * ReachableFromXStops::getNextMenu(){
             cout << "Please write the maximum number of stops" << endl;
             int max_stops;
             if(!get(max_stops)) {
-                return invalidOption();
+                return invalidInput();
             }
             if(max_stops <= 0){
                 cout << "Invalid maximum number of stops. The number must be greater than 0!";
@@ -783,7 +783,7 @@ Menu *BestFlightMenu::getNextMenu() {
     int option;
 
     if (!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);
@@ -997,7 +997,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
     int option;
 
     if (!get(option)) {
-        return invalidOption();
+        return invalidInput();
     }
 
     AirportManager airportManager(script_);

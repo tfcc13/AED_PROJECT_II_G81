@@ -13,6 +13,7 @@ class Script;
 
 using destToSrcStopsPair = pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>;
 
+/// Class that controls and has access to all data
 class AirportManager {
 
 private:

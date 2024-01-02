@@ -4,17 +4,18 @@
 #include "Script.h"
 #include "AirportManager.h"
 
-/// Escapa character to clear the terminal screen
+/// Escape character to clear the terminal screen
 #define CLEAR "\033[2J\033[1;1H"
 
 class Script;
 
+/// User interface menu
 class Menu {
 
 protected:
     Script &script_;
 
-    Menu * invalidOption();
+    Menu * invalidInput();
 
 public:
     /// Constructor for the menu
@@ -29,6 +30,7 @@ public:
     virtual Menu *getNextMenu() = 0;
 };
 
+/// First menu interface
 class FirstMenu : public Menu {
 public:
     /// Constructor for the first menu
@@ -41,6 +43,7 @@ public:
     Menu  *getNextMenu() override;
 };
 
+/// General information menu interface
 class GeneralInformationMenu : public Menu {
 public:
     /// Constructor of the general information menu
@@ -51,6 +54,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Airport information menu
 class AirportInformationMenu: public Menu {
 public:
     /// Constructor of airport information menu
@@ -63,6 +67,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Airport departures info menu interface
 class AirportDeparturesMenu : public Menu {
 public:
     /// Constructor of the airport departures menu
@@ -75,6 +80,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Distance reach from x menu interface
 class ReachableFromXStops : public Menu {
 public:
     /// Constructor of the reachable from x stops menu
@@ -87,6 +93,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Airport arrivals info menu interface
 class AirportArrivalsMenu : public Menu {
 public:
     /// Constructor of the airport arrivals menu
@@ -99,6 +106,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Best flight option menu interface
 class BestFlightMenu : public Menu {
 public:
     /// Constructor of the best flight menu
@@ -111,6 +119,7 @@ public:
     Menu * getNextMenu();
 };
 
+/// Best flight option menu interface
 class BestFlightWithFiltersMenu : public Menu {
 public:
     /// Constructor of the best flight with filters menu

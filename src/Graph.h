@@ -104,6 +104,12 @@ public:
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
+
+    /// Finds the reachable airports within a certain distance from a given airport
+    ///**Time Complexity:** O(|V| + |E|)
+    /// \param source source airport
+    /// \param max_stops max distance from the source airport
+    /// \return a vector of reachable airports within the given distance
     vector<Vertex<T>*> reachableAirports(Vertex<T>* source, int max_stops) const;
     bool isDAG() const;
     void setIndegree();
@@ -124,6 +130,7 @@ public:
     ///\param filter Set of airlines that can be in the path
     ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path, that respect the filter.
     vector<vector<Edge<T>>> allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string> &filter);
+
 
     vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> maximumStops() const;
 

@@ -15,6 +15,14 @@ string getInput() {
     return input;
 }
 
+string getInputLine() {
+    string input;
+    cout << ">> ";
+    getline(cin, input);
+    cout << endl;
+    return input;
+}
+
 template <typename T>
 bool strToVar(const std::string &str, T &var){
     std::istringstream ss{str};
@@ -757,8 +765,10 @@ Menu *BestFlightMenu::getNextMenu() {
 
         case 1: {
             string depAirportCode, destAirportCode;
-            cout << "Enter the airport codes for departure and destination airports: " << endl;
-            cin >> depAirportCode >> destAirportCode;
+            cout << "Enter airport code for departure:" << endl;
+            depAirportCode = getInput();
+            cout << "Enter airport code for destination: " << endl;
+            destAirportCode = getInput();
 
             // Retrieve the vertices (airports) if they exist, otherwise nullptr
             Vertex<Airport> *depAirport = nullptr;
@@ -791,14 +801,14 @@ Menu *BestFlightMenu::getNextMenu() {
 
             cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode;
-            cin.ignore(); // Clear the input buffer
+            depAirportCode = getInput();
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
             // Retrieve the vertices (airports) if they exist, otherwise nullptr
@@ -845,9 +855,16 @@ Menu *BestFlightMenu::getNextMenu() {
             string depAirportCode;
             double lat, lon;
 
-            cout << "Enter the Airport code for departure and destination Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode >> lat >> lon;
+            depAirportCode = getInput();
+
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
             Vertex<Airport> *depAirport = nullptr;
 
@@ -875,18 +892,15 @@ Menu *BestFlightMenu::getNextMenu() {
         case 4: {
             string destAirportCode, country, city;
 
-            cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
             cin.ignore();
+            cout << "Enter the departure City: " << endl;
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
             cout << "Enter the destination Airport code:" << endl;
-            cin >> destAirportCode;
-            cin.ignore();
-
+            destAirportCode = getInput();
 
             Vertex<Airport> *destAirport = nullptr;
 
@@ -955,17 +969,18 @@ Menu *BestFlightMenu::getNextMenu() {
         case 5: {
             string depCity, depCountry, destCity, destCountry;
 
+            cin.ignore();
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, depCity);
+            depCity = getInputLine();
 
             cout << "Enter the departure Country: " << endl;
-            getline(cin >> ws, depCountry);
+            depCountry = getInputLine();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin >> ws, destCity);
+            destCity = getInputLine();
 
             cout << "Enter the destination Country: " << endl;
-            getline(cin >> ws, destCountry);
+            destCountry = getInputLine();
 
 
             auto depAirports = airportManager.getAirportsPerCityAndCountry(depCity, depCountry);
@@ -1030,17 +1045,20 @@ Menu *BestFlightMenu::getNextMenu() {
             string country, city;
             double lat, lon;
 
-            cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
             cin.ignore();
+
+            cout << "Enter the departure City: " << endl;
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
-            cout << "Enter destination Position (Latitude and Longitude, as double):" << endl;
-            cin >> lat >> lon;
-            cin.ignore();
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
             auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
 
@@ -1107,9 +1125,19 @@ Menu *BestFlightMenu::getNextMenu() {
             double lat, lon;
             string destAirportCode;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double) and destination Airport:" << endl;
+            cin.ignore();
 
-            cin >> lat >> lon >> destAirportCode;
+            cout << "Enter departure latitude:" << endl;
+
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cout << "Enter the destination Airport code:" << endl;
+            destAirportCode = getInput();
+
+
 
             Vertex<Airport> *destAirport = nullptr;
 
@@ -1140,16 +1168,20 @@ Menu *BestFlightMenu::getNextMenu() {
             double lat, lon;
             string country, city;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon;
-            cin.ignore(); // Clear the input buffer
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
             auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
@@ -1189,8 +1221,20 @@ Menu *BestFlightMenu::getNextMenu() {
         case 9: {
             double lat1, lon1, lat2, lon2;
 
-            cout << "Enter departure and destination Positions (Latitude and Longitude, as double):" << endl;
-            cin >> lat1 >> lon1 >> lat2 >> lon2;
+            cout << "Enter departure latitude:" << endl;
+
+            get(lat1);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon1);
+
+
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat2);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon2);
 
             if (!(-90 < lat1 && lat1 < 90 && -180 < lon1 && lon1 < 180 && -90 < lat2 && lat2 < 90 && -180 < lon2 && lon2 < 180)) {
                 cout << "Invalid coordinate(s) entered." << endl;
@@ -1267,8 +1311,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
-
+            input = getInputLine();
             istringstream iss(input);
             string airline;
 
@@ -1278,8 +1321,10 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
 
             string depAirportCode, destAirportCode;
-            cout << "Enter the Airport codes for departure and destination Airports: " << endl;
-            cin >> depAirportCode >> destAirportCode;
+            cout << "Enter airport code for departure:" << endl;
+            depAirportCode = getInput();
+            cout << "Enter airport code for destination: " << endl;
+            destAirportCode = getInput();
 
 
             // Retrieve the vertices (airports) if they exist, otherwise nullptr
@@ -1314,7 +1359,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1328,14 +1373,14 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
             cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode;
-            cin.ignore(); // Clear the input buffer
+            depAirportCode = getInput();
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
 
@@ -1386,7 +1431,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1398,9 +1443,16 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string depAirportCode;
             double lat, lon;
 
-            cout << "Enter the Airport code for departure and destination Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode >> lat >> lon;
+            depAirportCode = getInput();
+
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
 
 
@@ -1434,7 +1486,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1446,17 +1498,13 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string destAirportCode, country, city;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
-            cin.ignore();
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
             cout << "Enter the destination Airport code:" << endl;
-            cin >> destAirportCode;
-            cin.ignore();
-
+            destAirportCode = getInput();
 
             Vertex<Airport> *destAirport = nullptr;
 
@@ -1529,7 +1577,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1542,16 +1590,16 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string depCity, depCountry, destCity, destCountry;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, depCity);
+            depCity = getInputLine();
 
             cout << "Enter the departure Country: " << endl;
-            getline(cin >> ws, depCountry);
+            depCountry = getInputLine();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin >> ws, destCity);
+            destCity = getInputLine();
 
             cout << "Enter the destination Country: " << endl;
-            getline(cin >> ws, destCountry);
+            destCountry = getInputLine();
 
 
             auto depAirports = airportManager.getAirportsPerCityAndCountry(depCity, depCountry);
@@ -1618,7 +1666,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1631,16 +1679,16 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
-            cin.ignore();
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
-            cout << "Enter destination Position (Latitude and Longitude, as double):" << endl;
-            cin >> lat >> lon;
-            cin.ignore();
+            cout << "Enter destination latitude:" << endl;
+            get(lat);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
 
             auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
@@ -1711,7 +1759,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1723,9 +1771,15 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
             string destAirportCode;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double) and destination Airport:" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon >> destAirportCode;
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cout << "Enter the destination Airport code:" << endl;
+            destAirportCode = getInput();
 
 
 
@@ -1761,7 +1815,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1774,16 +1828,20 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
             string country, city;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon;
-            cin.ignore(); // Clear the input buffer
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
             auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
@@ -1827,7 +1885,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1839,8 +1897,20 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
             double lat1, lon1, lat2, lon2;
 
-            cout << "Enter departure and destination Positions (Latitude and Longitude, as double):" << endl;
-            cin >> lat1 >> lon1 >> lat2 >> lon2;
+            cout << "Enter departure latitude:" << endl;
+
+            get(lat1);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon1);
+
+
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat2);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon2);
 
 
             if (!(-90 < lat1 && lat1 < 90 && -180 < lon1 && lon1 < 180 && -90 < lat2 && lat2 < 90 && -180 < lon2 && lon2 < 180)) {

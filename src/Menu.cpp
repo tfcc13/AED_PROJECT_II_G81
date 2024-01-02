@@ -114,7 +114,7 @@ void GeneralInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "Check the number of cities in the database" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of countries in the database" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of cities in a country in the current database" << endl;
-    cout << "(0) >> Exit "  << endl;
+    cout << "(0) >> Go back "  << endl;
     cout << endl;
 }
 
@@ -202,7 +202,7 @@ void AirportInformationMenu::show() {
     cout << "(" << ++options << ") >> " << "See the maximum trip, or trips, available in this airport network" << endl;
     cout << "(" << ++options << ") >> " << "See the maximum trip, or trips, diameter in this airport network" << endl;
     cout << "(" << ++options << ") >> " << "See all airports" << endl;
-    cout << "(0) >> Exit "  << endl;
+    cout << "(0) >> Go back "  << endl;
     cout << endl;
 }
 
@@ -345,7 +345,7 @@ void AirportDeparturesMenu::show() {
     cout << "(" << ++options << ") >> " << "Check how many airlines DEPART from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many cities you can go to directly from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many countries you can go to directly from a given airport" << endl;
-    cout << "(0) >> Exit "  << endl;
+    cout << "(0) >> Go back "  << endl;
     cout << endl;
 }
 
@@ -482,7 +482,7 @@ void AirportArrivalsMenu::show(){
     cout << "(" << ++options << ") >> " << "Check how many airlines ARRIVE to a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many cities fly directly to a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many countries fly directly to a given airport" << endl;
-    cout << "(0) >> Exit "  << endl;
+    cout << "(0) >> Go back "  << endl;
     cout << endl;
 }
 
@@ -619,7 +619,7 @@ void ReachableFromXStops::show() {
     cout << "(" << ++options << ") >> " << "Check the number of reachable cities from a given airport in a maximum number of X stops (lay-overs)" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of reachable countries from a given airport in a maximum number of X stops (lay-overs)" << endl;
     cout << "(" << ++options << ") >> " << "Check the number of reachable airports from a given airport in a maximum number of X stops (lay-overs)" << endl;
-    cout << "(0) >> Exit "  << endl;
+    cout << "(0) >> Go back "  << endl;
     cout << endl;
 }
 
@@ -762,7 +762,7 @@ void BestFlightMenu::show() {
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to airport" << endl;
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to city" << endl;
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to Position" << endl;
-    cout << "(0) >> Exit " << endl;
+    cout << "(0) >> Go back " << endl;
     cout << endl;
 }
 
@@ -962,23 +962,7 @@ Menu *BestFlightMenu::getNextMenu() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 BestFlightWithFiltersMenu::BestFlightWithFiltersMenu(Script &script) : Menu(script) {}
-
-
 
 void BestFlightWithFiltersMenu::show() {
     cout << CLEAR;
@@ -992,7 +976,7 @@ void BestFlightWithFiltersMenu::show() {
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to Airport" << endl;
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to City" << endl;
     cout << "(" << ++options << ") >> " << "Find the best flight from Position to Position" << endl;
-    cout << "(0) >> Exit " << endl;
+    cout << "(0) >> Go back " << endl;
     cout << endl;
 }
 
@@ -1318,7 +1302,6 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
         } break;
 
     }
-
 
     waitEnter();
     return this;

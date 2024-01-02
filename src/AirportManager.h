@@ -263,14 +263,14 @@ public:
     void shortestAirportToPosition(string depAirportCode, double lat, double lon);
 
     ///Prints the shortest paths from a given city to an airport.
-    ///**Time Complexity:**O(n×(∣V∣+∣E∣))
+    ///**Time Complexity:**O(n*(∣V∣+∣E∣))
     ///\param city Departure City
     ///\param country That city's country
     ///\param destAirportCode Destination Airport Code
     void shortestCityToAirport(string city, string country, string destAirportCode);
 
     ///Prints the shortest paths from a given city to another.
-    /// **Time Complexity:**O(m×n×(∣V∣+∣E∣))
+    /// **Time Complexity:**O(m*n*(∣V∣+∣E∣))
     ///\param depCity Departure City
     ///\param depCountry Departure City's country
     ///\param destCity Destination City
@@ -278,7 +278,7 @@ public:
     void shortestCityToCity(string depCity, string depCountry, string destCity, string destCountry);
 
     ///Prints the shortest paths from a given city to a position.
-    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    /// **Time Complexity:**O(n*(∣V∣+∣E∣))
     ///\param city Departure city
     ///\param country That city's country
     ///\param lat Destination Latitude
@@ -332,7 +332,7 @@ public:
     void shortestAirportToPosition_Filter(string depAirportCode, double lat, double lon, unordered_set<string> filter);
 
     /// Prints the shortest paths from a given city to an airport, through a limited set of airlines.
-    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    /// **Time Complexity:**O(n*(∣V∣+∣E∣))
     /// \param city Departure City
     /// \param country That city's country
     /// \param destAirportCode Destination Airport Code
@@ -340,7 +340,7 @@ public:
     void shortestCityToAirport_Filter(string city, string country, string destAirportCode, unordered_set<string> filter);
 
     /// Prints the shortest paths from a given city to another, through a limited set of airlines.
-    /// **Time Complexity:**O(m×n×(∣V∣+∣E∣))
+    /// **Time Complexity:**O(m*n*(∣V∣+∣E∣))
     /// \param depCity Departure City
     /// \param depCountry Departure City's country
     /// \param destCity Destination City
@@ -349,7 +349,7 @@ public:
     void shortestCityToCity_Filter(string depCity, string depCountry, string destCity, string destCountry, unordered_set<string> filter);
 
     /// Prints the shortest paths from a given city to a position, through a limited set of airlines.
-    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    /// **Time Complexity:**O(n*(∣V∣+∣E∣))
     /// \param city Departure city
     /// \param country That city's country
     /// \param lat Destination Latitude

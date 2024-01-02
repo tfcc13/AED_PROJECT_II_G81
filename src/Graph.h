@@ -106,7 +106,7 @@ public:
     vector<T> topsort() const;
 
     /// Finds the reachable airports within a certain distance from a given airport
-    ///**Time Complexity:** O(|V| + |E|)
+    ///**Time Complexity:** O(|V|+|E|)
     /// \param source source airport
     /// \param max_stops max distance from the source airport
     /// \return a vector of reachable airports within the given distance
@@ -116,7 +116,7 @@ public:
     void reset() const;
 
     ///Obtains the shortest paths possible between a source vertex and a target vertex
-    ///**Time Complexity:** O(|V| + |E|)
+    ///**Time Complexity:** O(|V|+|E|)
     ///\param src Source Vertex
     ///\param trg Target Vertex
     ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path.
@@ -124,7 +124,7 @@ public:
 
 
     ///Obtains the shortest paths possible between a source vertex and a target vertex, through a limited set of airlines
-    ///**Time Complexity:** O(|V| + |E|)
+    ///**Time Complexity:** O(|V|+|E|)
     ///\param src Source Vertex
     ///\param trg Target Vertex
     ///\param filter Set of airlines that can be in the path
@@ -578,7 +578,7 @@ vector<T> Graph<T>::topsort() const {
  /// \param source The source airport vertex
  /// \param max_stops The maximum number of stops allowed
  /// \return vector of reachable airport vertices pointers
- 
+
 template<class T>
 vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops) const {
 

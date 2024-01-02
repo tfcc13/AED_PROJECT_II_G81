@@ -9,6 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <limits>
 
 using namespace std;
 
@@ -53,6 +54,7 @@ public:
     void setLow(int low);
     friend class Graph<T>;
 
+    bool operator<(const Vertex<T>& v);
 };
 
 template <class T>
@@ -106,23 +108,25 @@ public:
     void setIndegree();
     void resetIndegree() const;
 
-    ///Obtains the shortest path possible from an airport to another
-    /// \param src Departure airport
-    /// \param trg Destination
-    /// \return Shortest path between airports
-    vector<T> shortestPath(Vertex<T> *src, Vertex<T> *trg) const;
+    ///Obtains the shortest paths possible between a source vertex and a target vertex
+    ///Time Complexity: O(V + E)
+    ///\param src Source Vertex
+    ///\param trg Target Vertex
+    ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path.
+    vector<vector<Edge<T>>> allShortestPaths(Vertex<T> *src, Vertex<T> *trg);
 
-    ///Obtains the shortest path possible from an airport to another, with a filter
-    /// \param src Departure airport
-    /// \param trg Destination
-    /// \param verticesSet Airports that can be passed
-    /// \return Shortest path between source and target, using only the desired airports
-    vector<T> shortestPathWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<T> &verticesSet) const;
+
+    ///Obtains the shortest paths possible between a source vertex and a target vertex, through a limited set of airlines
+    ///Time Complexity: O(V + E)
+    ///\param src Source Vertex
+    ///\param trg Target Vertex
+    ///\param filter Set of airlines that can be in the path
+    ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path, that respect the filter.
+    vector<vector<Edge<T>>> allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string> &filter);
 
     vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> maximumStops() const;
 
     void dfsVisitWithStops(Vertex<T>* v, Vertex<T>*& lastV , int& stops) const;
-
 };
 
 template <class T>
@@ -159,6 +163,11 @@ bool Vertex<T>::isProcessing() const {
 template<class T>
 void Vertex<T>::setProcessing(bool p) {
     Vertex::processing = p;
+}
+
+template<class T>
+bool Vertex<T>::operator<(const Vertex<T>& v) {
+    return this->getLow() - v.getLow();
 }
 
 template<class T>
@@ -630,116 +639,88 @@ void Graph<T>::setIndegree() {
 }
 
 template<class T>
-vector<T> Graph<T>::shortestPath(Vertex<T>* src, Vertex<T>* trg) const {
-    vector<T> path;
-    queue<Vertex<T>*> q;
-    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
-
-    if (src == nullptr || trg == nullptr) {
-        // If either source or target vertex is not found, return empty path
-        return path;
-    }
-
-    for (auto& vertex : vertexSet) {
-        vertex->setVisited(false);
-    }
-
-    q.push(src);
-    src->setVisited(true);
+vector<vector<Edge<T>>> Graph<T>::allShortestPaths(Vertex<T> *src, Vertex<T> *trg) {
+    vector<vector<Edge<T>>> allPaths;
+    int desiredSize = INT_MAX;
+    queue<pair<Vertex<T>*, vector<Edge<T>>>> q;
+    q.push({src, {}}); // Start with an empty path
 
     while (!q.empty()) {
-        Vertex<T>* u = q.front();
+        auto current = q.front();
         q.pop();
 
-        if (u == trg) {
-            // Reconstruct path when target vertex is reached
-            Vertex<T>* current = trg;
-            while (current != nullptr && current != src) {
-                path.insert(path.begin(), current->getInfo());
-                current = predecessors[current]; // Get predecessor vertex
-            }
+        Vertex<T>* currentVertex = current.first;
+        vector<Edge<T>> currentPath = current.second;
 
-            if (current == nullptr) {
-                // If no path exists from source to target, return empty path
-                path.clear();
-            } else {
-                // Include source vertex in the path
-                path.insert(path.begin(), src->getInfo());
-            }
-
-            return path;
+        // 1st BFS solution; we know that this an optimal path; update desiredSize
+        if (allPaths.empty() && currentVertex == trg) {
+            desiredSize = currentPath.size();
+            allPaths.push_back(currentPath);
+            continue;
         }
 
-        for (auto& edge : u->getAdj()) {
-            Vertex<T>* v = edge.getDest();
+        if (currentPath.size() == desiredSize && currentVertex == trg) {
+            allPaths.push_back(currentPath);
+            continue; // Skip exploring further if the desired size and target are reached
+        }
 
-            if (!v->isVisited()) {
-                q.push(v);
-                v->setVisited(true);
-                predecessors[v] = u; // Store predecessor information
-            }
+        if (currentPath.size() >= desiredSize || currentVertex == trg) {
+            continue; // Skip exploring further if the path exceeds the desired size or reaches the target
+        }
+
+        for (Edge<T> e : currentVertex->getAdj()) {
+            Vertex<T>* nextVertex = e.getDest();
+            vector<Edge<T>> nextPath = currentPath;
+            nextPath.push_back(e); // Extend the current path
+
+            q.push({nextVertex, nextPath}); // Add the next vertex and extended path to the queue
         }
     }
-
-    // If target vertex is not reached, return empty path
-    return path;
+    return allPaths;
 }
 
-
 template<class T>
-vector<T> Graph<T>::shortestPathWithFilter(Vertex<T>* src, Vertex<T>* trg, const unordered_set<T>& verticesSet) const {
-    vector<T> path;
-    queue<Vertex<T>*> q;
-    unordered_map<Vertex<T>*, Vertex<T>*> predecessors;
-
-    if (src == nullptr || trg == nullptr) {
-        // If either source or target vertex is not found, return empty path
-        return path;
-    }
-
-    for (auto& vertex : vertexSet) {
-        vertex->setVisited(false);
-    }
-
-    q.push(src);
-    src->setVisited(true);
+vector<vector<Edge<T>>> Graph<T>::allShortestPathsWithFilter(Vertex<T> *src, Vertex<T> *trg, const unordered_set<string>& filter) {
+    vector<vector<Edge<T>>> allPaths;
+    int desiredSize = INT_MAX;
+    queue<pair<Vertex<T>*, vector<Edge<T>>>> q;
+    q.push({src, {}}); // Start with an empty path
 
     while (!q.empty()) {
-        Vertex<T>* u = q.front();
+        auto current = q.front();
         q.pop();
 
-        if (u == trg) {
-            // Reconstruct path when target vertex is reached
-            Vertex<T>* current = trg;
-            while (current != nullptr && current != src) {
-                path.insert(path.begin(), current->getInfo());
-                current = predecessors[current]; // Get predecessor vertex
-            }
+        Vertex<T>* currentVertex = current.first;
+        vector<Edge<T>> currentPath = current.second;
 
-            if (current == nullptr) {
-                // If no path exists from source to target, return empty path
-                path.clear();
-            } else {
-                // Include source vertex in the path
-                path.insert(path.begin(), src->getInfo());
-            }
 
-            return path;
+        // 1st BFS solution; we know that this an optimal path; update desiredSize
+        if (allPaths.empty() && currentVertex == trg) {
+            desiredSize = currentPath.size();
+            allPaths.push_back(currentPath);
+            continue;
         }
 
-        for (auto& edge : u->getAdj()) {
-            Vertex<T>* v = edge.getDest();
+        if (currentPath.size() == desiredSize && currentVertex == trg) {
+            allPaths.push_back(currentPath);
+            continue; // Skip exploring further if the desired size and target are reached
+        }
 
-            if (!v->isVisited() && verticesSet.find(v->getInfo()) != verticesSet.end()) {
-                q.push(v);
-                v->setVisited(true);
-                predecessors[v] = u; // Store predecessor information
-            }
+        if (currentPath.size() >= desiredSize || currentVertex == trg) {
+            continue; // Skip exploring further if the path exceeds the desired size or reaches the target
+        }
+
+        for (Edge<T> e : currentVertex->getAdj()) {
+            auto it = find(filter.begin(), filter.end(), e.getAirline());
+            if (it == filter.end()) continue;
+            Vertex<T>* nextVertex = e.getDest();
+            vector<Edge<T>> nextPath = currentPath;
+            nextPath.push_back(e); // Extend the current path
+
+            q.push({nextVertex, nextPath}); // Add the next vertex and extended path to the queue
         }
     }
-
-    // If target vertex is not reached, return empty path
-    return path;
+    return allPaths;
 }
 
 template<class T>

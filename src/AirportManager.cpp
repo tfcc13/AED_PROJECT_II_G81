@@ -610,3 +610,26 @@ int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Air
 
     return dist;
 }
+
+void AirportManager::printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport>* vertex) {
+    if (paths.empty()) {
+        cout << "There is no path that corresponds to your wishes." << endl;
+    } else {
+        int option = 1;
+        auto it = paths.begin();
+
+        while (it != paths.end()) {
+            cout << "Option " << option << ":" << endl;
+            cout << "Start in " << vertex->getInfo().getAirportCode() << endl;
+
+            for (auto b : *it) {
+                cout << "Fly with " << b.getAirline() << " to " << b.getDest()->getInfo().getAirportCode() << endl;
+            }
+            cout << endl;
+
+            ++option;
+            ++it;
+        }
+        cout << endl;
+    }
+}

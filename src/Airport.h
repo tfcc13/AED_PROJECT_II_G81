@@ -87,6 +87,7 @@ public:
     bool operator==(const Airport& other) const;
 
     ///Obtains the distance between the airport and a given position, using the Harvesine formula
+    ///Time Complexity: O(1)
     /// \param position Position whose distance we wish to know
     /// \return distance between airport and position
     double distance(position position);

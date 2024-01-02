@@ -51,13 +51,6 @@ public:
     Menu * getNextMenu();
 };
 
-class BestFlightMenu : public Menu {
-public:
-    BestFlightMenu(Script &script);
-    void show() override;
-    Menu * getNextMenu();
-};
-
 class AirportDeparturesMenu : public Menu {
 public:
     AirportDeparturesMenu(Script &script);
@@ -78,5 +71,20 @@ public:
     void show() override;
     Menu * getNextMenu();
 };
+
+class BestFlightMenu : public Menu {
+public:
+    BestFlightMenu(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
+class BestFlightWithFiltersMenu : public Menu {
+public:
+    BestFlightWithFiltersMenu(Script &script);
+    void show() override;
+    Menu * getNextMenu();
+};
+
 
 #endif //PROJECT_II_MENU_H

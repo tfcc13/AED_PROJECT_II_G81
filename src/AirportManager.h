@@ -154,6 +154,12 @@ public:
     set<pair<string, string>> getReachableAirports(const string &airport_name, int max_stops);
     set<string> getReachableCountries(const string& airport_name, int max_stops);
     set<pair<string, string>> getReachableCities(const string& airport_name, int max_stops);
+
+
+    ///Finds the closest airport to a given position
+    ///Time Complexity: O(n)
+    ///\param targetPosition Position (coordinates in latitude and longitude)
+    ///\return Pointer to vertex of airport that's closest to targetPosition
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 
     /// Finds the pair of airports with the most flight stops in a trip
@@ -174,6 +180,13 @@ public:
     /// \param res vector with a pair of a pair of airports with the most distance between them and the distance
     /// \param maxD variable to keep track of the current maximum distance between two vertices
     int airportsDistanceBFSVisit(const Graph<Airport>& g, Vertex<Airport>* v1, Vertex<Airport>*& v2,   vector<destToSrcStopsPair>& res, int maxD);
+
+
+    ///Prints a group of paths
+    ///Time Complexity: O(m*k) (where m is the number of paths and k is the average number of edges in a path)
+    ///\param paths Vector that stores paths, in the form of vectors containing the edges that make the path.
+    ///\param vertex Vertex from which the paths begin
+    void printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport> *vertex);
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

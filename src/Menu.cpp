@@ -2,11 +2,11 @@
 #include <climits>
 #include <limits>
 
-void waitEnter() {
-    cout << endl << "Press enter to continue " << endl;
-    string tmpString;
+void waitForInput() {
+    cout << endl << "Press enter to continue ..." << endl;
+    string tempString;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    getline(cin,tmpString);
+    getline(cin,tempString);
 }
 
 string getInput() {
@@ -26,7 +26,7 @@ string getInputLine() {
 }
 
 template <typename T>
-bool strToVar(const std::string &str, T &var){
+bool convertStrToVar(const std::string &str, T &var){
     std::istringstream ss{str};
     ss >> var;
     if(ss.fail() || !ss.eof()){
@@ -41,14 +41,14 @@ bool get(T &var){
     if(str.empty()){
         return false;
     }
-    return strToVar(str, var);
+    return convertStrToVar(str, var);
 }
 
 Menu::Menu(Script &script) : script_(script) {}
 
 Menu *Menu::invalidOption() {
     cout << "Invalid option. Please try again." << std::endl;
-    waitEnter();
+    waitForInput();
     return this;
 }
 
@@ -182,7 +182,7 @@ Menu *GeneralInformationMenu::getNextMenu() {
 
     }
 
-    waitEnter();
+    waitForInput();
 
     return this;
 }
@@ -331,7 +331,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
     }
 
-    waitEnter();
+    waitForInput();
     return this;
 
 }
@@ -468,7 +468,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
 
     }
 
-    waitEnter();
+    waitForInput();
     return this;
 
 }
@@ -606,7 +606,7 @@ Menu *AirportArrivalsMenu::getNextMenu(){
 
     }
 
-    waitEnter();
+    waitForInput();
     return this;
 
 }
@@ -743,7 +743,7 @@ Menu * ReachableFromXStops::getNextMenu(){
         break;
     }
 
-    waitEnter();
+    waitForInput();
     return this;
 
 }
@@ -957,7 +957,7 @@ Menu *BestFlightMenu::getNextMenu() {
     }
 
 
-    waitEnter();
+    waitForInput();
     return this;
 }
 
@@ -1303,6 +1303,6 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
     }
 
-    waitEnter();
+    waitForInput();
     return this;
 }

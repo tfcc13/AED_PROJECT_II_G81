@@ -13,7 +13,6 @@ class Script;
 
 using destToSrcStopsPair = pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>;
 
-
 class AirportManager {
 
 private:

@@ -1,13 +1,8 @@
-//
-// Created by tiago on 11-12-2023.
-//
-
 #include "Script.h"
 #include "Menu.h"
 
 int main(int argc, char* argv[]) {
     Script new_script = Script("Dataset");
-
 
     stack<Menu*> menu;
 

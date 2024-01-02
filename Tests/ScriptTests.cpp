@@ -28,7 +28,6 @@ TEST(test_1, loadAirports) {
     int airportsSize = new_script.getAirportGraph().getNumVertex();
 
    EXPECT_EQ(3019, airportsSize);
-
 }
 
 
@@ -49,7 +48,6 @@ TEST(test_2, loadAirlines) {
     int airlinesSize = new_script.getAllAirlines().size();
 
     EXPECT_EQ(444, airlinesSize);
-
 }
 
 
@@ -72,7 +70,6 @@ TEST(test_3, loadFlights) {
     int flightsSize = flights.size();
 
     EXPECT_EQ(63832, flightsSize);
-
 }
 
 
@@ -92,8 +89,6 @@ TEST(test_4, AirportNetwork) {
 
     string flightsCSV  = "../../dataset/flights.csv";
 
-
-
     new_script.loadAirports(airportsCSV);
 
     new_script.loadAirlines(airlinesCSV);
@@ -108,18 +103,15 @@ TEST(test_4, AirportNetwork) {
     int outdegree = 0;
     auto currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
 
     EXPECT_EQ(1,outdegree);
     EXPECT_EQ(1,indegree);
 
-
     i++;
 
     currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
-
 
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
@@ -127,11 +119,9 @@ TEST(test_4, AirportNetwork) {
     EXPECT_EQ(8,outdegree);
     EXPECT_EQ(8,indegree);
 
-
     i++;
 
     currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
-
 
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
@@ -141,19 +131,13 @@ TEST(test_4, AirportNetwork) {
     EXPECT_EQ(6,indegree);
     EXPECT_EQ(12,all_flights);
 
-
-
-
-
     i++;
 
     currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
     all_flights = outdegree+indegree;
-
 
     EXPECT_EQ(3,outdegree);
     EXPECT_EQ(3,indegree);
@@ -163,7 +147,6 @@ TEST(test_4, AirportNetwork) {
 
     currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
 
-
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
     all_flights = outdegree+indegree;
@@ -171,11 +154,9 @@ TEST(test_4, AirportNetwork) {
     EXPECT_EQ(387,indegree);
     EXPECT_EQ(774,all_flights);
 
-
     i++;
 
     currAirport = new_script.getAirportGraph().findVertex(Airport(airport_codes[i]));
-
 
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
@@ -185,11 +166,6 @@ TEST(test_4, AirportNetwork) {
     EXPECT_EQ(202,all_flights);
 
 }
-
-
-
-
-
 
 //=============================================================================
 // Google Benchmark

@@ -950,7 +950,6 @@ void AirportManager::shortestPositionToCity(double lat, double lon, string city,
         vector<vector<Edge<Airport>>> shortestPaths;
         cout << endl;
 
-        // Iterate through the vectors to find the shortest one
         for (vector<Edge<Airport>> path : paths) {
             if (path.size() < size) {
                 size = path.size();
@@ -1005,7 +1004,6 @@ void AirportManager::shortestAirportToAirport_Filter(string depAirportCode, stri
 }
 
 void AirportManager::shortestAirportToCity_Filter(string depAirportCode, string city, string country, unordered_set<string> filter) {
-    // Retrieve the vertices (airports) if they exist, otherwise nullptr
     Vertex<Airport> *depAirport = nullptr;
 
     auto allAirports = script_.getAllAirports();
@@ -1290,7 +1288,6 @@ void AirportManager::shortestPositionToCity_Filter(double lat, double lon, strin
         vector<vector<Edge<Airport>>> shortestPaths;
         cout << endl;
 
-        // Iterate through the vectors to find the shortest one
         for (vector<Edge<Airport>> path : paths) {
             if (path.size() < size) {
                 size = path.size();

@@ -206,23 +206,23 @@ public:
     set<pair<string, string>> getReachableCities(const string& airport_name, int max_stops);
 
     ///Finds the closest airport to a given position
-    ///Time Complexity: O(n)
+    ///**Time Complexity:** O(n)
     ///\param targetPosition Position (coordinates in latitude and longitude)
     ///\return Pointer to vertex of airport that's closest to targetPosition
     Vertex<Airport> *const findClosestAirport(const position &targetPosition) const;
 
     /// Finds the pair of airports with the most flight stops in a trip
-    ///**Time Complexity:** O(|V|*(|V|+|E|))
+    /// **Time Complexity:** O(|V|*(|V|+|E|))
     /// \return a vector with the pairs of airports with most flight stops in a trip
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTrip();
 
     /// Finds the pair of airports with the most distance between them (network diameter)
-    ///**Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
+    /// **Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
     /// \return a vector with a pair of a pair of airports with the most distance between them and the distance
     vector<pair<pair<Vertex<Airport>*,Vertex<Airport>*>,int>> getMaximumTripDiameter();
 
     /// Auxiliary function to get the maximum distance between Airports and the pair of their source and destination
-    ///**Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
+    /// **Time Complexity:** O(|V|*(|V|+|E|)+O|V|)
     /// \param g network Airport graph
     /// \param v1 source vertex of the BFS
     /// \param v2 vertex to keep track of the last visited Airport
@@ -232,10 +232,156 @@ public:
 
 
     ///Prints a group of paths
-    ///Time Complexity: O(m*k) (where m is the number of paths and k is the average number of edges in a path)
+    ///**Time Complexity:** O(m*k) (where m is the number of paths and k is the average number of edges in a path)
     ///\param paths Vector that stores paths, in the form of vectors containing the edges that make the path.
     ///\param vertex Vertex from which the paths begin
     void printPaths(vector<vector<Edge<Airport>>> paths, Vertex<Airport> *vertex);
+
+
+
+
+
+    ///Prints the shortest paths from a given airport to another.
+    ///**Time Complexity:** O(|V|+|E|)
+    ///\param depAirportCode Departure Airport Code
+    ///\param destAirportCode Destination Airport Code
+    void shortestAirportToAirport(string depAirportCode, string destAirportCode);
+
+    ///Prints the shortest paths from a given airport to a city.
+    ///**Time Complexity:** O(|V|+|E|)
+    ///\param depAirportCode Departure Airport Code
+    ///\param city Destination City
+    ///\param country That city's country
+    void shortestAirportToCity(string depAirportCode, string city, string country);
+
+    ///Prints the shortest paths from a given airport to a position.
+    ///**Time Complexity:** O(|V|+|E|)
+    ///\param depAirportCode Departure Airport Code
+    ///\param lat Destination Latitude
+    ///\param lon Destination Longitude
+    void shortestAirportToPosition(string depAirportCode, double lat, double lon);
+
+    ///Prints the shortest paths from a given city to an airport.
+    ///**Time Complexity:**O(n×(∣V∣+∣E∣))
+    ///\param city Departure City
+    ///\param country That city's country
+    ///\param destAirportCode Destination Airport Code
+    void shortestCityToAirport(string city, string country, string destAirportCode);
+
+    ///Prints the shortest paths from a given city to another.
+    /// **Time Complexity:**O(m×n×(∣V∣+∣E∣))
+    ///\param depCity Departure City
+    ///\param depCountry Departure City's country
+    ///\param destCity Destination City
+    ///\param destCountry Destination City's country
+    void shortestCityToCity(string depCity, string depCountry, string destCity, string destCountry);
+
+    ///Prints the shortest paths from a given city to a position.
+    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    ///\param city Departure city
+    ///\param country That city's country
+    ///\param lat Destination Latitude
+    ///\param lon Destination Longitude
+    void shortestCityToPosition(string city, string country, double lat, double lon);
+
+    ///Prints the shortest paths from a given position to an airport.
+    /// **Time Complexity:**O(|V|+|E|)
+    ///\param lat Departure Latitude
+    ///\param lon Departure Longitude
+    ///\param destAirportCode Destination Airport Code
+    void shortestPositionToAirport(double lat, double lon, string destAirportCode);
+
+    ///Prints the shortest paths from a given position to a city.
+    /// **Time Complexity:**O(|V|+|E|)
+    ///\param lat Departure Latitude
+    ///\param lon Departure Longitude
+    ///\param city Destination City
+    ///\param country That city's country
+    void shortestPositionToCity(double lat, double lon, string city, string country);
+
+    ///Prints the shortest paths from a given position to another.
+    /// **Time Complexity:**O(|V|+|E|)
+    ///\param lat1 Departure Latitude
+    ///\param lon1 Departure Longitude
+    ///\param lat2 Destination Latitude
+    ///\param lon2 Destination Longitude
+    void shortestPositionToPosition(double lat1, double lon1, double lat2, double lon2);
+
+    /// Prints the shortest paths from a given airport to another, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param depAirportCode Departure Airport Code
+    /// \param destAirportCode Destination Airport Code
+    /// \param filter Set of airlines that can be in the path
+    void shortestAirportToAirport_Filter(string depAirportCode, string destAirportCode, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given airport to a city, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param depAirportCode Departure Airport Code
+    /// \param city Destination City
+    /// \param country That city's country
+    /// \param filter Set of airlines that can be in the path
+    void shortestAirportToCity_Filter(string depAirportCode, string city, string country, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given airport to a position, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param depAirportCode Departure Airport Code
+    /// \param lat Destination Latitude
+    /// \param lon Destination Longitude
+    /// \param filter Set of airlines that can be in the path
+    void shortestAirportToPosition_Filter(string depAirportCode, double lat, double lon, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given city to an airport, through a limited set of airlines.
+    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    /// \param city Departure City
+    /// \param country That city's country
+    /// \param destAirportCode Destination Airport Code
+    /// \param filter Set of airlines that can be in the path
+    void shortestCityToAirport_Filter(string city, string country, string destAirportCode, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given city to another, through a limited set of airlines.
+    /// **Time Complexity:**O(m×n×(∣V∣+∣E∣))
+    /// \param depCity Departure City
+    /// \param depCountry Departure City's country
+    /// \param destCity Destination City
+    /// \param destCountry Destination City's country
+    /// \param filter Set of airlines that can be in the path
+    void shortestCityToCity_Filter(string depCity, string depCountry, string destCity, string destCountry, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given city to a position, through a limited set of airlines.
+    /// **Time Complexity:**O(n×(∣V∣+∣E∣))
+    /// \param city Departure city
+    /// \param country That city's country
+    /// \param lat Destination Latitude
+    /// \param lon Destination Longitude
+    /// \param filter Set of airlines that can be in the path
+    void shortestCityToPosition_Filter(string city, string country, double lat, double lon, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given position to an airport, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param lat Departure Latitude
+    /// \param lon Departure Longitude
+    /// \param destAirportCode Destination Airport Code
+    /// \param filter Set of airlines that can be in the path
+    void shortestPositionToAirport_Filter(double lat, double lon, string destAirportCode, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given position to a city, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param lat Departure Latitude
+    /// \param lon Departure Longitude
+    /// \param city Destination City
+    /// \param country That city's country
+    /// \param filter Set of airlines that can be in the path
+    void shortestPositionToCity_Filter(double lat, double lon, string city, string country, unordered_set<string> filter);
+
+    /// Prints the shortest paths from a given position to another, through a limited set of airlines.
+    /// **Time Complexity:**O(|V|+|E|)
+    /// \param lat1 Departure Latitude
+    /// \param lon1 Departure Longitude
+    /// \param lat2 Destination Latitude
+    /// \param lon2 Destination Longitude
+    /// \param filter Set of airlines that can be in the path
+    void shortestPositionToPosition_Filter(double lat1, double lon1, double lat2, double lon2, unordered_set<string> filter);
+
 };
 
 #endif //PROJECT_II_AIRPORTMANAGER_H

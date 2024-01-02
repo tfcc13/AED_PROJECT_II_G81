@@ -110,7 +110,7 @@ public:
     void reset() const;
 
     ///Obtains the shortest paths possible between a source vertex and a target vertex
-    ///Time Complexity: O(V + E)
+    ///**Time Complexity:** O(|V| + |E|)
     ///\param src Source Vertex
     ///\param trg Target Vertex
     ///\return Vector that stores the shortest paths between the vertices, in the form of vectors containing the edges that make the path.
@@ -118,7 +118,7 @@ public:
 
 
     ///Obtains the shortest paths possible between a source vertex and a target vertex, through a limited set of airlines
-    ///Time Complexity: O(V + E)
+    ///**Time Complexity:** O(|V| + |E|)
     ///\param src Source Vertex
     ///\param trg Target Vertex
     ///\param filter Set of airlines that can be in the path

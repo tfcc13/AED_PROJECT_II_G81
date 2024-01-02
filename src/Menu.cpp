@@ -17,6 +17,14 @@ string getInput() {
     return input;
 }
 
+string getInputLine() {
+    string input;
+    cout << ">> ";
+    getline(cin, input);
+    cout << endl;
+    return input;
+}
+
 template <typename T>
 bool strToVar(const std::string &str, T &var){
     std::istringstream ss{str};
@@ -773,33 +781,13 @@ Menu *BestFlightMenu::getNextMenu() {
 
         case 1: {
             string depAirportCode, destAirportCode;
-            cout << "Enter the airport codes for departure and destination airports: " << endl;
-            cin >> depAirportCode >> destAirportCode;
+            cout << "Enter airport code for departure:" << endl;
+            depAirportCode = getInput();
+            cout << "Enter airport code for destination: " << endl;
+            destAirportCode = getInput();
 
-            // Retrieve the vertices (airports) if they exist, otherwise nullptr
-            Vertex<Airport> *depAirport = nullptr;
-            Vertex<Airport> *destAirport = nullptr;
+            airportManager.shortestAirportToAirport(depAirportCode, destAirportCode);
 
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            auto destAirportIter = allAirports.find(destAirportCode);
-
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
-
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
-
-            // Check for invalid input
-            if (depAirport == nullptr || destAirport == nullptr) {
-                cout << "Invalid airport code(s) entered." << endl;
-            } else {
-                cout << endl;
-                auto paths = script_.getAirportGraph().allShortestPaths(depAirport, destAirport);
-                airportManager.printPaths(paths, depAirport);
-            }
         } break;
 
         case 2: {
@@ -807,53 +795,16 @@ Menu *BestFlightMenu::getNextMenu() {
 
             cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode;
-            cin.ignore(); // Clear the input buffer
+            depAirportCode = getInput();
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
-
-            // Retrieve the vertices (airports) if they exist, otherwise nullptr
-            Vertex<Airport> *depAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
-
-            if (depAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (destAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                vector<vector<Edge<Airport>>> paths;
-                for (auto airport: destAirports) {
-                    for (auto path : script_.getAirportGraph().allShortestPaths(depAirport, airport)) paths.push_back(path);
-                }
-
-                int size = INT_MAX;
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                // Iterate through the vectors to find the shortest one
-                for (vector<Edge<Airport>> path : paths) {
-                    if (path.size() < size) {
-                        size = path.size();
-                        shortestPaths.clear();
-                        shortestPaths.push_back(path);
-                    }
-                    if (path.size() == size) shortestPaths.push_back(path);
-                }
-
-                airportManager.printPaths(shortestPaths, depAirport);
-            }
+            airportManager.shortestAirportToCity(depAirportCode, city, country);
 
         } break;
 
@@ -861,183 +812,56 @@ Menu *BestFlightMenu::getNextMenu() {
             string depAirportCode;
             double lat, lon;
 
-            cout << "Enter the Airport code for departure and destination Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode >> lat >> lon;
+            depAirportCode = getInput();
 
-            Vertex<Airport> *depAirport = nullptr;
+            cout << "Enter destination latitude:" << endl;
 
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
+            get(lat);
 
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
+            airportManager.shortestAirportToPosition(depAirportCode, lat, lon);
 
-            if (depAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else {
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport to destination is " << destAirport->getInfo().getAirportCode() << endl;
-
-                auto paths = script_.getAirportGraph().allShortestPaths(depAirport, destAirport);
-                airportManager.printPaths(paths, depAirport);
-            }
         } break;
 
         case 4: {
             string destAirportCode, country, city;
 
-            cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
             cin.ignore();
+            cout << "Enter the departure City: " << endl;
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
             cout << "Enter the destination Airport code:" << endl;
-            cin >> destAirportCode;
-            cin.ignore();
+            destAirportCode = getInput();
 
-
-            Vertex<Airport> *destAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto destAirportIter = allAirports.find(destAirportCode);
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
-
-            if (destAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (depAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                unordered_map<Vertex<Airport>*, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto airport: depAirports) {
-                    vector<vector<Edge<Airport>>> paths;
-                    for (auto path: script_.getAirportGraph().allShortestPaths(airport, destAirport))
-                        paths.push_back(path);
-                    startingPoints[airport] = paths;
-                }
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
-
+            airportManager.shortestCityToAirport(city, country, destAirportCode);
 
         } break;
 
         case 5: {
             string depCity, depCountry, destCity, destCountry;
 
+            cin.ignore();
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, depCity);
+            depCity = getInputLine();
 
             cout << "Enter the departure Country: " << endl;
-            getline(cin >> ws, depCountry);
+            depCountry = getInputLine();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin >> ws, destCity);
+            destCity = getInputLine();
 
             cout << "Enter the destination Country: " << endl;
-            getline(cin >> ws, destCountry);
+            destCountry = getInputLine();
 
 
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(depCity, depCountry);
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(destCity, destCountry);
-
-            if (depAirports.empty() || destAirports.empty()) {
-                cout << "No airports found in one or both of the cities." << endl;
-            } else {
-                unordered_map<Vertex<Airport> *, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto depAirport: depAirports) {
-                    for (auto destAirport: destAirports) {
-                        vector<vector<Edge<Airport>>> paths;
-                        for (auto path: script_.getAirportGraph().allShortestPaths(depAirport, destAirport))
-                            paths.push_back(path);
-                        startingPoints[depAirport] = paths;
-                    }
-                }
-
-
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
+            airportManager.shortestCityToCity(depCity, depCountry, destCity, destCountry);
 
         } break;
 
@@ -1046,76 +870,22 @@ Menu *BestFlightMenu::getNextMenu() {
             string country, city;
             double lat, lon;
 
-            cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
             cin.ignore();
+
+            cout << "Enter the departure City: " << endl;
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
-            cout << "Enter destination Position (Latitude and Longitude, as double):" << endl;
-            cin >> lat >> lon;
-            cin.ignore();
+            cout << "Enter destination latitude:" << endl;
 
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
+            get(lat);
 
-            if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else if (depAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport to destination is " << destAirport->getInfo().getAirportCode() << endl;
-
-                unordered_map<Vertex<Airport>*, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto airport: depAirports) {
-                    vector<vector<Edge<Airport>>> paths;
-                    for (auto path: script_.getAirportGraph().allShortestPaths(airport, destAirport))
-                        paths.push_back(path);
-                    startingPoints[airport] = paths;
-                }
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
-
-
+            airportManager.shortestCityToPosition(city, country, lat, lon);
 
         } break;
 
@@ -1123,32 +893,19 @@ Menu *BestFlightMenu::getNextMenu() {
             double lat, lon;
             string destAirportCode;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double) and destination Airport:" << endl;
+            cin.ignore();
 
-            cin >> lat >> lon >> destAirportCode;
+            cout << "Enter departure latitude:" << endl;
 
-            Vertex<Airport> *destAirport = nullptr;
+            get(lat);
 
-            auto allAirports = script_.getAllAirports();
-            auto destAirportIter = allAirports.find(destAirportCode);
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
 
+            cout << "Enter the destination Airport code:" << endl;
+            destAirportCode = getInput();
 
-
-            if (destAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-
-                auto paths = script_.getAirportGraph().allShortestPaths(depAirport, destAirport);
-                airportManager.printPaths(paths, depAirport);
-            }
-
+            airportManager.shortestPositionToAirport (lat, lon, destAirportCode);
 
         } break;
 
@@ -1156,70 +913,45 @@ Menu *BestFlightMenu::getNextMenu() {
             double lat, lon;
             string country, city;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon;
-            cin.ignore(); // Clear the input buffer
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
+            airportManager.shortestPositionToCity(lat, lon, city, country);
 
-            if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else if (destAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-                auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-                vector<vector<Edge<Airport>>> paths;
-                for (auto airport: destAirports) {
-                    for (auto path : script_.getAirportGraph().allShortestPaths(depAirport, airport)) paths.push_back(path);
-                }
-
-                int size = INT_MAX;
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                // Iterate through the vectors to find the shortest one
-                for (vector<Edge<Airport>> path : paths) {
-                    if (path.size() < size) {
-                        size = path.size();
-                        shortestPaths.clear();
-                        shortestPaths.push_back(path);
-                    }
-                    if (path.size() == size) shortestPaths.push_back(path);
-                }
-
-                airportManager.printPaths(shortestPaths, depAirport);
-            }
         } break;
 
         case 9: {
             double lat1, lon1, lat2, lon2;
 
-            cout << "Enter departure and destination Positions (Latitude and Longitude, as double):" << endl;
-            cin >> lat1 >> lon1 >> lat2 >> lon2;
+            cout << "Enter departure latitude:" << endl;
 
-            if (!(-90 < lat1 && lat1 < 90 && -180 < lon1 && lon1 < 180 && -90 < lat2 && lat2 < 90 && -180 < lon2 && lon2 < 180)) {
-                cout << "Invalid coordinate(s) entered." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat1, lon1});
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat2, lon2});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-                cout << "Closest airport for arrival is " << destAirport->getInfo().getAirportCode() << endl;
-                cout << endl;
+            get(lat1);
 
-                auto paths = script_.getAirportGraph().allShortestPaths(depAirport, destAirport);
-                airportManager.printPaths(paths, depAirport);
-            }
+            cout << "Enter departure longitude:" << endl;
+            get(lon1);
+
+
+            cout << "Enter destination latitude:" << endl;
+
+            get(lat2);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon2);
+
+            airportManager.shortestPositionToPosition(lat1, lon1, lat2, lon2);
         } break;
 
     }
@@ -1283,8 +1015,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
-
+            input = getInputLine();
             istringstream iss(input);
             string airline;
 
@@ -1294,34 +1025,14 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
 
             string depAirportCode, destAirportCode;
-            cout << "Enter the Airport codes for departure and destination Airports: " << endl;
-            cin >> depAirportCode >> destAirportCode;
+            cout << "Enter airport code for departure:" << endl;
+            depAirportCode = getInput();
+            cout << "Enter airport code for destination: " << endl;
+            destAirportCode = getInput();
 
 
-            // Retrieve the vertices (airports) if they exist, otherwise nullptr
-            Vertex<Airport> *depAirport = nullptr;
-            Vertex<Airport> *destAirport = nullptr;
+            airportManager.shortestAirportToAirport_Filter(depAirportCode, destAirportCode, filter);
 
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            auto destAirportIter = allAirports.find(destAirportCode);
-
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
-
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
-
-            // Check for invalid input
-            if (depAirport == nullptr || destAirport == nullptr) {
-                cout << "Invalid airport code(s) entered." << endl;
-            } else {
-                cout << endl;
-                auto paths = script_.getAirportGraph().allShortestPathsWithFilter(depAirport, destAirport, filter);
-                airportManager.printPaths(paths, depAirport);
-            }
         } break;
 
         case 2: {
@@ -1330,7 +1041,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1344,54 +1055,17 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
             cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode;
-            cin.ignore(); // Clear the input buffer
+            depAirportCode = getInput();
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
 
-
-            // Retrieve the vertices (airports) if they exist, otherwise nullptr
-            Vertex<Airport> *depAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
-
-            if (depAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (destAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                vector<vector<Edge<Airport>>> paths;
-                for (auto airport: destAirports) {
-                    for (auto path : script_.getAirportGraph().allShortestPathsWithFilter(depAirport, airport, filter)) paths.push_back(path);
-                }
-
-                int size = INT_MAX;
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                // Iterate through the vectors to find the shortest one
-                for (vector<Edge<Airport>> path : paths) {
-                    if (path.size() < size) {
-                        size = path.size();
-                        shortestPaths.clear();
-                        shortestPaths.push_back(path);
-                    }
-                    if (path.size() == size) shortestPaths.push_back(path);
-                }
-
-                airportManager.printPaths(shortestPaths, depAirport);
-            }
+            airportManager.shortestAirportToCity_Filter(depAirportCode, city, country, filter);
 
         } break;
 
@@ -1402,7 +1076,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1414,33 +1088,21 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string depAirportCode;
             double lat, lon;
 
-            cout << "Enter the Airport code for departure and destination Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter the Airport code for departure:" << endl;
 
-            cin >> depAirportCode >> lat >> lon;
+            depAirportCode = getInput();
 
+            cout << "Enter destination latitude:" << endl;
 
+            get(lat);
 
-            Vertex<Airport> *depAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto depAirportIter = allAirports.find(depAirportCode);
-            if (depAirportIter != allAirports.end()) {
-                depAirport = depAirportIter->second;
-            }
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
 
 
-            if (depAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else {
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport to destination is " << destAirport->getInfo().getAirportCode() << endl;
+            airportManager.shortestAirportToPosition_Filter(depAirportCode, lat, lon, filter);
 
-                auto paths = script_.getAirportGraph().allShortestPathsWithFilter(depAirport, destAirport, filter);
-                airportManager.printPaths(paths, depAirport);
-            }
         } break;
 
         case 4: {
@@ -1450,7 +1112,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1462,79 +1124,15 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string destAirportCode, country, city;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
-            cin.ignore();
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
             cout << "Enter the destination Airport code:" << endl;
-            cin >> destAirportCode;
-            cin.ignore();
+            destAirportCode = getInput();
 
-
-            Vertex<Airport> *destAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto destAirportIter = allAirports.find(destAirportCode);
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
-
-            if (destAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (depAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                unordered_map<Vertex<Airport>*, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto airport: depAirports) {
-                    vector<vector<Edge<Airport>>> paths;
-                    for (auto path: script_.getAirportGraph().allShortestPathsWithFilter(airport, destAirport, filter))
-                        paths.push_back(path);
-                    startingPoints[airport] = paths;
-                }
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
-
+            airportManager.shortestCityToAirport_Filter(city, country, destAirportCode, filter);
 
         } break;
 
@@ -1545,7 +1143,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1558,72 +1156,19 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string depCity, depCountry, destCity, destCountry;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, depCity);
+            depCity = getInputLine();
 
             cout << "Enter the departure Country: " << endl;
-            getline(cin >> ws, depCountry);
+            depCountry = getInputLine();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin >> ws, destCity);
+            destCity = getInputLine();
 
             cout << "Enter the destination Country: " << endl;
-            getline(cin >> ws, destCountry);
+            destCountry = getInputLine();
 
 
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(depCity, depCountry);
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(destCity, destCountry);
-
-            if (depAirports.empty() || destAirports.empty()) {
-                cout << "No airports found in one or both of the cities." << endl;
-            } else {
-                unordered_map<Vertex<Airport> *, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto depAirport: depAirports) {
-                    for (auto destAirport: destAirports) {
-                        vector<vector<Edge<Airport>>> paths;
-                        for (auto path: script_.getAirportGraph().allShortestPathsWithFilter(depAirport, destAirport, filter))
-                            paths.push_back(path);
-                        startingPoints[depAirport] = paths;
-                    }
-                }
-
-
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
+            airportManager.shortestCityToCity_Filter(depCity,depCountry, destCity, destCountry, filter);
 
         } break;
 
@@ -1634,7 +1179,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1647,76 +1192,18 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
 
             cout << "Enter the departure City: " << endl;
-            getline(cin >> ws, city);
-            cin.ignore();
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin >> ws, country);
-            cin.ignore();
+            country = getInputLine();
 
-            cout << "Enter destination Position (Latitude and Longitude, as double):" << endl;
-            cin >> lat >> lon;
-            cin.ignore();
+            cout << "Enter destination latitude:" << endl;
+            get(lat);
 
+            cout << "Enter destination longitude:" << endl;
+            get(lon);
 
-            auto depAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else if (depAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport to destination is " << destAirport->getInfo().getAirportCode() << endl;
-
-                unordered_map<Vertex<Airport>*, vector<vector<Edge<Airport>>>> startingPoints;
-                for (auto airport: depAirports) {
-                    vector<vector<Edge<Airport>>> paths;
-                    for (auto path: script_.getAirportGraph().allShortestPathsWithFilter(airport, destAirport, filter))
-                        paths.push_back(path);
-                    startingPoints[airport] = paths;
-                }
-
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                int size = INT_MAX;
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize < size) {
-                            size = pathSize;
-                        }
-                    }
-                }
-
-                for (auto& pair : startingPoints) {
-                    vector<vector<Edge<Airport>>>& paths = pair.second;
-
-                    vector<vector<Edge<Airport>>> shortestPathsForAirport;
-
-
-                    for (const auto& path : paths) {
-                        int pathSize = path.size();
-                        if (pathSize == size) {
-                            shortestPathsForAirport.push_back(path);
-                        }
-                    }
-
-                    paths = shortestPathsForAirport;
-                }
-
-
-                for (auto& pair : startingPoints) {
-                    cout << "Paths starting in " << pair.first->getInfo().getAirportCode() << ":" << endl;
-                    airportManager.printPaths(pair.second, pair.first);
-                }
-            }
-
-
+            airportManager.shortestCityToPosition_Filter(city, country, lat, lon, filter);
 
         } break;
 
@@ -1727,7 +1214,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1739,34 +1226,17 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
             string destAirportCode;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double) and destination Airport:" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon >> destAirportCode;
+            get(lat);
 
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
 
+            cout << "Enter the destination Airport code:" << endl;
+            destAirportCode = getInput();
 
-            Vertex<Airport> *destAirport = nullptr;
-
-            auto allAirports = script_.getAllAirports();
-            auto destAirportIter = allAirports.find(destAirportCode);
-            if (destAirportIter != allAirports.end()) {
-                destAirport = destAirportIter->second;
-            }
-
-
-
-            if (destAirport == nullptr) {
-                cout << "Invalid airport code entered." << endl;
-            } else if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-
-                auto paths = script_.getAirportGraph().allShortestPathsWithFilter(depAirport, destAirport, filter);
-                airportManager.printPaths(paths, depAirport);
-            }
-
+            airportManager.shortestPositionToAirport_Filter(lat, lon, destAirportCode, filter);
 
         } break;
 
@@ -1777,7 +1247,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1790,50 +1260,23 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             double lat, lon;
             string country, city;
 
-            cout << "Enter departure Position (Latitude and Longitude, as double):" << endl;
+            cout << "Enter departure latitude:" << endl;
 
-            cin >> lat >> lon;
-            cin.ignore(); // Clear the input buffer
+            get(lat);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon);
+
+            cin.ignore();
 
             cout << "Enter the destination City: " << endl;
-            getline(cin, city);
+            city = getInputLine();
 
             cout << "Enter that city's Country: " << endl;
-            getline(cin, country);
+            country = getInputLine();
 
+            airportManager.shortestPositionToCity_Filter(lat, lon, city, country, filter);
 
-            auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-            if (!(-90 < lat && lat < 90 && -180 < lon && lon < 180)) {
-                cout << "Invalid coordinate entered." << endl;
-            } else if (destAirports.empty()) {
-                cout << "No airports found in that city." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat, lon});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-                auto destAirports = airportManager.getAirportsPerCityAndCountry(city, country);
-
-                vector<vector<Edge<Airport>>> paths;
-                for (auto airport: destAirports) {
-                    for (auto path : script_.getAirportGraph().allShortestPathsWithFilter(depAirport, airport, filter)) paths.push_back(path);
-                }
-
-                int size = INT_MAX;
-                vector<vector<Edge<Airport>>> shortestPaths;
-                cout << endl;
-
-                // Iterate through the vectors to find the shortest one
-                for (vector<Edge<Airport>> path : paths) {
-                    if (path.size() < size) {
-                        size = path.size();
-                        shortestPaths.clear();
-                        shortestPaths.push_back(path);
-                    }
-                    if (path.size() == size) shortestPaths.push_back(path);
-                }
-
-                airportManager.printPaths(shortestPaths, depAirport);
-            }
         } break;
 
         case 9: {
@@ -1843,7 +1286,7 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
             string input;
 
             cout << "Enter airlines that can be part of your path (press Enter when finished):" << endl;
-            getline(cin, input);
+            input = getInputLine();
 
             istringstream iss(input);
             string airline;
@@ -1855,22 +1298,23 @@ Menu *BestFlightWithFiltersMenu::getNextMenu() {
 
             double lat1, lon1, lat2, lon2;
 
-            cout << "Enter departure and destination Positions (Latitude and Longitude, as double):" << endl;
-            cin >> lat1 >> lon1 >> lat2 >> lon2;
+            cout << "Enter departure latitude:" << endl;
+
+            get(lat1);
+
+            cout << "Enter departure longitude:" << endl;
+            get(lon1);
 
 
-            if (!(-90 < lat1 && lat1 < 90 && -180 < lon1 && lon1 < 180 && -90 < lat2 && lat2 < 90 && -180 < lon2 && lon2 < 180)) {
-                cout << "Invalid coordinate(s) entered." << endl;
-            } else {
-                Vertex<Airport> *depAirport = airportManager.findClosestAirport({lat1, lon1});
-                Vertex<Airport> *destAirport = airportManager.findClosestAirport({lat2, lon2});
-                cout << "Closest airport for departure is " << depAirport->getInfo().getAirportCode() << endl;
-                cout << "Closest airport for arrival is " << destAirport->getInfo().getAirportCode() << endl;
-                cout << endl;
+            cout << "Enter destination latitude:" << endl;
 
-                auto paths = script_.getAirportGraph().allShortestPathsWithFilter(depAirport, destAirport, filter);
-                airportManager.printPaths(paths, depAirport);
-            }
+            get(lat2);
+
+            cout << "Enter destination longitude:" << endl;
+            get(lon2);
+
+            airportManager.shortestPositionToPosition_Filter(lat1, lon1, lat2, lon2, filter);
+
         } break;
 
     }

@@ -64,8 +64,6 @@ set<string> AirportManager::getAirlinesSet(const string& airport_name, const str
     if(airport == nullptr){
         return airlinesSet;
     }
-    auto teste = airport->second;
-    cout << teste->getAdj().size() << " " << teste->getIncomingEdges().size();
 
     vector<Edge<Airport>> edges;
     if(departures_or_arrivals == "departures"){

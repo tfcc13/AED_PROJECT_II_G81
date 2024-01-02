@@ -145,13 +145,13 @@ Menu *GeneralInformationMenu::getNextMenu() {
             cout << endl;
             break;
 
-        case 6:
+        case 6: {
             cout << "Please write the country's name" << endl;
             cout << endl;
             input = getInput();
             auto cities = airportManager.getCitiesInCountry(input);
             if(cities.empty()){
-                cout << input << "isn't is the database";
+                cout << input << " isn't is the database";
             } else{
                 cout << "There are " << int(cities.size()) << " cities available in " << input << endl;
                 cout << endl;
@@ -165,7 +165,9 @@ Menu *GeneralInformationMenu::getNextMenu() {
                     cout << endl;
                 }
             }
+            cout << endl;
             break;
+        }
 
     }
 
@@ -331,8 +333,8 @@ void AirportDeparturesMenu::show() {
     int options = 0;
     cout << "(" << ++options << ") >> " << "Check how many flights DEPART from a given airport" << endl;
     cout << "(" << ++options << ") >> " << "Check how many airlines DEPART from a given airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many cities DEPART from a given airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many countries DEPART from a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many cities you can go to directly from a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many countries you can go to directly from a given airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 }
@@ -372,6 +374,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getAirportsFlightsData(input, "departures");
                 }
+                break;
             }
             break;
         }
@@ -386,7 +389,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
             if (airlinesCount == -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
-
+                break;
             } else {
                 string airportName = airportManager.getAirportName(input);
                 cout << "There are " << airlinesCount << " airlines departing from " << airportName << " airport" << endl;
@@ -398,7 +401,6 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                 }
                 break;
             }
-
             break;
         }
 
@@ -466,10 +468,10 @@ AirportArrivalsMenu::AirportArrivalsMenu(Script &script) : Menu(script){}
 void AirportArrivalsMenu::show(){
     cout << CLEAR;
     int options = 0;
-    cout << "(" << ++options << ") >> " << "Check how many airlines ARRIVE from a given airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many flights ARRIVE from a given airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many cities ARRIVE from a given airport" << endl;
-    cout << "(" << ++options << ") >> " << "Check how many countries ARRIVE from a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many flights ARRIVE to a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many airlines ARRIVE to a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many cities fly directly to a given airport" << endl;
+    cout << "(" << ++options << ") >> " << "Check how many countries fly directly to a given airport" << endl;
     cout << "(0) >> Exit "  << endl;
     cout << endl;
 }
@@ -510,6 +512,7 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getAirportsFlightsData(input, "arrivals");
                 }
+                break;
             }
             break;
         }
@@ -524,7 +527,7 @@ Menu *AirportArrivalsMenu::getNextMenu(){
             if (airlinesCount == -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
-
+                break;
             } else {
                 string airportName = airportManager.getAirportName(input);
                 cout << "There are " << airlinesCount << " airlines arriving at " << airportName << " airport" << endl;
@@ -536,7 +539,6 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                 }
                 break;
             }
-
             break;
         }
 
@@ -550,8 +552,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
             if (citiesCount == -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
+                break;
             } else {
-
                 string airportName = airportManager.getAirportName(input);
                 cout << "There are " << citiesCount  << " cities that fly to the " << airportName << " airport" << endl;
                 cout << endl;
@@ -575,8 +577,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
             if (countriesCount== -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
+                break;
             } else {
-
                 string airportName = airportManager.getAirportName(input);
                 cout << "There are " << countriesCount << " countries that fly to the " << airportName << " airport" << endl;
                 cout << endl;
@@ -651,6 +653,7 @@ Menu * ReachableFromXStops::getNextMenu(){
                         cout << left << setw(35) << city_country.first << " | " << city_country.second << endl;
                     }
                 }
+                break;
             }
             break;
         }
@@ -679,6 +682,7 @@ Menu * ReachableFromXStops::getNextMenu(){
                         cout << left << country << endl;
                     }
                 }
+                break;
             }
             break;
         }
@@ -707,10 +711,11 @@ Menu * ReachableFromXStops::getNextMenu(){
                         cout << left << setw(15) << airport.first << " | " << airport.second << endl;
                     }
                 }
+                break;
             }
             break;
         }
-
+        break;
     }
 
     waitEnter();

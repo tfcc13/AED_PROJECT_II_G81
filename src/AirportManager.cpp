@@ -574,7 +574,7 @@ int AirportManager::airportsDistanceBFSVisit(const Graph<Airport> &g, Vertex<Air
 
     queue<pair<Vertex<Airport> *, int>> q;
 
-    g.resetIndegree();
+    g.reset();
     int dist;
     q.push({v1,0});
 

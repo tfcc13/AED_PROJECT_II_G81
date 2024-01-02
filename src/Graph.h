@@ -107,7 +107,7 @@ public:
     vector<Vertex<T>*> reachableAirports(Vertex<T>* source, int max_stops) const;
     bool isDAG() const;
     void setIndegree();
-    void resetIndegree() const;
+    void reset() const;
 
     ///Obtains the shortest paths possible between a source vertex and a target vertex
     ///Time Complexity: O(V + E)
@@ -617,10 +617,9 @@ vector<Vertex<T>*> Graph<T>::reachableAirports(Vertex<T>* source, int max_stops)
 }
 
 template<class T>
-void Graph<T>::resetIndegree() const {
+void Graph<T>::reset() const {
 
     for (auto& v:vertexSet) {
-        v->setIndegree(0);
         v->setLow(0);
         v->setProcessing(false);
         v->setNum(0);
@@ -736,7 +735,7 @@ vector<pair<pair<Vertex<T>*,Vertex<T>*>,int>> Graph<T>::maximumStops() const {
     for(auto v: vertexSet) {
         firstVert = v;
         int stops = 0;
-        Graph<T>::resetIndegree();
+        Graph<T>::reset();
         //if(!v->isVisited()) {
             dfsVisitWithStops(v,lastVert,stops);
             if(stops > maxStops) {

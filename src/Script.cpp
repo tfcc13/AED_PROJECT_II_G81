@@ -4,7 +4,7 @@
 Script::Script(const string &script) {
 
     script_ = script;
-    loadDataset(airportsCSV,airlinesCSV,flightsCSV);
+    //loadDataset(airportsCSV,airlinesCSV,flightsCSV);
 
 }
 

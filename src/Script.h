@@ -16,9 +16,9 @@
 
 using namespace std;
 
-static string airportsCSV  = "../dataset/airports.csv";
-static string airlinesCSV  = "../dataset/airlines.csv";
-static string flightsCSV  = "../dataset/flights.csv";
+//static string airportsCSV  = "../dataset/airports.csv";
+//static string airlinesCSV  = "../dataset/airlines.csv";
+//static string flightsCSV  = "../dataset/flights.csv";
 
 struct FlightHash {
     size_t operator()(const Flight& flight) const {

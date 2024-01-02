@@ -2,7 +2,14 @@
 #include "Menu.h"
 
 int main(int argc, char* argv[]) {
+
+    string airportsCSV  = "../dataset/airports.csv";
+    string airlinesCSV  = "../dataset/airlines.csv";
+    string flightsCSV  = "../dataset/flights.csv";
+
     Script new_script = Script("Dataset");
+    new_script.loadDataset(airportsCSV, airlinesCSV, flightsCSV);
+
 
     stack<Menu*> menu;
 
@@ -23,6 +30,9 @@ int main(int argc, char* argv[]) {
             menu.pop();
         }
     }
+
+    cout << " THANKS FOR FLYING WITH AIRTUGA" << endl;
+    cout << endl;
 
     return 0;
 }

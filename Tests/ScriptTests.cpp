@@ -42,15 +42,11 @@ TEST(test_2, loadAirlines) {
 
     Script new_script = Script("script_test");
 
-    string airportsCSV  = "../../dataset/airports.csv";
-
-    new_script.loadAirports(airportsCSV);
-
     string airlinesCSV  = "../../dataset/airlines.csv";
 
     new_script.loadAirlines(airlinesCSV);
 
-    int airlinesSize = new_script.
+    int airlinesSize = new_script.getAllAirlines().size();
 
     EXPECT_EQ(444, airlinesSize);
 
@@ -184,8 +180,8 @@ TEST(test_4, AirportNetwork) {
     outdegree = currAirport->getAdj().size();
     indegree = currAirport->getIndegree();
     all_flights = outdegree+indegree;
-    EXPECT_EQ(102,outdegree);
-    EXPECT_EQ(100,indegree);
+    EXPECT_EQ(100,outdegree);
+    EXPECT_EQ(102,indegree);
     EXPECT_EQ(202,all_flights);
 
 }

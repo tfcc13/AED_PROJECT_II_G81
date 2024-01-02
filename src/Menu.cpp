@@ -254,8 +254,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             }
             cout << number_of_flights << " flights are performed in " << city << " city" << endl;
             cout << endl;
-            break;
-        }
+        }break;
 
         case 4: {
             cout << "Please write the name of the airline" << endl;
@@ -268,8 +267,7 @@ Menu *AirportInformationMenu::getNextMenu() {
             }
             cout << number_of_flights << " flights are performed by " << airline << " airline" << endl;
             cout << endl;
-            break;
-        }
+        } break;
 
         case 5: {
             return new ReachableFromXStops(script_);
@@ -292,8 +290,8 @@ Menu *AirportInformationMenu::getNextMenu() {
             }
 
             cout << endl;
-            break;
-        }
+
+        }break;
 
         case 7: {
             set<Airport> essentialAirports = airportManager.airportArticulationPoints();
@@ -306,8 +304,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
             cout << "It has " << essentialAirports.size() << " essential airports to the network's circulation capability" << endl;
             cout << endl ;
-            break;
-        }
+        } break;
 
         case 8: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTrip();
@@ -320,8 +317,7 @@ Menu *AirportInformationMenu::getNextMenu() {
 
             cout << "It has " <<  maxTripVector.size() << " maximum trips available" << endl;
             cout << endl ;
-            break;
-        }
+        } break;
 
         case 9: {
             vector<pair<pair<Vertex<Airport> *, Vertex<Airport> *>, int>> maxTripVector = airportManager.getMaximumTripDiameter();
@@ -334,13 +330,12 @@ Menu *AirportInformationMenu::getNextMenu() {
 
             cout << "It has " <<  maxTripVector.size() << " maximum trips available" << endl;
             cout << endl ;
-            break;
-        }
+        } break;
+
         case 10: {
             airportManager.printAllAirports();
             cout << endl;
-            break;
-        }
+        } break;
 
     }
 
@@ -397,10 +392,8 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getAirportsFlightsData(input, "departures");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 2: {
             cout << "Please write the airport code" << endl;
@@ -422,10 +415,8 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.printAirlinesNames(input, "departures");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 3: {
             cout << "Please write the airport code" << endl;
@@ -437,6 +428,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
             if (citiesCount == -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
+                break;
             } else {
 
                 string airportName = airportManager.getAirportName(input);
@@ -447,10 +439,8 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getDestinationCitiesNames(input, "departures");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 4: {
             cout << "Please write the airport code" << endl;
@@ -462,6 +452,7 @@ Menu *AirportDeparturesMenu::getNextMenu(){
             if (countriesCount== -1) {
                 cout << "That airport doesn't exist in Airtuga database, try another one please" << endl;
                 cout << endl;
+                break;
             } else {
 
                 string airportName = airportManager.getAirportName(input);
@@ -474,11 +465,8 @@ Menu *AirportDeparturesMenu::getNextMenu(){
                     cout << "Be aware that there may be domestic flights." << endl;
                     cout << "The source country can be also a destination country." << endl;
                 }
-                break;
             }
-            break;
-        }
-
+        } break;
     }
 
     waitForInput();
@@ -535,10 +523,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getAirportsFlightsData(input, "arrivals");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 2: {
             cout << "Please write the airport code" << endl;
@@ -560,10 +546,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.printAirlinesNames(input, "arrivals");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 3: {
             cout << "Please write the airport code" << endl;
@@ -585,10 +569,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                 if(ans == "y" || ans == "Y") {
                     airportManager.getDestinationCitiesNames(input, "arrivals");
                 }
-                break;
             }
-            break;
-        }
+        } break;
 
         case 4: {
             cout << "Please write the airport code" << endl;
@@ -612,11 +594,8 @@ Menu *AirportArrivalsMenu::getNextMenu(){
                     cout << "Be aware that there may be domestic flights." << endl;
                     cout << "The source country can be also a destination country." << endl;
                 }
-                break;
             }
-            break;
-        }
-
+        } break;
     }
 
     waitForInput();
@@ -680,11 +659,9 @@ Menu * ReachableFromXStops::getNextMenu(){
                             cout << left << setw(35) << city_country.first << " | " << city_country.second << endl;
                         }
                     }
-                    break;
                 }
             }
-            break;
-        }
+        } break;
 
         case 2: {
             cout << "Please write the airport code" << endl;
@@ -714,11 +691,9 @@ Menu * ReachableFromXStops::getNextMenu(){
                             cout << left << country << endl;
                         }
                     }
-                    break;
                 }
             }
-            break;
-        }
+        } break;
 
         case 3:{
             cout << "Please write the airport code" << endl;
@@ -749,9 +724,7 @@ Menu * ReachableFromXStops::getNextMenu(){
                         }
                     }
                 }
-                break;
             }
-            break;
         }
         break;
     }

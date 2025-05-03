@@ -10,7 +10,7 @@ The main goal of the project is to develop a robust flight management system for
 - Calculate the best flight option from a determinated airport/city to another airport/city;
 - Calculate the best flight with X stops;
 
-## Project Highlits
+## Project Highlights
 Some of the best features in the project:
 - Best flight choice with 3 different options of input - airport, city, geolocation;
 - Best flight option with filters;
